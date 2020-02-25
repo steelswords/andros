@@ -1,0 +1,76 @@
+\immediate\write18{python \jobname.py \jobname.py.out 2>\jobname.py.err}
+\documentclass[12pt,letterpaper]{article}
+\usepackage[latin2]{inputenc}
+\usepackage{python}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{array}
+%\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+%\usepackage[svgnames]{xcolor}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xcolor,soul}
+\convertcolorsUfalse
+
+
+
+\usepackage{tikz}
+
+
+
+
+
+\newcommand{\StopSign}{\includegraphics[scale=0.22]{stop.png}}
+\newcommand{\hilite}[2]{\sethlcolor{#1} \hl{#2}}
+
+
+\setlength{\parindent}{0cm}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-.5in}
+\setlength{\textheight}{9in}
+
+\title{{\Huge{\bf{Student Specifications Document Template Guide}}}}
+\author{Name1\\ Name2\\ Name3}
+
+\renewcommand*{\familydefault}{\sfdefault}
+\renewcommand{\baselinestretch}{1.2}
+
+\newcommand{\namesigdate}[2][5cm]{%
+  \begin{tabular}{@{}p{#1}@{}}
+    #2 \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \sl{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \sl{Date and email}}
+  \end{tabular}
+}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {0.0001pt \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {0.0001pt \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother
+
+
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\definecolor{RoyalBlue}{RGB}{0,35,150}
+
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor={RoyalBlue},  %choose some color if you want links to stand out
+}
+
+\setcounter{secnumdepth}{5}
+
+\raggedright

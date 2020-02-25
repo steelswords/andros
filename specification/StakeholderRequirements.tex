@@ -1,0 +1,394 @@
+\section{STAKEHOLDER REQUIREMENTS} % http://dilbert.com/strip/2006-01-29
+\begin{slshape} \color{blue}
+This section is fundamentally a list of characteristics and features requested by the stakeholders.  Stakeholders are anyone that has part in the system whether in designing it, packaging it, using it, maintaining it, etc.  Forgetting or ignoring a stakeholder often means change at a project phase when change is expensive.
+\bigskip
+
+As an example, you are tasked to design a large temperature display for a bank.  The typical `customer' only passively interacts with the device through its display therefore having no input to the system.  However, the designers and maintainers of 	the system must have the ability to modify the system and evaluate their modifications through the display.  These users access the system both through input and output and their needs must be met by the design.   
+\bigskip
+
+I have identified the stakeholders in the power amplifier module project listed and they are listed in the specification as follows.
+\bigskip
+\end{slshape}
+
+The stakeholders for the USU ECE Controls Lab Power Amplifier Module are:
+
+\begin{enumerate}
+	\item The course instructor
+	\item The lab instructor
+	\item The lab student
+	\item The USU ECE Department
+\end{enumerate}
+
+
+\begin{slshape}
+\color{blue}
+
+\StopSign  Think about the stakeholders in your project.  Write down a list of stakeholders in your project on your specifications template.  Think about your project as if it were to be produced commercially.  Think deeply.
+\bigskip
+
+\subsection*{Gathering Stakeholder Requirements}  
+	
+One approach to writing client requirements is to use what are called `user stories'.  User stories are essentially the information that a user (stakeholder) will give you when asked what the system must do for them.  See the following website	for more information on user stories:
+\bigskip
+	
+(\href{https://www.mountaingoatsoftware.com/agile/user-stories}{User Stories}).  
+\bigskip  
+
+Some users are more difficult to get stories out of than others as this Dilbert cartoon attests.
+\bigskip
+
+(\href{http://dilbert.com/strip/2006-01-29}{Alice Tries to Extract Requirements From a Stakeholder}).
+\bigskip
+
+Requirements answer the `what' questions about your project.  
+
+\begin{itemize}
+	\item What must it do?
+	\item What must it weigh?  
+	\item What environments must it endure?
+	\item What must be done to ensure safety, maintainability, cost, etc.?
+	\item What constrains the design (and designers)?
+	\item + many other potential questions in many categories.
+\end{itemize}
+
+It is important that you don't try and complete the design at this step.    We don't design (specify the `how's) at this point for two primary reasons: we may be only specifying the project and then turning the requirements over to a designer or we don't want to pigeon-hole our thinking this early in the design process.  Keeping an open mind at this stage of the design often leads us to better thought-out designs.  You should marginally note your ideas of how to meet the requirement, but do not {\underline{require}} a specific `how' unless it is truly a design constraint.  Don't worry, there will be plenty of time to figure out how we are going to meet the requirements of the project a little later in the design process.
+\bigskip
+
+Requirements typically divide themselves into design constraints, functional requirements, and non-functional requirements.  For example, a functional requirement would state that the device shall measure and record barometric pressure with such and such accuracy every minute over a 24 hour period.  A non-functional requirement would require that the device operates on no more than 500mW average power with power maximums of 1W.
+\bigskip   
+
+We see an example of a true design constraint in the WISE scientific instrument designed by the Space Dynamics Laboratory at Utah State University.  The systems designers required a specific FPGA instead of a designer chosen micro-processor simply because they knew that there wasn't any micro that would function in the expected space environment.
+\bigskip
+
+Continuing with the power amplifier module as an example the stakeholder user stories are:
+\bigskip
+ 		
+\end{slshape}
+
+\subsection{Stakeholders User Stories}
+
+The primary stakeholders needs are described below.
+
+\begin{itemize}
+	\item  {\textbf{The course instructor is the primary technical specifier of the controls lab power amplifier.  The device:}}
+	\begin{enumerate}
+		\item Must meet the pedagogical requirements of the course (ECE/MAE 5310) for which it is designed.\\[.5cm] \underline{User Story} \\
+		
+\bigskip		
+		
+\begin{python}
+TheFile = open('CourseInstructorHandsOn.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+		
+		       
+\bigskip
+
+		  
+		\item Must not present safety/shock hazards to any user.\\[.5cm] \underline{User Story} \\ 
+		
+\begin{python}
+TheFile = open('CourseInstructorSafety.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+		       
+		
+		%As the course instructor, I need a safe module for the students to use.   Safety implies freedom from both electrical and mechanical hazzards.
+		%\bigskip
+		%
+		%The module must be free of sharp edges.
+%\bigskip
+
+% The structure below defines a text segment that I use again in the explanation.  I didn't want to have to change it in many places so it is defined as
+% a new command that I can typeset anywhere.
+
+%
+	%\global\def\voltageConstraint{The module must not present a dangerous shocking hazard to students.  In order to eliminate a potential dangerous shocking hazard the 
+	%power amplifier module supply voltages constrained to: $V_{+} \leq 18 \: \text{volts} \: \text{and} \: V_{-} \geq -18 \: \text{volts}$ or a total supply swing of $\leq 36$ Volts.}
+	
+	%\voltageConstraint
+	
+\bigskip
+ 	
+		\item Must be robust so that student wiring errors do not damage the module.\\[.5cm] \underline{User Story}\\	
+		
+\begin{python}
+TheFile = open('CourseInstructorWiring.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+	
+	
+		\item Must be packaged to meet a specified envelope.\\[.5cm] \underline{User Story} \\
+		
+\begin{python}
+TheFile = open('CourseInstructorTSlot.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+
+		\item Must have a simple to understand interface that minimizes wiring mistakes.\\[.5cm] \underline{User Story}\\
+		
+\begin{python}
+TheFile = open('CourseInstructorBananaJacks.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		
+	\end{enumerate}
+	\item  {\textbf{The lab instructor is the primary maintainer of the device.  The device:}}
+	\begin{enumerate}
+		\item Must be robust.\\[.5cm] \underline{User Story}\\
+		%As a lab instructor I am tasked with overseeing and assisting six lab groups of three students concurrently.  Fragile systems that do not tolerate student mistakes
+		%frustrate both myself and the students.  Since I am unable to observe all student groups at the same time and since the students will not, in general, 
+		%wait for me to get them started I need a system that tolerates students mis-wiring.
+		%\bigskip
+\begin{python}
+TheFile = open('LabInstructorRobust.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		\item Must be easy to setup.\\[.5cm] \underline{User Story}\\
+		%The more complex the setup the more prone to error.  Students can follow a color code and this helps then setup quickly and minimizes mistakes.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('LabInstructorSimpleSetup.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		\item Must be easily repairable.\\[.5cm] \underline{User Story}\\
+		%In the heat of battle, students can be less than patient in waiting for a repaired or replaced module.  I understand their impatience, but it helps to have easily
+		%repairable or inexpensive replacement modules to mitigate the students' impatience.
+		%\bigskip
+
+\begin{python}
+TheFile = open('LabInstructorEasyRepair.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip	
+	
+		
+	\end{enumerate}
+	
+	\begin{slshape}
+	\color{blue}
+	\StopSign
+	You are a student so you can probably identify the student's user story for the power amplifier module.  Take a break from reading this printed morphine and write down a user story for the typical harried lab student.  If you get one that I missed you may be able to convince me to revise the document.
+	\end{slshape}
+	
+\newpage
+	
+	\item {\textbf{The lab student is the primary user of the device.  The device:}}
+	\begin{enumerate}
+		\item Must be easy to setup.\\[.5cm] \underline{User Story}\\
+		%As a student, I want my instructors to be aware that I am busy and that this course is not the only one that I have.  Labs that require long or complex setups are 
+		%seldom worth my time.  I want a setup that I learn from and that increases my understanding of what I am studying.  Color coding helps me avoid wiring errors and speeds the setup.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('StudentsAreBusySetup.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+	
+		\item Must be easy to functionally understand.\\[.5cm] \underline{User Story}\\
+		%Good labeling helps me to understand the function of the module so that I can compare it to what I have learned in class.
+		%\bigskip
+
+\begin{python}
+TheFile = open('StudentsAreBusySimple.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		\item Must be robust.\\[.5cm] \underline{User Story}\\
+		%I am a busy student.  Parts that fail easily because I made a simple mistake are frustrating.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('StudentsAreBusyRobust.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+	\end{enumerate}
+	\item {\textbf{The USU ECE Department is funding the project.  The device:}}
+	\begin{enumerate}
+		\item Must be low in initial cost (design and prototype).\\[.5cm] \underline{User Story}\\
+		%The department would like to replace the existing power amplifier modules in the controls lab with something that is much less expensive.
+		%The current modules from Quanser cost too much.  The replacement module must be a simple inexpensive design that will not be too expensive
+		%to design and prototype.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('ECEDesignCost.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		\item Must be low in replacement/repair costs.\\[.5cm] \underline{User Story}\\
+		%In quantity the completed module should cost less than \$100.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('ECEReplacementCost.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+		\item Must meet the pedagogical requirements of the course (ECE/MAE 5130) for which it is designed.\\[.5cm] \underline{User Story}\\
+		%The course instructor sets the pedagogical requirements for this module.
+		%\bigskip
+		
+\begin{python}
+TheFile = open('ECEPedagogy.tex')
+
+for eachLine in TheFile:
+    eachLine = eachLine.replace('\hilite{Goldenrod}','')
+    eachLine = eachLine.replace('\hilite{Lavender}','')
+    eachLine = eachLine.replace('\hilite{red}','')
+    eachLine = eachLine.replace('\hilite{green}','')
+    eachLine = eachLine.replace('\hilite{YellowOrange}','')
+    print(eachLine, end = '')
+		
+TheFile.close()
+\end{python}
+\bigskip
+		
+	\end{enumerate}
+\end{itemize}
+
+\begin{slshape}
+\color{blue}
+As useful as user stories and user interviews are they are not perfect and your access to users may be incomplete.  It is up to you to fill in the missing spots.  Some of the areas that are typically missed include power requirements (batteries, wall power, hamsters, etc.), packaging size and weight requirements (standard packaging, wear on your wrist, tow in trailer, or my personal favorite: the portable data acquisition system at Boeing where portable meant you could move it with a fork lift), and operating environments (we live a desert and when we design we often forget humid operating environments).
+\bigskip
+
+\StopSign
+Time to identify and then interview your stakeholders!  I like this step.  It is fun to hear how others who have an interest in this system view it.  There is a classic drawing about how different stakeholders see an airplane.  You can see the drawing here (\href{http://aviatormag.com.au/wp/intelligent-design/}{How the Stakeholders See the Same Airplane}). 
+\bigskip
+
+I realize that as a student you may not have access to all of the stakeholders for your project.  You may have to role play with your project partners or an available, yet naive, friend.  Pretend is fun, at least you used to like it.
+
+
+\end{slshape}

@@ -1,0 +1,52 @@
+\section{APPLICABLE DOCUMENTS}
+
+\begin{slshape} \color{blue} This section is often poorly understood and poorly implemented.  It is a list of documents that are a critical part of understanding the item or requirements imposed on the item. Every document listed must have a text reference in the body of the spec further describing and limiting how it is to be applied. Conversely, no document is to be referenced in the spec unless it is listed here. Don't put items here that are background information or of general interest. Always obtain and review all items listed here. This section often has the following statement:
+\bigskip
+
+\begin{quote}
+The following documents shown shall form part of the specifications for this project. In the event of a conflict between requirements, priority shall first go to the contract, second to this 
+document, and lastly to these reference documents.
+\end{quote}
+
+\bigskip
+
+
+There are lots of MIL-STD(standards) and MIL-HDBK(handbooks) that cover an amazing range of subjects.  Here is a website that has them plus NASA documents and others all available (\href{http://everyspec.com/}{every government specification and handbook you can imagine}) for free.  Other groups publishing standards include Institute of Electrical and Electronics Engineers (IEEE), American Society of Mechanical Engineers (ASME), Society of Automotive Engineers (SAE), American National Standards Institute (ANSI), American Society for Testing and Materials (ASTM) and Aeronautical Radio, Incorporated (ARINC) to name more than a few.
+\bigskip
+
+
+Another thing to note is that referencing documents will often save you time (and money).  For example, a referenced document can contain a complete set of environmental tests.  Stating that your system has to be tested to the requirements of MIL-STD xxx is a lot easier than making up the series of tests yourself.  The process is akin to what you do when you use a library in C programming: someone has provided software that meets your needs.  Why reinvent the wheel?  Particularly in something as difficult to get right as environmental testing.
+\bigskip
+
+Another benefit to using standards documents is that it connects your project to what is typically done in industry.  While this should be obvious it is sometimes forgotten.  The designers that you hand the spec over to may already know the standard that you have specified and know how to meet these standards.  The simple adherence to standard could save you a lot of money.
+\bigskip
+
+
+\end{slshape}
+
+
+
+\begin{enumerate}[(a)]
+	\item \textbf{\underline{Government Documents}}
+		\begin{slshape} \color{blue}
+			This is where to put MIL-Specs, MIL-STDs, NASA specs and so forth. Be 
+			sure to include the revision level and date.
+		\end{slshape}
+	\item \textbf{\underline{Industry Documents}}	
+		\begin{slshape} \color{blue}
+			This is where to put ANSI, ASTM, ASME, IEEE, Company specifications and 
+			so forth. Both this section and government documents can be divided up 
+			into logical subcategories.
+		\end{slshape}
+\end{enumerate}
+
+\begin{slshape}
+\color{blue}
+
+My project is pretty simple and I don't have any applicable documents, but your project might.  Did you know that in order to use USB on a commercial device that you have to pay a licensing fee?  I know, your development board has a USB port on it.  You can use it because the board manufacturer paid the fee. The USB spec is about 1500 pages.  Saying that your device must comply with this spec (or a part of it) is a lot easier than writing it all out.
+\bigskip
+
+\StopSign Research and write down the external specifications that you want your system to meet.  Think about standards (like USB) and MIL-Specs that cover things like environmental testing and electromagnetic compatibility.
+\bigskip
+
+\end{slshape}
