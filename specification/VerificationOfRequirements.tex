@@ -1,128 +1,232 @@
 \section{VERIFICATION OF REQUIREMENTS}
-
-
-
-
-\begin{slshape}
-\color{blue}
-
-We have to know that we designed what we were required to design by this document.  This process is called `verification' and it answers the fundamental question: ``Did we build what we said we would build?".  We verify requirements by testing to see if the requirements are met.  Design teams must test every requirement in order to prove that the requirement is met.  Testing each requirement means that each requirement must cast in some quantifiable way.  In this section you specify how you will test each requirement to show that it has been met.
-\bigskip
-
-Don't worry!  It is not as bad as it sounds.  Sometimes (not always!) you can verify or test a requirement simply by looking at the completed system to make sure some required thing is present. 
-\bigskip
-
-Testing often `takes it on the chin' in terms of project schedule.  Since integrated system testing typically occurs near the end of a project, the time for testing is compressed against the deadline.  People start short-cutting tests to stay on schedule.  Sometimes you may get away with it but it is never a good idea either technically or ethically.  Epic failures have occurred because of truncated testing.  One such failure occurred during the testing of the Hubble Space Telescope.  The following is an excerpt from the the official report detailing the failure.
-
-\begin{quote}
-Reliance on a single test method was a process which was clearly
-vulnerable to simple error. Such errors had been seen in other telescope
-programs, yet no independent tests were planned, although some simple tests to
-protect against major error were considered and rejected. During the critical time
-period, there was great concern about cost and schedule, which further inhibited
-consideration of independent tests.\\
-\bigskip
-The Hubble Space Telescope Optical Systems Failure Report-NASA November 1990 
-\end{quote}
-\bigskip
-
-If you are interested the whole report is available at (\url{https://www.ssl.berkeley.edu/~mlampton/AllenReportHST.pdf}).
-\bigskip
-
-The Hubble error wasn't caught until the telescope was deployed in space.  Can you imagine the cost of fixing this problem?  It is not simply a case of bundling you off with your instruments and putting you up in a fancy hotel for a week or two.  Some estimates set the price at about \$1 billion.
-\bigskip
-
-The Dilbert comic strip has a similar, and darkly amusing, view of testing truncation.
-\bigskip  
-
-(\url{http://dilbert.com/strip/2010-08-21})
-\bigskip
-
-(\url{http://dilbert.com/strip/2009-07-01})
-\bigskip
-
-
-
-	
-The key to completing this section is that every requirement has an associated test.  The best practice in this section is to match the sub-paragraph numbers in the previous section to the sub-paragraph numbers in this section, e.g the requirement in 4.3.1.6 is covered by the test described in 5.3.1.6.
-\bigskip
-
-	Possible verification methods include:
-	\bigskip
-	
-	\begin{enumerate}
-		\item Inspection:\\
-
-	Inspection is a method of verification consisting of investigation, 
-	without the use of special laboratory appliances or procedures, to 
-	determine compliance with requirements. Inspection is generally 
-	nondestructive and includes (but is not limited to) visual examination, 
-	manipulation, gauging, and measurement.
-
-		\item Demonstration:\\
-
-	Demonstration is a method of verification that is limited to readily 
-	observable functional operation to determine compliance with 
-	requirements. This method shall not require the use of special equipment 
-	or sophisticated instrumentation.
-	
-		\item Analysis:\\
-
-	Analysis is a method of verification, taking the form of the processing of 
-	accumulated results and conclusions, intended to provide proof that 
-	verification of a requirement has been accomplished. The analytical 
-	results may be based on engineering study, compilation or interpretation 
-	of existing information, similarity to previously verified requirements, 
-	or derived from lower level examinations, tests, demonstrations, or 
-	analyses.
-
-
-		\item Direct Test:
-
-	Test is a method of verification that employs technical means, including (but not 
-	limited to) the evaluation of functional characteristics by use of special equipment
-	or instrumentation, simulation techniques, and the application of established 
-	principles and procedures to determine compliance with requirements.
-			
-	\end{enumerate}		
-	
-\end{slshape}
-
-\subsection{Verify Coverage of Stakeholder Requirements}
-
-\begin{slshape}
-\color{blue}
-The tester verifies that everything that the stakeholders have asked for are covered by one or more requirements.  It is a good idea for the requirements author(s) to perform a similar check at this point.  The tester is likely to do his own analysis or disagree on points in yours, but the exercise itself is valuable. And if you do the analysis you might as well write it down here.   
-\end{slshape}
-
+%
+%
+%
+%
+%\begin{slshape}
+%\color{blue}
+%
+%We have to know that we designed what we were required to design by this document.  This process is called `verification' and it answers the fundamental question: ``Did we build what we said we would build?".  We verify requirements by testing to see if the requirements are met.  Design teams must test every requirement in order to prove that the requirement is met.  Testing each requirement means that each requirement must cast in some quantifiable way.  In this section you specify how you will test each requirement to show that it has been met.
+%\bigskip
+%
+%Don't worry!  It is not as bad as it sounds.  Sometimes (not always!) you can verify or test a requirement simply by looking at the completed system to make sure some required thing is present. 
+%\bigskip
+%
+%Testing often `takes it on the chin' in terms of project schedule.  Since integrated system testing typically occurs near the end of a project, the time for testing is compressed against the deadline.  People start short-cutting tests to stay on schedule.  Sometimes you may get away with it but it is never a good idea either technically or ethically.  Epic failures have occurred because of truncated testing.  One such failure occurred during the testing of the Hubble Space Telescope.  The following is an excerpt from the the official report detailing the failure.
+%
+%\begin{quote}
+%Reliance on a single test method was a process which was clearly
+%vulnerable to simple error. Such errors had been seen in other telescope
+%programs, yet no independent tests were planned, although some simple tests to
+%protect against major error were considered and rejected. During the critical time
+%period, there was great concern about cost and schedule, which further inhibited
+%consideration of independent tests.\\
+%\bigskip
+%The Hubble Space Telescope Optical Systems Failure Report-NASA November 1990 
+%\end{quote}
+%\bigskip
+%
+%If you are interested the whole report is available at (\url{https://www.ssl.berkeley.edu/~mlampton/AllenReportHST.pdf}).
+%\bigskip
+%
+%The Hubble error wasn't caught until the telescope was deployed in space.  Can you imagine the cost of fixing this problem?  It is not simply a case of bundling you off with your instruments and putting you up in a fancy hotel for a week or two.  Some estimates set the price at about \$1 billion.
+%\bigskip
+%
+%The Dilbert comic strip has a similar, and darkly amusing, view of testing truncation.
+%\bigskip  
+%
+%(\url{http://dilbert.com/strip/2010-08-21})
+%\bigskip
+%
+%(\url{http://dilbert.com/strip/2009-07-01})
+%\bigskip
+%
+%
+%
+%	
+%The key to completing this section is that every requirement has an associated test.  The best practice in this section is to match the sub-paragraph numbers in the previous section to the sub-paragraph numbers in this section, e.g the requirement in 4.3.1.6 is covered by the test described in 5.3.1.6.
+%\bigskip
+%
+%	Possible verification methods include:
+%	\bigskip
+%	
+%	\begin{enumerate}
+%		\item Inspection:\\
+%
+%	Inspection is a method of verification consisting of investigation, 
+%	without the use of special laboratory appliances or procedures, to 
+%	determine compliance with requirements. Inspection is generally 
+%	nondestructive and includes (but is not limited to) visual examination, 
+%	manipulation, gauging, and measurement.
+%
+%		\item Demonstration:\\
+%
+%	Demonstration is a method of verification that is limited to readily 
+%	observable functional operation to determine compliance with 
+%	requirements. This method shall not require the use of special equipment 
+%	or sophisticated instrumentation.
+%	
+%		\item Analysis:\\
+%
+%	Analysis is a method of verification, taking the form of the processing of 
+%	accumulated results and conclusions, intended to provide proof that 
+%	verification of a requirement has been accomplished. The analytical 
+%	results may be based on engineering study, compilation or interpretation 
+%	of existing information, similarity to previously verified requirements, 
+%	or derived from lower level examinations, tests, demonstrations, or 
+%	analyses.
+%
+%
+%		\item Direct Test:
+%
+%	Test is a method of verification that employs technical means, including (but not 
+%	limited to) the evaluation of functional characteristics by use of special equipment
+%	or instrumentation, simulation techniques, and the application of established 
+%	principles and procedures to determine compliance with requirements.
+%			
+%	\end{enumerate}		
+%	
+%\end{slshape}
+%
+%\subsection{Verify Coverage of Stakeholder Requirements}
+%
+%\begin{slshape}
+%\color{blue}
+%The tester verifies that everything that the stakeholders have asked for are covered by one or more requirements.  It is a good idea for the requirements author(s) to perform a similar check at this point.  The tester is likely to do his own analysis or disagree on points in yours, but the exercise itself is valuable. And if you do the analysis you might as well write it down here.   
+%\end{slshape}
+%
+%
+%\subsection{Interface}
+%
+%\subsubsection{Functional Interface Constraints}
+%
+%\subsubsection{Functional Interface Requirements}
+%
+%\subsubsection{Support Interface Constraints}
+%
+%\subsubsection{Support Interface Requirements}
+%
+%\subsection{Functional Requirements}
+%
+%\subsubsection{Functional Method Constraints}
+%
+%\subsubsection{Functional Design Requirements}
+%
+%\subsection{Support Requirements}
+%
+%\subsubsection{Support Method Constraints}
+%
+%\subsubsection{Support Requirements} 
+%
+%
+%\begin{slshape}
+%	\color{blue}
+%  A tabulation of all the requirements and the testing method with a blank space for results is useful for whomever is doing the testing.
+%\end{slshape}
+%
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{|c|c|C{6cm}|c|c|}
+%\hline
+%\textbf{Paragraph Number} & \textbf{Test Type}& 
+%\textbf{Tester's Name} & \textbf{Pass/Fail} & \textbf{Date} \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+% & & & & \\
+%\hline
+%\end{tabular}
+%\end{table}
+%
+%\begin{slshape}
+%\color{blue}
+%\StopSign Now read over your completed specification and make additions and corrections.  Find others who will be willing to read and comment on the specification (hopefully they will still like you when they are done).  The more eyes the better.  Ask yourself if you handed this spec to a competent classmate what would they build?
+%\bigskip
+%
+%Congratulations!  You have written an engineering specification and that is no mean feat.
+%\end{slshape}
 
 \subsection{Interface}
 
-\subsubsection{Functional Interface Constraints}
+\subsubsection{Interface Method Design Constraints}
+\paragraph{Hardware Requirements} The OS will be run on an amd64 virtual machine with 256 MiB of RAM. It will then load a 10 MiB file from dsik and write a copy of it to the disk.
 
-\subsubsection{Functional Interface Requirements}
+\subsubsection{Interface Design Requirements}
+	\paragraph{Shell Requirements}
+  \begin{enumerate}
+    \item A test program which takes multiple arguments will verify that multiple command line arguments 
+    are handled properly.
+    \item A test program will verify that piping output from one command to the input of another command works,
+    \item A test program will verify that piping output from one command to an output file works, and
+		\item A test program will verify that piping an input file as input to a command works.
+  \end{enumerate}
+%\subsubsection{Interface Support Design Constraints}
 
-\subsubsection{Support Interface Constraints}
+%\subsubsection{Interface Support Design Requirements}
 
-\subsubsection{Support Interface Requirements}
+
 
 \subsection{Functional Requirements}
 
-\subsubsection{Functional Method Constraints}
+%\subsubsection{Functional Method Design Constraints}
+%There are no functional method design constraints.
 
 \subsubsection{Functional Design Requirements}
+  \paragraph{Booting}
+  \begin{enumerate}
+    \item This test shall be done by inspection.
+    \item A stopwatch will be used to verify that user input is accepted properly within 60 s of booting.
+    \item A virtual machine will ensure that GRUB is able to boot a Linux partition as well as AndrOS.
+  \end{enumerate}
+  \paragraph{File System Actions}
+  \begin{enumerate}
+    \item Once booted, the tester shall insert a flash drive with verified files on it and:
+    \begin{enumerate}[(a)]
+      \item List all mountable FAT-formated devices, 
+      \item Mount the inserted mountable FAT-formated flash drive device, and
+      \item Unmount a mounted FAT-formated device.
+    \end{enumerate}
+    \item The tester shall insert a flash drive with verified files on it, mount the flash drive, and, using the terminal:
+    \begin{enumerate}[(a)]
+      \item List the contents of the file system,
+      \item List the contents of a given directory,
+      \item Traverse 2-4 directories,
+      \item Print the contents of any file,
+      \item Edit the content of any file,
+      \item Create 2-4 directories,
+      \item Remove 2-4 files, and
+      \item Remove 2-4 directories.
+    \end{enumerate}
+  \end{enumerate}
+  \paragraph{Program Loading and Execution}
+  \begin{enumerate}
+    \item The tester shall load a flat binary which has been cross-compiled for the AndrOS architecture, mount the flash drive, and run the program from the shell. A "Hello world" program is sufficient to verify this requirement.
+  \end{enumerate}
 
-\subsection{Support Requirements}
-
-\subsubsection{Support Method Constraints}
-
-\subsubsection{Support Requirements} 
 
 
-\begin{slshape}
-	\color{blue}
-  A tabulation of all the requirements and the testing method with a blank space for results is useful for whomever is doing the testing.
-\end{slshape}
+
+%\subsection{Support Requirements}
+
+%\subsubsection{Support Method Design Constraints}
+
+%\subsubsection{Support Design Requirements} 
 
 \begin{table}[h]
 \centering
@@ -151,13 +255,37 @@ The tester verifies that everything that the stakeholders have asked for are cov
 \hline
  & & & & \\
 \hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
+ & & & & \\
+\hline
 \end{tabular}
 \end{table}
-
-\begin{slshape}
-\color{blue}
-\StopSign Now read over your completed specification and make additions and corrections.  Find others who will be willing to read and comment on the specification (hopefully they will still like you when they are done).  The more eyes the better.  Ask yourself if you handed this spec to a competent classmate what would they build?
-\bigskip
-
-Congratulations!  You have written an engineering specification and that is no mean feat.
-\end{slshape}

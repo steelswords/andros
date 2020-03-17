@@ -12,6 +12,7 @@
 %\usepackage[svgnames]{xcolor}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{xcolor,soul}
+\usepackage{titlesec}
 \convertcolorsUfalse
 
 
@@ -32,8 +33,8 @@
 \setlength{\topmargin}{-.5in}
 \setlength{\textheight}{9in}
 
-\title{{\Huge{\bf{Student Specifications Document Template Guide}}}}
-\author{Name1\\ Name2\\ Name3}
+\title{{\Huge{\bf{AndrOS Specification Document}}}}
+\author{Tristan Andrus}
 
 \renewcommand*{\familydefault}{\sfdefault}
 \renewcommand{\baselinestretch}{1.2}
@@ -57,7 +58,12 @@
                                      {\normalfont\normalsize\bfseries}}
 \makeatother
 
+\setcounter{secnumdepth}{4}
 
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
