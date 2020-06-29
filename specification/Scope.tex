@@ -9,12 +9,17 @@
 
 	\item \textbf{\underline{Acronyms:}}
     \begin{enumerate}[]
-      \item OS - Operating System. The software that interacts directly with the hardware, schedules tasks, and presents an abstracted hardware functionality to other software programs.
-      \item RTOS - Real-Time Operating System
+      \item \textbf{FAT} - the File Allocation Table file system architecture. The specification is found below.
+      \item \textbf{GRUB} - Grand Unified Bootloader. A Multiboot program that allows the user to select which operating system to boot and then boots it.
+      \item \textbf{Multiboot2} - a specification to allow multiple operating systems to be installed and run on one computer. The specification is found below.
+      \item \textbf{OS} - Operating System. The software that interacts directly with the hardware, schedules tasks, and presents an abstracted hardware functionality to other software programs.
+      \item \textbf{RTOS} - Real-Time Operating System
     \end{enumerate}
   \item \textbf{Definitions:} 
     \begin{enumerate}[]
       \item The \textbf{reference computer} shall be a Ryzen 7 2700 with at least 8 GB of RAM.
+      \item To \textbf{mount} a storage device means to effect a state wherein the operating system can access files stored on said device for reading and writing.
+      \item A \textbf{flat binary executable} is one that has only statically linked, completely contained code. No reference to external libraries or other code shall be permitted in the flat binary executable. A flat binary executable contains only compiled and assembled x86-64 or amd64 code with no padding: i.e. the first instruction begins on the first byte of the file and the last instruction ends on the last byte of the file.
     \end{enumerate}
 
 

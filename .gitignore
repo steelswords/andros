@@ -4,3 +4,5 @@
 *.py
 *.py.*
 *.toc
+specification/*.pdf
+specification/fatgen103.doc

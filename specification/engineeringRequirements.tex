@@ -536,7 +536,7 @@
 \subsection{Interface}
 
 \subsubsection{Interface Method Design Constraints}
-\paragraph{Hardware Requirements} The OS shall run on an amd64 architecture with at least 256 MiB of RAM.
+\paragraph{Hardware Requirements} The OS shall run on an amd64 architecture with at least 256 MB of RAM.
 
 \subsubsection{Interface Design Requirements}
 	\paragraph{Shell Requirements}
@@ -565,7 +565,7 @@
   \begin{enumerate}
     \item The OS shall boot and run from a FAT-formatted drive.
     \item The OS shall boot to a shell in no more than 60 seconds on the reference computer and accept user input in that shell.
-    \item The OS shall be compatible with GRUB 2 and allow other operating systems installed to the system to boot from a GRUB menu as well.  
+    \item The OS shall be compatible with Multiboot2 and allow other operating systems installed to the system to boot through a Multiboot2-compatible bootloader, such as GRUB.  
   \end{enumerate}
   \paragraph{File System Actions}
   \begin{enumerate}
