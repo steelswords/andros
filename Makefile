@@ -40,3 +40,7 @@ $(BUILDDIR)/AndrOS.iso: kernel
 	cp ../grub.cfg iso/boot/grub
 	pwd
 	grub-mkrescue -o AndrOS.iso iso
+
+.PHONY: test
+test: $(BUILDDIR)/AndrOS.iso
+	qemu-system-x86_64 -cdrom build/AndrOS.iso
