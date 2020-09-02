@@ -7,3 +7,6 @@
 specification/*.pdf
 specification/fatgen103.doc
 build
+obj/*
+*.o
+dep/*
