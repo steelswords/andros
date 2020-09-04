@@ -1,0 +1,2 @@
+This will be a 32-bit OS until I know what's going on. Then I might make it 64 bits.
+

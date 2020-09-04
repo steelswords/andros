@@ -1,0 +1,21 @@
+So I really ought to enter Protected Mode, I think.
+
+Real mode is actually a 16-bit mode. It hasn't been current since the.. 286? 386? A long time, anyway.
+
+In Real mode:
+  - I have less than 1 MB of RAM.
+  - No hardware memory protection
+  - lots of other things. Let's move to how to.
+
+
+But first, I'm getting kind of frustrated with the loop. I'm not sure what to do. I start reading about Protected Mode
+and then the docs all talk about how things were done on th 386, so I start looking at the AMD programmer's manual,
+which makes it certainly clear that the best thing to do is go for 64 bit mode, but then I don't have a 64-bit compiler...
+Sigh....
+
+Obviously, for the purposes of cool, functional code, it would be best to make my OS 64 bits. However, seeing as I'll be
+lucky to mount a file system at this rate, it might be good to just proceed with the 32 bit architecture and take
+comfort in the docs that are available to me. I'll probably end up not doing system programming on an amd64 machine
+anyway. #TheAgeOfARMIsUponUs
+
+

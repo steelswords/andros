@@ -32,8 +32,9 @@ POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
 all: | toolchain kmain 
 
 # List all sources to be included in the project (except main file)
-_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.cpp))
-#_ASM_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.s))
+_SRCS    = $(foreach f, $(SDIRS), $(wildcard $(f)/*.cpp))
+ASM_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.s))
+ASM_OBJ  = $(patsubst src/%.s, $(ODIR)/%._o, $(ASM_SRCS))
 
 # Derived variable SRCS used by dependency management
 #SRCS = kernel.cpp $(_SRCS)
@@ -46,14 +47,20 @@ KOBJ =  $(patsubst src/%.cpp, $(ODIR)/%.o, $(SRCS))
 #####################
 # Kernel link step
 #####################
-$(BDIR)/$(KNAME): $(KOBJ) 
-	$(AS) src/boot.s -o $(ODIR)/boot.o
-	$(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
+$(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ)
+	#$(AS) src/boot.s -o $(ODIR)/boot.o
+	#$(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
+	$(CPP) -T linker.ld -o $@ $^
 
-# All compilation units in the project
+# All c++ compilation units in the project
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
 	$(CPP) -c -o $@ $<
 	$(POSTCPPC)
+
+# All asm compilation units in the project
+$(ODIR)/%._o: $(SDIR)/%.s $(DDIR)/%.d
+	$(AS) -c -o $@ $<
+	#$(POSTCPPC)
 
 $(ODIR)/video/%.o: $(SDIR)/video/%.cpp $(DDIR)/video/%.d
 	$(CPP) -c -o $@ $<
