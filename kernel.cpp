@@ -26,6 +26,10 @@ void operator delete(void * target)
 {
 }
 
+/* This loop is never used, but is needed to compile without
+ * optimizations. */
+extern "C" void __cxa_pure_virtual() { while (1); }
+
 ConsoleScreen* screen;
 
 void kprint_greeting();
@@ -39,16 +43,40 @@ void kernel_main(void)
 }
 }
 
+extern "C" {
+  int increment(int i);
+}
+
+int incrementCPP(int i) { return ++i; }
+
+inline int atoi(char a)
+{
+  return (int)a - 48;
+}
+
+inline char itoa(int i)
+{
+  return (char)(i + 48);
+}
+
 void kprint_greeting()
 {
   VGATextConsoleScreen textConsole;
   screen = &textConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  char* msg1 = "Welcome to AndrOS 0.0.1a\n";
-  char* msg2 = "Newline successful!\n";
+  char msg1[] = "Welcome to AndrOS 0.0.1a\n";
+  char msg2[] = "2...\n";
+  char msg3[16] = "Incremented: ";
+
+  msg3[13] = itoa(incrementCPP(2));
+  msg3[14] = itoa(increment(2));
+  msg3[15] = '\0';
+
   screen->print(msg1);
   screen->print(msg2);
+  screen->print(msg3);
+  
 
   return;
 }
