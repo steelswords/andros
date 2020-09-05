@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "video/VGATextConsoleScreen.hpp"
 #include "video/ConsoleScreen.hpp"
+#include "libc/include/stdlib.h"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -47,36 +48,17 @@ extern "C" {
   int increment(int i);
 }
 
-int incrementCPP(int i) { return ++i; }
-
-inline int atoi(char a)
-{
-  return (int)a - 48;
-}
-
-inline char itoa(int i)
-{
-  return (char)(i + 48);
-}
-
 void kprint_greeting()
 {
   VGATextConsoleScreen textConsole;
   screen = &textConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  char msg1[] = "Welcome to AndrOS 0.0.1a\n";
-  char msg2[] = "2...\n";
-  char msg3[16] = "Incremented: ";
-
-  msg3[13] = itoa(incrementCPP(2));
-  msg3[14] = itoa(increment(2));
-  msg3[15] = '\0';
-
+  char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
   screen->print(msg1);
-  screen->print(msg2);
-  screen->print(msg3);
-  
+  char msg2[] = "This number should be three:  \0";
+  msg2[29] = itoa(3);
+  screen->print(msg2); 
 
   return;
 }

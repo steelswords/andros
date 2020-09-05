@@ -2,7 +2,7 @@ SPECSDIR=specification
 BUILDDIR=build
 SPECIFICATION_SOURCES = $(wildcard $(SPECSDIR)/*.tex)
 
-SDIRS = src/ src/video
+SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include
 SDIR = src
 ODIR = obj
 BDIR = $(BUILDDIR)
@@ -12,16 +12,17 @@ ISO = $(BDIR)/AndrOS.iso
 KNAME = andros.bin
 
 #INC = $(SDIRS)
-INC        = $(patsubst src/%.hpp, %.hpp, $(SDIRS))
+INC        = $(patsubst src/%.hpp, %.hpp, $(SDIRS)) $(patsubst src/%.h, %.h, $(SDIRS))
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
-FLAGS= -fno-exceptions -ffreestanding -fno-rtti -O2 -Wall -Wextra -nostdlib
+FLAGS= -fno-exceptions -ffreestanding -O2 -Wall -Wextra -nostdlib
+CPPFLAGS = $(FLAGS) -fno-rtti
 
 CROSS_COMPILER_DIR = "/opt/cross/bin"
 
 AS  = $(CROSS_COMPILER_DIR)/i686-elf-as 
-CC  = $(CROSS_COMPILER_DIR)/i686-elf-gcc $(FLAGS) $(DEPFLAGS) $(INC_PARAMS)
-CPP = $(CROSS_COMPILER_DIR)/i686-elf-g++ $(FLAGS) $(DEPFLAGS) $(INC_PARAMS)
+CC  = $(CROSS_COMPILER_DIR)/i686-elf-gcc $(FLAGS) $(INC_PARAMS)
+CPP = $(CROSS_COMPILER_DIR)/i686-elf-g++ $(CPPFLAGS) $(DEPFLAGS) $(INC_PARAMS)
 CPPL= $(CROSS_COMPILER_DIR)/i686-elf-g++ $(FLAGS)
 POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
 
@@ -35,10 +36,11 @@ all: | toolchain kmain
 _SRCS    = $(foreach f, $(SDIRS), $(wildcard $(f)/*.cpp))
 ASM_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.s))
 ASM_OBJ  = $(patsubst src/%.s, $(ODIR)/%._o, $(ASM_SRCS))
+C_SRCS   = $(foreach f, $(SDIRS), $(wildcard $(f)/*.c))
+C_OBJ    = $(patsubst src/%.c, $(ODIR)/%.co, $(C_SRCS))
 
 # Derived variable SRCS used by dependency management
-#SRCS = kernel.cpp $(_SRCS)
-SRCS = kernel.cpp $(_SRCS)
+SRCS = kernel.cpp $(_SRCS) $(C_SRCS)
 
 # Derived variables KOBJ lists dependencies for the output binaries
 #KOBJ =  $(foreach dir, $(SDIRS), $(patsubst $(dir)/%.cpp, $(ODIR)/%.o, $(_SRCS)))
@@ -47,7 +49,7 @@ KOBJ =  $(patsubst src/%.cpp, $(ODIR)/%.o, $(SRCS))
 #####################
 # Kernel link step
 #####################
-$(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ)
+$(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ) $(C_OBJ)
 	#$(AS) src/boot.s -o $(ODIR)/boot.o
 	#$(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
 	$(CPP) -T linker.ld -o $@ $^
@@ -60,6 +62,11 @@ $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
 # All asm compilation units in the project
 $(ODIR)/%._o: $(SDIR)/%.s $(DDIR)/%.d
 	$(AS) -c -o $@ $<
+	#$(POSTCPPC)
+
+# All C compilation units in the project
+$(ODIR)/%.co: $(SDIR)/%.c $(DDIR)/%.d
+	$(CC) -c -o $@ $<
 	#$(POSTCPPC)
 
 $(ODIR)/video/%.o: $(SDIR)/video/%.cpp $(DDIR)/video/%.d
