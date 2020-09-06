@@ -1,17 +1,17 @@
 #ifndef _ANDROS_LIBC_STDLIB_H
 #define _ANDROS_LIBC_STDLIB_H
 
-inline int atoi(char a)
+inline int atoi_char(char a)
 {
   return (int)a - 48;
 }
 
-int atoi(const char* str);
-
-inline char itoa(int i)
+inline char itoa_char(int i)
 {
   return (char)(i + 48);
 }
+
+int atoi(const char* str);
 
 //It is the user's responsibility to ensure str is allocated
 //with sufficient memory

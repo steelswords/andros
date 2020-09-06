@@ -46,7 +46,6 @@ int atoi(const char* str)
   // a +/- indicator
   bool positive = true;
   long value = 0;
-  int valueLength = 0;
   long digits[10] = {0};
   int curDigit = 0;
   int stringIndex = 0;
@@ -83,7 +82,6 @@ int atoi(const char* str)
   }
 #endif
 #endif
-  valueLength = curDigit;
   int j = 0;
   while(curDigit >= 0)
   {
@@ -100,7 +98,6 @@ int atoi(const char* str)
 void itoa(int value, char* str)
 {
   bool negative = (value < 0);
-  long lvalue = value;
   int digits = numDigits(value);
   if (negative)
     value = -1 * value;

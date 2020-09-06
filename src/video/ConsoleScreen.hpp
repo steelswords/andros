@@ -2,6 +2,7 @@
 #define _K_VIDEO__CONSOLE_SCREEN_H
 
 #include <stdint.h>
+#include "libc/include/stdlib.h"
 
 /* Hardware text mode color constants. */
 enum VGAColor {
@@ -65,6 +66,10 @@ public:
 
   /* Writes a string at the current position. */
   virtual void print(char* str) = 0;
+
+  /* Writes an int at the current position */
+  virtual void print(int value) = 0;
+
 
 protected:
   int16_t m_column;

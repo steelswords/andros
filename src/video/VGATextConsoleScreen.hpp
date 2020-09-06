@@ -36,6 +36,7 @@ public:
 
   /* Writes a string at the current position. */
   virtual void print(char* str);
+  virtual void print(int value);
   
 
 private:

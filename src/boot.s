@@ -35,6 +35,9 @@ stack_top:
 The bootloader jumps to this position when the kernel is loaded. */
 
 .section .text
+.global multiboot_header_ptr
+multiboot_header_ptr:
+  .long 0
 .global _start
 .type _start, @function
 _start:
@@ -54,6 +57,9 @@ _start:
   /* Set up the stack. Remember it grows downwards (i.e. esp is decremented 
   when things are popped) */
   mov $stack_top, %esp
+
+  /* Set the location of the multiboot info header */
+  movl %ebx, multiboot_header_ptr
 
   /* TODO: Initialize the processor more, e.g. floats, load GDT, enable
            paging, etc. */

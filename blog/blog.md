@@ -32,3 +32,9 @@ Anyway, this is the 32-bit calling convention:
 - Stack grows downward
 - *Scratch registers*: `eax, ecx, edx`
 - *Return value placed in*: `eax`
+
+## 5 September 2020
+Man, what a day. I spent almost all of it implementing stupid little itoa and atoi
+functions. This is to let me read all of the junk in the multiboot header and print
+it to the screen. It's now 8:30 pm and I think I'll be able to get to some of it tonight.
+If I'm lucky.

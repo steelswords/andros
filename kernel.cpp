@@ -31,6 +31,8 @@ void operator delete(void * target)
  * optimizations. */
 extern "C" void __cxa_pure_virtual() { while (1); }
 
+extern void* multiboot_header_ptr;
+
 ConsoleScreen* screen;
 
 void kprint_greeting();
@@ -56,9 +58,14 @@ void kprint_greeting()
   screen->clear();
   char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
   screen->print(msg1);
-  char msg2[] = "This number should be three:  \0";
-  msg2[29] = itoa(3);
-  screen->print(msg2); 
+
+  screen->print("\nThis terminal can print numbers too: ");
+  screen->print(14159);
+
+  // Print location of multiboot header
+  int mbhptr = (int)multiboot_header_ptr;
+  screen->print("\nMultiboot header: ");
+  screen->print(mbhptr);
 
   return;
 }

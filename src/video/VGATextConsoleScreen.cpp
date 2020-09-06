@@ -1,6 +1,7 @@
 #include "video/ConsoleScreen.hpp"
 #include "video/VGATextConsoleScreen.hpp"
 #include <stdint.h>
+#include "libc/include/stdlib.h"
 
 VGATextConsoleScreen::VGATextConsoleScreen(ConsoleScreenParameters parameters)
   : ConsoleScreen(parameters),
@@ -90,6 +91,14 @@ void VGATextConsoleScreen::print(char* str)
   {
     putChar(str[index++], m_column, m_row);
   }
+}
+
+void VGATextConsoleScreen::print(int value)
+{
+  const int intStringLength = 11;
+  char str[intStringLength];
+  itoa(value, str);
+  print(str);
 }
 
 VGATextConsoleScreen::~VGATextConsoleScreen()
