@@ -13,4 +13,9 @@ inline char itoa(int i)
   return (char)(i + 48);
 }
 
+//It is the user's responsibility to ensure str is allocated
+//with sufficient memory
+void itoa(int value, char* str);
+
+
 #endif

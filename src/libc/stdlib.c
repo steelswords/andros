@@ -3,6 +3,7 @@
 #include "stdbool.h"
 #endif
 
+
 #ifdef __UNIT_TEST__
 #ifdef _DEBUG_
 #include <iostream>
@@ -13,6 +14,20 @@ inline bool isDigit(char c)
 {
   if (c >= 0x30 && c <= 0x39) return true;
   else return false;
+}
+
+int numDigits(int i)
+{
+  if (i < -999999999 || i > 999999999) return 10;
+  if (i < -99999999  || i > 99999999)  return 9;
+  if (i < -9999999   || i >  9999999)  return 8;
+  if (i < -999999    || i >   999999)  return 7;
+  if (i < -99999     || i >    99999)  return 6;
+  if (i < -9999      || i >     9999)  return 5;
+  if (i < -999       || i >      999)  return 4;
+  if (i < -99        || i >       99)  return 3;
+  if (i < -9         || i >        9)  return 2;
+  return 1;
 }
 
 int atoi(const char* str)
@@ -80,4 +95,46 @@ int atoi(const char* str)
 
   return (int)value;
  
+}
+
+void itoa(int value, char* str)
+{
+  bool negative = (value < 0);
+  long lvalue = value;
+  int digits = numDigits(value);
+  if (negative)
+    value = -1 * value;
+#ifdef __UNIT_TEST__
+#ifdef _DEBUG_
+  std::cout << "itoa(" << value << ") called " << ((negative) ? "(negative value)." : ".") << std::endl;
+  std::cout << "Number of digits: " << digits << std::endl;
+#endif
+#endif
+
+
+  if (negative)
+  {
+    digits ++;
+  }
+
+  str[digits] = '\0';
+    
+  while ( digits >= 0)
+  {
+
+#ifdef __UNIT_TEST__
+#ifdef _DEBUG_
+  std::cout << "Value of digit " << digits -1 << ": " << value % 10 << std::endl;
+#endif
+#endif
+    str[digits - 1] = (value % 10) + 0x30;
+    digits--;
+    value /= 10;
+  }  
+
+  if (negative)
+  {
+    str[0] = '-';
+  }
+
 }
