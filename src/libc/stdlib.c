@@ -1,10 +1,12 @@
 #ifndef __UNIT_TEST__
 #include "stdlib.h"
 #include "stdbool.h"
+#include "string.h"
 #endif
 
 
 #ifdef __UNIT_TEST__
+#include <string.h>
 #ifdef _DEBUG_
 #include <iostream>
 #endif
@@ -134,4 +136,48 @@ void itoa(int value, char* str)
     str[0] = '-';
   }
 
+}
+
+char itoaHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                          '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+const char* itoaUnsupportedBase = "Bad Base";
+
+void itoa(int value, char* str, int base)
+{
+  if(base == 10)
+  {
+    itoa(value, str);
+  }
+  else if (base == 16)
+  {
+    str[0] = '0';
+    str[1] = 'x';
+    if (value == 0)
+    {
+      str[2] = '0';
+      str[3] = '\0';
+      return;
+    }
+    int index = 2;
+    int x = value;
+    for (int shiftAmount = 28; shiftAmount >= 0; shiftAmount -= 4)
+    {
+      int hexDigit = (((unsigned int) x) >> shiftAmount) & 0xF;
+      str[index] = itoaHexDigits[hexDigit];
+      index++;
+    }
+  }
+  else
+  {
+    // Copy error string into return value. 
+    // Hurrah for not having strcpy implemented yet. 
+    int i = 0;
+    for (; i < strlen(itoaUnsupportedBase); ++i)
+    {
+      str[i] = itoaUnsupportedBase[i];
+      i++;
+    }
+    str[i] = '\0';
+  }
 }

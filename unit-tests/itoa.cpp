@@ -18,7 +18,7 @@ int main()
   int integers [] = {1, 0, -1, -0, 1234567809, INT_MAX, INT_MIN + 1}; //Was overflowing
 
   std::cout << "----------------------------\n";
-  std::cout << "  atoi Unit Test" << std::endl;
+  std::cout << "  itoa Unit Test" << std::endl;
   std::cout << "----------------------------\n";
 
 
