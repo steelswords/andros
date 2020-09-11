@@ -151,6 +151,7 @@ void itoa(int value, char* str, int base)
   }
   else if (base == 16)
   {
+    bool leadingDigitEncountered = false;
     str[0] = '0';
     str[1] = 'x';
     if (value == 0)
@@ -164,8 +165,16 @@ void itoa(int value, char* str, int base)
     for (int shiftAmount = 28; shiftAmount >= 0; shiftAmount -= 4)
     {
       int hexDigit = (((unsigned int) x) >> shiftAmount) & 0xF;
-      str[index] = itoaHexDigits[hexDigit];
-      index++;
+      if (hexDigit != 0)
+        leadingDigitEncountered = true;
+      if (hexDigit == 0 && !leadingDigitEncountered)
+      {
+      }
+      else
+      {
+        str[index] = itoaHexDigits[hexDigit];
+        index++;
+      }
     }
   }
   else
