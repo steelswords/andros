@@ -1,0 +1,4 @@
+Segment Selector: 
+bits 15:3: index in either GDT or LDT.
+bit 2: Table indicator (0 -> GDT is used. 1-> LDT)
+bit 1:0: Requester Privilege Level (RPL)

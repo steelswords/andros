@@ -12,13 +12,13 @@
 #endif
 #endif
 
-inline bool isDigit(char c)
+static inline bool isDigit(char c)
 {
   if (c >= 0x30 && c <= 0x39) return true;
   else return false;
 }
 
-int numDigits(int i)
+static int numDigits(int i)
 {
   if (i < -999999999 || i > 999999999) return 10;
   if (i < -99999999  || i > 99999999)  return 9;
@@ -97,7 +97,7 @@ int atoi(const char* str)
  
 }
 
-void itoa(int value, char* str)
+static void itoa_base10(int value, char* str)
 {
   bool negative = (value < 0);
   int digits = numDigits(value);
@@ -138,16 +138,16 @@ void itoa(int value, char* str)
 
 }
 
-char itoaHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+static char itoaHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
                           '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-const char* itoaUnsupportedBase = "Bad Base";
+static const char* itoaUnsupportedBase = "Bad Base";
 
 void itoa(int value, char* str, int base)
 {
   if(base == 10)
   {
-    itoa(value, str);
+    itoa_base10(value, str);
   }
   else if (base == 16)
   {
@@ -182,7 +182,7 @@ void itoa(int value, char* str, int base)
     // Copy error string into return value. 
     // Hurrah for not having strcpy implemented yet. 
     int i = 0;
-    for (; i < strlen(itoaUnsupportedBase); ++i)
+    for (; i < kstrlen(itoaUnsupportedBase); ++i)
     {
       str[i] = itoaUnsupportedBase[i];
       i++;

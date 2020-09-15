@@ -4,11 +4,12 @@
  * hardware. A lovely starting point. Well, on to a graphics-based 
  * interface. */
 #include <stdbool.h>
-#include <stddef.h>
+//#include <stddef.h>
 #include <stdint.h>
 #include "video/VGATextConsoleScreen.hpp"
 #include "video/ConsoleScreen.hpp"
 #include "libc/include/stdlib.h"
+#include "dev/hwid/MultibootHeaderInfo.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -63,9 +64,9 @@ void kprint_greeting()
   screen->print(14159);
 
   // Print location of multiboot header
-  int mbhptr = (int)multiboot_header_ptr;
+  MultibootHeaderInfo mbh(multiboot_header_ptr);
   screen->print("\nMultiboot header: ");
-  screen->print(mbhptr);
+  screen->printHex((int)multiboot_header_ptr);
 
   return;
 }

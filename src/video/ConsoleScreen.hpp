@@ -70,6 +70,9 @@ public:
   /* Writes an int at the current position */
   virtual void print(int value) = 0;
 
+  /* Writes an int in hexadecimal at the current position */
+  virtual void printHex(int value) = 0;
+
 
 protected:
   int16_t m_column;

@@ -41,7 +41,7 @@ C_SRCS   = $(foreach f, $(SDIRS), $(wildcard $(f)/*.c))
 C_OBJ    = $(patsubst src/%.c, $(ODIR)/%.co, $(C_SRCS))
 
 # Derived variable SRCS used by dependency management
-SRCS = kernel.cpp $(_SRCS) $(C_SRCS)
+SRCS = $(_SRCS) $(C_SRCS)
 
 # Derived variables KOBJ lists dependencies for the output binaries
 #KOBJ =  $(foreach dir, $(SDIRS), $(patsubst $(dir)/%.cpp, $(ODIR)/%.o, $(_SRCS)))

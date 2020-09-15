@@ -97,7 +97,15 @@ void VGATextConsoleScreen::print(int value)
 {
   const int intStringLength = 11;
   char str[intStringLength];
-  itoa(value, str);
+  itoa(value, str, 10);
+  print(str);
+}
+
+void VGATextConsoleScreen::printHex(int value)
+{
+  const int hexIntStringLength = 11;
+  char str[hexIntStringLength];
+  itoa(value, str, 16);
   print(str);
 }
 

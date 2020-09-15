@@ -1,11 +1,11 @@
-#include "libc/include/string.h"
 #ifndef __UNIT_TEST__
-#define <stddef.h> //size_t
+//#include <stddef.h> //size_t
+#include "string.h"
 #endif
 
-size_t strlen(const char* str)
+int kstrlen(const char* str)
 {
-  size_t len = 0;
+  int len = 0;
   while (*str != '\0')
   {
     str++;
