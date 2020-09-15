@@ -2,7 +2,8 @@ SPECSDIR=specification
 BUILDDIR=build
 SPECIFICATION_SOURCES = $(wildcard $(SPECSDIR)/*.tex)
 
-SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include
+SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include \
+				src/dev/hwid
 SDIR = src
 ODIR = obj
 BDIR = $(BUILDDIR)
@@ -21,7 +22,7 @@ CPPFLAGS = $(FLAGS) -fno-rtti
 CROSS_COMPILER_DIR = "/opt/cross/bin"
 
 AS  = $(CROSS_COMPILER_DIR)/i686-elf-as 
-CC  = $(CROSS_COMPILER_DIR)/i686-elf-gcc $(FLAGS) $(INC_PARAMS)
+CC  = $(CROSS_COMPILER_DIR)/i686-elf-gcc -std=c99 $(FLAGS) $(INC_PARAMS)
 CPP = $(CROSS_COMPILER_DIR)/i686-elf-g++ $(CPPFLAGS) $(DEPFLAGS) $(INC_PARAMS)
 CPPL= $(CROSS_COMPILER_DIR)/i686-elf-g++ $(FLAGS)
 POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
@@ -50,26 +51,32 @@ KOBJ =  $(patsubst src/%.cpp, $(ODIR)/%.o, $(SRCS))
 # Kernel link step
 #####################
 $(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ) $(C_OBJ)
-	#$(AS) src/boot.s -o $(ODIR)/boot.o
-	#$(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
+	echo -e "--> Compiling Kernel"
+# $(AS) src/boot.s -o $(ODIR)/boot.o
+# $(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
+	echo -e "--> Linking kernel"
 	$(CPP) -T linker.ld -o $@ $^
 
 # All c++ compilation units in the project
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
+	echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
 	$(CPP) -c -o $@ $<
 	$(POSTCPPC)
 
 # All asm compilation units in the project
 $(ODIR)/%._o: $(SDIR)/%.s $(DDIR)/%.d
+	echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Assembling:\033[0m" $<
 	$(AS) -c -o $@ $<
 	#$(POSTCPPC)
 
 # All C compilation units in the project
 $(ODIR)/%.co: $(SDIR)/%.c $(DDIR)/%.d
-	$(CC) -c -o $@ $<
+	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
+	$(CPP) -c -o $@ $<
 	#$(POSTCPPC)
 
 $(ODIR)/video/%.o: $(SDIR)/video/%.cpp $(DDIR)/video/%.d
+	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
 	$(CPP) -c -o $@ $<
 	$(POSTCPPC)
 
@@ -89,9 +96,11 @@ kmain: toolchain $(BDIR)/$(KNAME)
 # List of subdirectories we have to make
 OBJ_SUBDIRS = $(patsubst src/%, $(ODIR)/%, $(SDIRS))
 BLD_SUBDIRS = $(patsubst src/%, $(BDIR)/%, $(SDIRS))
+DEP_SUBDIRS = $(patsubst src/%, $(DDIR)/%, $(SDIRS))
 
 $(DDIR):
 	@mkdir $(DDIR)
+	$(foreach dir, $(DEP_SUBDIRS), @mkdir -p $(dir))
 
 $(ODIR):
 	@mkdir $(ODIR)
@@ -117,8 +126,6 @@ $(ISO): kmain
 .PHONY: test
 test: $(ISO)
 	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso
-
-
 
 
 #Dependency management: prevent .d files from being deleted.
