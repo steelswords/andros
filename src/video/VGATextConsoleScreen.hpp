@@ -8,6 +8,7 @@ static const int VGA_WIDTH = 80;
 static const int VGA_HEIGHT = 25;
 
 #include "video/ConsoleScreen.hpp"
+#include "utils/kstring.hpp"
 
 void operator delete(void* target);
 
@@ -36,6 +37,7 @@ public:
 
   /* Writes a string at the current position. */
   virtual void print(char* str);
+  virtual void print(kstring message);
   virtual void print(int value);
   virtual void printHex(int value);
   

@@ -7,21 +7,41 @@
 #endif
 
 bool kstring::kernelStringMemoryInitialized = false;
+char* kstring::kernelStringMemory = kstring_area_begin;
+char* kstring::kernelStringMemoryEnd = kstring_area_end;
+char* kstring::kernelStringMemoryIndex = kstring_area_begin;
+
+// Forward declarations
+static void itoa(int value, char* str, int base);
 
 kstring::kstring()
 {
+  init(KSTRING_DEFAULT_SIZE);
 }
 
 kstring::kstring(int value)
 {
+  init(12); // (-)2000000000
+  itoa(value, m_data, 10);
 }
 
 kstring::kstring(int value, int base)
 {
+  init(12); // Ok to use extra bytes
+  itoa(value, m_data, base);
+}
+
+kstring::kstring(char str[])
+{
+  m_len = kstring::strLength(str);
+  init(m_len);
+  kstring::copyString(m_data, str);
 }
 
 kstring::kstring(char str[], int len)
 {
+  init(len);
+  kstring::copyString(m_data, str);
 }
 
 bool kstring::isCharDigit(char c)
@@ -182,12 +202,13 @@ static void itoa(int value, char* str, int base)
         index++;
       }
     }
+    str[index] = '\0';
   }
   else
   {
     // Copy error string into return value. 
     // Hurrah for not having strcpy implemented yet. 
-    int i = 0;
+    size_t i = 0;
     for (; i < kstring::strLength(itoaUnsupportedBase); ++i)
     {
       str[i] = itoaUnsupportedBase[i];
@@ -208,8 +229,47 @@ size_t kstring::strLength(const char* str)
   return len;
 }
 
-size_t kstring::length() { return m_len; }
-
-void kstring::allocateMemory()
+void kstring::copyString(char* destination, const char* source)
 {
+  size_t sourceEnd = kstring::strLength(source); 
+  for (size_t i = 0; i < sourceEnd; ++i)
+  {
+    destination[i] = source[i];
+  }
+}
+
+size_t kstring::length() 
+{
+  return kstring::strLength(m_data);
+}
+
+
+void kstring::init(size_t sizeToAllocate)
+{
+  if (!kstring::kernelStringMemoryInitialized) 
+  {
+    if ( (kstring_area_begin != 0) &&
+         (kstring_area_end   != 0))
+    {
+      kstring::kernelStringMemory    = kstring_area_begin;
+      kstring::kernelStringMemoryEnd = kstring_area_end;
+      kstring::kernelStringMemoryIndex = 0;
+      kstring::kernelStringMemoryInitialized = true;
+    }
+  }
+  // Now that the memory is initialized, let's allocate some.
+  // End actually points to the next thing. Don't overwrite that.
+  if (kstring::kernelStringMemoryIndex + sizeToAllocate >= kstring::kernelStringMemoryEnd)
+  {
+    //TODO: Throw an exception
+  }
+  else
+  {
+    m_data = kstring::kernelStringMemoryIndex;
+    //TODO: Align to something that makes sense
+    kstring::kernelStringMemoryIndex += sizeToAllocate;
+    m_len = sizeToAllocate;
+    m_data[m_len - 1] = '\0'; //Set terminating null char.
+
+  }
 }

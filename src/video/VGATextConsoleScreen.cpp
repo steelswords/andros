@@ -94,6 +94,11 @@ void VGATextConsoleScreen::print(char* str)
   }
 }
 
+void VGATextConsoleScreen::print(kstring message)
+{
+  print(message.m_data);
+}
+
 void VGATextConsoleScreen::print(int value)
 {
   kstring msg(value, 10);

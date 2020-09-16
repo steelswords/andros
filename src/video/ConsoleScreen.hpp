@@ -2,6 +2,7 @@
 #define _K_VIDEO__CONSOLE_SCREEN_H
 
 #include <stdint.h>
+#include "utils/kstring.hpp"
 //#include "libc/include/stdlib.h"
 
 /* Hardware text mode color constants. */
@@ -67,11 +68,15 @@ public:
   /* Writes a string at the current position. */
   virtual void print(char* str) = 0;
 
+  /* Writes a kstring at the current position. */
+  virtual void print(kstring message) = 0;
+
   /* Writes an int at the current position */
   virtual void print(int value) = 0;
 
   /* Writes an int in hexadecimal at the current position */
   virtual void printHex(int value) = 0;
+  
 
 
 protected:
