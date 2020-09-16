@@ -1,7 +1,8 @@
 #include "video/ConsoleScreen.hpp"
 #include "video/VGATextConsoleScreen.hpp"
 #include <stdint.h>
-#include "libc/include/stdlib.h"
+//#include "libc/include/stdlib.h"
+#include "utils/kstring.hpp"
 
 VGATextConsoleScreen::VGATextConsoleScreen(ConsoleScreenParameters parameters)
   : ConsoleScreen(parameters),
@@ -95,18 +96,14 @@ void VGATextConsoleScreen::print(char* str)
 
 void VGATextConsoleScreen::print(int value)
 {
-  const int intStringLength = 11;
-  char str[intStringLength];
-  itoa(value, str, 10);
-  print(str);
+  kstring msg(value, 10);
+  print(msg.m_data);
 }
 
 void VGATextConsoleScreen::printHex(int value)
 {
-  const int hexIntStringLength = 11;
-  char str[hexIntStringLength];
-  itoa(value, str, 16);
-  print(str);
+  kstring msg(value, 16);
+  print(msg.m_data);
 }
 
 VGATextConsoleScreen::~VGATextConsoleScreen()

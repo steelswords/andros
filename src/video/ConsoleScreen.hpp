@@ -2,7 +2,7 @@
 #define _K_VIDEO__CONSOLE_SCREEN_H
 
 #include <stdint.h>
-#include "libc/include/stdlib.h"
+//#include "libc/include/stdlib.h"
 
 /* Hardware text mode color constants. */
 enum VGAColor {

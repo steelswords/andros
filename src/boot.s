@@ -31,6 +31,12 @@ stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
 
+#.global kstring_area_begin
+#.global kstring_area_end
+#kstring_area_end:
+#.skip 16384 # 16 KiB. I figure 24 char * 500 strings = 12 KB. Round up.
+#kstring_area_begin:
+
 /* The linker designates _start to be the entry point for the kernel.
 The bootloader jumps to this position when the kernel is loaded. */
 

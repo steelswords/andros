@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include "video/VGATextConsoleScreen.hpp"
 #include "video/ConsoleScreen.hpp"
-#include "libc/include/stdlib.h"
+//#include "libc/include/stdlib.h"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */

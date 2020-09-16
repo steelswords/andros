@@ -10,7 +10,7 @@ void memdump(ConsoleScreen* screen, void* addr, int length)
   int rows = length / numCols;
   for (int r = 0; r < rows; ++r)
   {
-    screen->printHex(addr + index);
+    screen->printHex((long)addr + index);
     screen->print(": ");
     for (int c = 0; c < numCols; ++r)
     {

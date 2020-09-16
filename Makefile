@@ -3,7 +3,7 @@ BUILDDIR=build
 SPECIFICATION_SOURCES = $(wildcard $(SPECSDIR)/*.tex)
 
 SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include \
-				src/dev/hwid
+				src/dev/hwid src/utils
 SDIR = src
 ODIR = obj
 BDIR = $(BUILDDIR)
