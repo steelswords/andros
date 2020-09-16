@@ -9,6 +9,7 @@
 #include "video/VGATextConsoleScreen.hpp"
 #include "video/ConsoleScreen.hpp"
 //#include "libc/include/stdlib.h"
+#include "utils/kstring.hpp"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
@@ -62,6 +63,10 @@ void kprint_greeting()
 
   screen->print("\nThis terminal can print numbers too: ");
   screen->print(14159);
+
+  kstring kmsg("And kstrings!\n");
+  screen->print(kmsg);
+  
 
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);

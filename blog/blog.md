@@ -40,3 +40,26 @@ it to the screen. It's now 8:30 pm and I think I'll be able to get to some of it
 If I'm lucky.
 
 
+## 15 September 2020
+At some point in implementing a whole bunch of string functions from libc,
+I realized that all this work would turn out much better for me if I just
+implemented a string class for the kernel instead. I think it was exactly
+the same time that GCC started spitting out a bunch of incoherent errors 
+about multiple definitions of those libc functions. You'd think that these
+were of course because I was defining functions in header files or including
+source files, but no. I grep-ed through my whole codebase. I checked all
+the compiled object files for redefined labels. Nothing. But a kstring
+class is a better way to do this anyway. I hope at some point I can get
+unstuck from my terminal/string manipulation ways and get to some I/O.
+
+Pro to kstring refactor: Awesome class. Finally some sensible string 
+stuff.
+Con to kstring refactor: All of those unit tests I worked so hard on?
+Ruined. Obliterated.
+
+Although, in architecture design news, we're keeping all the kernel-level
+strings in a 16 KiB block right under the stack. I'm going to keep track of
+what space has been already allocated. At this point, there will be no 
+deallocation.
+
+This is the first memory management-related thing I will have done.
