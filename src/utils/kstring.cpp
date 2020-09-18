@@ -7,6 +7,7 @@
 #endif
 
 bool kstring::kernelStringMemoryInitialized = false;
+bool kstring::trimHexValues = true;
 char* kstring::kernelStringMemory = kstring_area_begin;
 char* kstring::kernelStringMemoryEnd = kstring_area_end;
 char* kstring::kernelStringMemoryIndex = kstring_area_begin;
@@ -193,7 +194,7 @@ static void itoa(int value, char* str, int base)
       int hexDigit = (((unsigned int) x) >> shiftAmount) & 0xF;
       if (hexDigit != 0)
         leadingDigitEncountered = true;
-      if (hexDigit == 0 && !leadingDigitEncountered)
+      if (hexDigit == 0 && !leadingDigitEncountered && kstring::trimHexValues)
       {
       }
       else

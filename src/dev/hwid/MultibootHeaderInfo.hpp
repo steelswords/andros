@@ -5,6 +5,14 @@
 
 #include "ConsoleScreen.hpp"
 
+enum MemoryType : uint32_t
+{
+  Available               = 1,
+  ACPIInformation         = 3,
+  Reserved                = 4,
+  DefectiveOrReservedArea = 5
+};
+
 struct MBHIMemoryMapEntry
 {
   uint32_t size;
@@ -12,7 +20,7 @@ struct MBHIMemoryMapEntry
   uint32_t baseAddressHigh;
   uint32_t lengthLow;
   uint32_t lengthHigh;
-  uint32_t type;
+  MemoryType type;
 } __attribute__((packed));
 
 class MultibootHeaderInfo

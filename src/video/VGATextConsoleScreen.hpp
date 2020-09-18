@@ -39,7 +39,8 @@ public:
   virtual void print(char* str);
   virtual void print(kstring message);
   virtual void print(int value);
-  virtual void printHex(int value);
+  virtual void printHex(uint32_t value);
+  virtual void printlHex(uint64_t value);
   
 
 private:

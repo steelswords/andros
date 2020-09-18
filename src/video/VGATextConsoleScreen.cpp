@@ -105,10 +105,27 @@ void VGATextConsoleScreen::print(int value)
   print(msg.m_data);
 }
 
-void VGATextConsoleScreen::printHex(int value)
+void VGATextConsoleScreen::printHex(uint32_t value)
 {
   kstring msg(value, 16);
   print(msg.m_data);
+}
+
+void VGATextConsoleScreen::printlHex(uint64_t value)
+{
+  uint32_t highPart, lowPart;
+  highPart = (uint32_t)((value >> 32) & 0xFFFFFFFF);
+  lowPart  = (uint32_t)(value & 0xFFFFFFFF);
+
+  //Kludge together the high and low words.
+  //Remember we need to turn off hex value trimming temporarily.
+  kstring highPartMsg(highPart, 16);
+  bool oldTrimSetting = kstring::trimHexValues;
+  kstring::trimHexValues = false;
+  kstring lowPartMsg (lowPart,  16);
+  kstring::trimHexValues = oldTrimSetting;
+  print(highPartMsg.m_data);
+  print((lowPartMsg.m_data + 2)); // Skip '0' and 'x'
 }
 
 VGATextConsoleScreen::~VGATextConsoleScreen()

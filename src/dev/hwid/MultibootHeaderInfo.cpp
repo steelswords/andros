@@ -1,4 +1,5 @@
 #include "MultibootHeaderInfo.hpp"
+#include "ConsoleScreen.hpp"
 #include <stdint.h>
 
 MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
@@ -67,12 +68,47 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
 
 void MultibootHeaderInfo::printMemoryTable(ConsoleScreen* screen)
 {
-  MBHIMemoryMapEntry* mmap = m_mbhiMemoryMap;
+  MBHIMemoryMapEntry* entry = m_mbhiMemoryMap;
   //Iterate through the entire buffer
-  //while(entry < m_mbhiMemoryMap + m_mbhiMemoryMapLength)
+  while(entry < m_mbhiMemoryMap + m_mbhiMemoryMapLength)
   {
+    // Computations
+    uint64_t baseAddress = ((uint64_t)entry->baseAddressHigh << 32) + (uint64_t)entry->baseAddressLow;
+    uint64_t endAddress = ((uint64_t)entry->baseAddressHigh << 32) + entry->baseAddressLow;
+    uint64_t length = ((uint64_t)entry->lengthHigh << 32) + entry->lengthLow;
+    endAddress += length;
+
+    // Print all the computations
     screen->print("Entry at ");
-    screen->printHex((int)mmap);
+    screen->printlHex((uint64_t)entry);
+    screen->print(":\n");
+
+    screen->printlHex(baseAddress);
+    screen->print(" to ");
+    screen->printlHex(endAddress);
+    screen->print(". Type = ");
+
+    switch(entry->type)
+    {
+      case Available:
+        screen->print("AVAILABLE");
+        break;
+      case ACPIInformation:
+        screen->print("ACPI INFORMATION");
+        break;
+      case Reserved:
+        screen->print("RESERVED");
+        break;
+      case DefectiveOrReservedArea:
+        screen->print("DEFECTIVE OR RESERVED AREA");
+        break;
+      default:
+        screen->print("UNKNOWN. TF, BRUH?");
+    }
+    screen->print("\n");
+    
+    
+    entry += entry->size;
   }
 
 }

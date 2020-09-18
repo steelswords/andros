@@ -60,6 +60,7 @@ public:
 
   char* m_data;
 
+  static bool  trimHexValues;
   static char* kernelStringMemory;
   static char* kernelStringMemoryEnd;
 protected:

@@ -63,15 +63,21 @@ void kprint_greeting()
 
   screen->print("\nThis terminal can print numbers too: ");
   screen->print(14159);
+  screen->print("\n");
 
-  kstring kmsg("And kstrings!\n");
+  screen->printHex((uint32_t)0xFEEDC0DE);
+
+  kstring kmsg("\nAnd kstrings!\n");
   screen->print(kmsg);
   
 
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);
   screen->print("\nMultiboot header: ");
-  screen->printHex((int)multiboot_header_ptr);
+  return;
+  screen->printlHex((uint64_t)multiboot_header_ptr);
+
+  //mbh.printMemoryTable(screen);
 
   return;
 }

@@ -75,7 +75,10 @@ public:
   virtual void print(int value) = 0;
 
   /* Writes an int in hexadecimal at the current position */
-  virtual void printHex(int value) = 0;
+  virtual void printHex(uint32_t value) = 0;
+  
+  /* Writes a 64-bit long hex value at the current position. */
+  virtual void printlHex(uint64_t value) = 0;
   
 
 
