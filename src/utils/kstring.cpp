@@ -1,16 +1,32 @@
 #include "kstring.hpp"
 #ifdef __UNIT_TEST__
 #include <iostream>
+#include <stdint>
+#include <stddef>
 
 #else
 #include <stddef.h>
+#include <stdint.h>
 #endif
 
 bool kstring::kernelStringMemoryInitialized = false;
 bool kstring::trimHexValues = true;
+
+#ifdef __UNIT_TEST__
+size_t kstringMemAreaLength = 16384;
+char* kstring::kernelStringMemory = malloc(sizeof(char) * kstringMemAreaLength);
+char* kstring::kernelStringMemoryEnd = kstring::kernelStringMemory + kstringMemAreaLength;
+char* kstring::kernelStringMemoryIndex = kstring::kernelStringMemory;
+
+#else
 char* kstring::kernelStringMemory = kstring_area_begin;
 char* kstring::kernelStringMemoryEnd = kstring_area_end;
 char* kstring::kernelStringMemoryIndex = kstring_area_begin;
+#endif
+
+char* kstring::kernelStringAllocationError = "ERROR ALLOCATING STRING";
+
+char kstring_index_no_update_error[] = "This index isn't updating!";
 
 // Forward declarations
 static void itoa(int value, char* str, int base);
@@ -28,7 +44,13 @@ kstring::kstring(int value)
 
 kstring::kstring(int value, int base)
 {
-  init(12); // Ok to use extra bytes
+  init(12); // It's ok to use extra bytes
+  itoa(value, m_data, base);
+}
+
+kstring::kstring(uint32_t value, int base)
+{
+  init(12); // It's ok to use extra bytes
   itoa(value, m_data, base);
 }
 
@@ -225,7 +247,7 @@ size_t kstring::strLength(const char* str)
   while (*str != '\0')
   {
     str++;
-    ++len;
+    len++;
   }
   return len;
 }
@@ -245,17 +267,27 @@ size_t kstring::length()
 }
 
 
+/* Allocated memory in kernel space for the string.
+ * @param sizeToAllocate Number of bytes in the string, including the
+ * null terminating character.
+ */
 void kstring::init(size_t sizeToAllocate)
 {
+  // TODO: Wrap this in a static method
+  // First, make sure static members are initialized
   if (!kstring::kernelStringMemoryInitialized) 
   {
     if ( (kstring_area_begin != 0) &&
          (kstring_area_end   != 0))
     {
+#ifdef __UNIT_TEST__
+#else
       kstring::kernelStringMemory    = kstring_area_begin;
       kstring::kernelStringMemoryEnd = kstring_area_end;
-      kstring::kernelStringMemoryIndex = 0;
+      kstring::kernelStringMemoryIndex = kstring_area_begin;
+#endif
       kstring::kernelStringMemoryInitialized = true;
+      kstring::kernelStringAllocationError = "ERROR ALLOCATING STRING";
     }
   }
   // Now that the memory is initialized, let's allocate some.
@@ -263,6 +295,7 @@ void kstring::init(size_t sizeToAllocate)
   if (kstring::kernelStringMemoryIndex + sizeToAllocate >= kstring::kernelStringMemoryEnd)
   {
     //TODO: Throw an exception
+    m_data = kstring::kernelStringAllocationError;
   }
   else
   {

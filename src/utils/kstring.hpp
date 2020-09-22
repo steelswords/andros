@@ -4,6 +4,7 @@
 #ifndef __UNIT_TEST__
 #include <stdbool.h>
 #include <stddef.h> //size_t
+#include <stdint.h>
 #endif
 
 #define KSTRING_DEFAULT_SIZE 24
@@ -35,6 +36,9 @@ public:
   /* Construct a string representation of an integer in a given base. */
   kstring(int value, int base);
 
+  /* Construct a string representation of an integer in a given base. */
+  kstring(uint32_t value, int base);
+
   /* Construct a string from an exisiting string. */
   /* len is including the terminating null character */
   kstring(char str[], int len);
@@ -63,9 +67,10 @@ public:
   static bool  trimHexValues;
   static char* kernelStringMemory;
   static char* kernelStringMemoryEnd;
+  static char* kernelStringAllocationError;
+  static char* kernelStringMemoryIndex;
 protected:
   static bool kernelStringMemoryInitialized;
-  static char* kernelStringMemoryIndex;
   
   size_t m_len;
 

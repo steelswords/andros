@@ -111,20 +111,36 @@ void VGATextConsoleScreen::printHex(uint32_t value)
   print(msg.m_data);
 }
 
+//TODO: Rewrite this entire function once the kstrings issue is resolved.
+// It's been rearranged so many times.
 void VGATextConsoleScreen::printlHex(uint64_t value)
 {
   uint32_t highPart, lowPart;
+  bool oldTrimSetting;
+  oldTrimSetting = kstring::trimHexValues;
+  kstring::trimHexValues = false;
   highPart = (uint32_t)((value >> 32) & 0xFFFFFFFF);
   lowPart  = (uint32_t)(value & 0xFFFFFFFF);
+#if 1
+  kstring::trimHexValues = false;
+  printHex(highPart);
+  printHex(lowPart);
+  //putChar('\n');
+#endif
+  kstring::trimHexValues = oldTrimSetting;
 
+  return;
   //Kludge together the high and low words.
   //Remember we need to turn off hex value trimming temporarily.
-  kstring highPartMsg(highPart, 16);
-  bool oldTrimSetting = kstring::trimHexValues;
-  kstring::trimHexValues = false;
+  //kstring highPartMsg(highPart, 16);
+  kstring highPartMsg(lowPart, 16);
+  print(highPartMsg);
+
+  kstring words("Hello");
   kstring lowPartMsg (lowPart,  16);
-  kstring::trimHexValues = oldTrimSetting;
+  print(lowPartMsg);
   print(highPartMsg.m_data);
+  return;
   print((lowPartMsg.m_data + 2)); // Skip '0' and 'x'
 }
 
