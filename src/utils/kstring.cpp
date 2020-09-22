@@ -221,7 +221,7 @@ static void itoa(int value, char* str, int base)
 
 size_t kstring::strLength(const char* str)
 {
-  int len = 0;
+  int len = 1;
   while (*str != '\0')
   {
     str++;
