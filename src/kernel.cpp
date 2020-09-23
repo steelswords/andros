@@ -61,23 +61,27 @@ void kprint_greeting()
   char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
   screen->print(msg1);
 
-  screen->print("\nThis terminal can print numbers too: ");
-  screen->print(14159);
-  screen->print("\n");
+  screen->print("Kstring memory area begin: ");
+  screen->printlHex((uint64_t)kstring_area_begin);
+  screen->print("\nKstring memory area end: ");
+  screen->printlHex((uint64_t)kstring_area_end);
 
+  screen->print("\nMultiboot header: ");
+  screen->printlHex((uint64_t)multiboot_header_ptr);
+  return;
   screen->printHex((uint32_t)0xFEEDC0DE);
 
   kstring kmsg("\nAnd kstrings!\nAddress of this kstring: ");
-  screen->print(kmsg);
   //screen->printlHex((uint64_t)kmsg.m_data);
   kstring kmsg2("\nHere's a second kstring\n");
+  screen->print(kmsg);
   screen->print(kmsg2);
   screen->printlHex((uint64_t)kmsg2.m_data);
   
 
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);
-  screen->print("Multiboot header: ");
+  screen->print("\nMultiboot header: ");
   uint64_t flags = *(uint64_t*)multiboot_header_ptr;
   screen->printlHex(flags);
 

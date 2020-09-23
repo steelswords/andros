@@ -1,12 +1,10 @@
-#include "kstring.hpp"
 #ifdef __UNIT_TEST__
 #include <iostream>
-#include <stdint>
-#include <stddef>
 
 #else
 #include <stddef.h>
 #include <stdint.h>
+#include "kstring.hpp"
 #endif
 
 bool kstring::kernelStringMemoryInitialized = false;
@@ -14,7 +12,7 @@ bool kstring::trimHexValues = true;
 
 #ifdef __UNIT_TEST__
 size_t kstringMemAreaLength = 16384;
-char* kstring::kernelStringMemory = malloc(sizeof(char) * kstringMemAreaLength);
+char* kstring::kernelStringMemory = (char*)malloc(sizeof(char) * kstringMemAreaLength);
 char* kstring::kernelStringMemoryEnd = kstring::kernelStringMemory + kstringMemAreaLength;
 char* kstring::kernelStringMemoryIndex = kstring::kernelStringMemory;
 
@@ -54,14 +52,14 @@ kstring::kstring(uint32_t value, int base)
   itoa(value, m_data, base);
 }
 
-kstring::kstring(char str[])
+kstring::kstring(const char str[])
 {
   m_len = kstring::strLength(str);
   init(m_len);
   kstring::copyString(m_data, str);
 }
 
-kstring::kstring(char str[], int len)
+kstring::kstring(const char str[], const int len)
 {
   init(len);
   kstring::copyString(m_data, str);
@@ -277,18 +275,20 @@ void kstring::init(size_t sizeToAllocate)
   // First, make sure static members are initialized
   if (!kstring::kernelStringMemoryInitialized) 
   {
+#ifdef __UNIT_TEST__
+#else
     if ( (kstring_area_begin != 0) &&
          (kstring_area_end   != 0))
     {
-#ifdef __UNIT_TEST__
-#else
       kstring::kernelStringMemory    = kstring_area_begin;
       kstring::kernelStringMemoryEnd = kstring_area_end;
       kstring::kernelStringMemoryIndex = kstring_area_begin;
 #endif
       kstring::kernelStringMemoryInitialized = true;
       kstring::kernelStringAllocationError = "ERROR ALLOCATING STRING";
+#ifndef __UNIT_TEST__
     }
+#endif
   }
   // Now that the memory is initialized, let's allocate some.
   // End actually points to the next thing. Don't overwrite that.

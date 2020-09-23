@@ -41,10 +41,10 @@ public:
 
   /* Construct a string from an exisiting string. */
   /* len is including the terminating null character */
-  kstring(char str[], int len);
+  kstring(const char str[], const int len);
 
   /* Or if the length is not given, deduce it by looking for a null character */
-  kstring(char str[]);
+  kstring(const char str[]);
 
   /* Static string helper functions */
   static bool isCharDigit(char c);
@@ -69,8 +69,8 @@ public:
   static char* kernelStringMemoryEnd;
   static char* kernelStringAllocationError;
   static char* kernelStringMemoryIndex;
-protected:
   static bool kernelStringMemoryInitialized;
+protected:
   
   size_t m_len;
 

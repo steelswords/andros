@@ -31,8 +31,8 @@ stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
 
-.global kstring_area_begin
 .global kstring_area_end
+.global kstring_area_begin
 .align 4
 kstring_area_end:
 .skip 16384 # 16 KiB. I figure 24 char * 500 strings = 12 KB. Round up.
@@ -45,6 +45,15 @@ The bootloader jumps to this position when the kernel is loaded. */
 .global multiboot_header_ptr
 multiboot_header_ptr:
   .long 0
+
+/*.global kstring_area_begin_ptr
+.global kstring_area_end_ptr
+kstring_area_end_ptr:
+  .long 0
+kstring_area_begin_ptr:
+  .long 0
+*/
+
 .global _start
 .type _start, @function
 _start:
@@ -67,6 +76,13 @@ _start:
 
   /* Set the location of the multiboot info header */
   movl %ebx, multiboot_header_ptr
+
+/*
+  movl $kstring_area_end, %ebx
+  movl %ebx, kstring_area_end_ptr
+  movl $kstring_area_begin, %ebx
+  movl %ebx, kstring_area_begin_ptr
+*/
 
   /* TODO: Initialize the processor more, e.g. floats, load GDT, enable
            paging, etc. */
