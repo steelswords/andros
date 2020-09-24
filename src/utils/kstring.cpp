@@ -9,6 +9,8 @@
 
 bool kstring::kernelStringMemoryInitialized = false;
 bool kstring::trimHexValues = true;
+int kstring::debugVal = 0;
+char* debugLastStringAddr = 0;
 
 #ifdef __UNIT_TEST__
 size_t kstringMemAreaLength = 16384;
@@ -17,9 +19,9 @@ char* kstring::kernelStringMemoryEnd = kstring::kernelStringMemory + kstringMemA
 char* kstring::kernelStringMemoryIndex = kstring::kernelStringMemory;
 
 #else
-char* kstring::kernelStringMemory = kstring_area_begin;
-char* kstring::kernelStringMemoryEnd = kstring_area_end;
-char* kstring::kernelStringMemoryIndex = kstring_area_begin;
+char* kstring::kernelStringMemory = kstring_area_begin_ptr;
+char* kstring::kernelStringMemoryEnd = kstring_area_end_ptr;
+char* kstring::kernelStringMemoryIndex = kstring_area_begin_ptr;
 #endif
 
 char* kstring::kernelStringAllocationError = "ERROR ALLOCATING STRING";
@@ -277,12 +279,12 @@ void kstring::init(size_t sizeToAllocate)
   {
 #ifdef __UNIT_TEST__
 #else
-    if ( (kstring_area_begin != 0) &&
-         (kstring_area_end   != 0))
+    if ( (kstring_area_begin_ptr != 0) &&
+         (kstring_area_end_ptr   != 0))
     {
-      kstring::kernelStringMemory    = kstring_area_begin;
-      kstring::kernelStringMemoryEnd = kstring_area_end;
-      kstring::kernelStringMemoryIndex = kstring_area_begin;
+      kstring::kernelStringMemory    = kstring_area_begin_ptr;
+      kstring::kernelStringMemoryEnd = kstring_area_end_ptr;
+      kstring::kernelStringMemoryIndex = kstring_area_begin_ptr;
 #endif
       kstring::kernelStringMemoryInitialized = true;
       kstring::kernelStringAllocationError = "ERROR ALLOCATING STRING";
@@ -296,12 +298,18 @@ void kstring::init(size_t sizeToAllocate)
   {
     //TODO: Throw an exception
     m_data = kstring::kernelStringAllocationError;
+    debugVal += 0x00000100;
   }
   else
   {
     m_data = kstring::kernelStringMemoryIndex;
     //TODO: Align to something that makes sense
+    char* errorCheck = kstring::kernelStringMemoryIndex;
     kstring::kernelStringMemoryIndex += sizeToAllocate;
+    if (kstring::kernelStringMemoryIndex == errorCheck)
+    {
+      kstring::debugVal = 6;
+    }
     m_len = sizeToAllocate;
     m_data[m_len - 1] = '\0'; //Set terminating null char.
 

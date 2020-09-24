@@ -26,17 +26,19 @@ stack is properly aligned and failure to align the stack will result in
 undefined behavior.
 */
 .section .bss
+.global stack_ptr
+stack_ptr:
+  .long 0
+
 .align 16
 stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
 
-.global kstring_area_end
-.global kstring_area_begin
 .align 4
-kstring_area_end:
-.skip 16384 # 16 KiB. I figure 24 char * 500 strings = 12 KB. Round up.
 kstring_area_begin:
+.skip 16384 # 16 KiB. I figure 24 char * 500 strings = 12 KB. Round up.
+kstring_area_end:
 
 /* The linker designates _start to be the entry point for the kernel.
 The bootloader jumps to this position when the kernel is loaded. */
@@ -46,13 +48,13 @@ The bootloader jumps to this position when the kernel is loaded. */
 multiboot_header_ptr:
   .long 0
 
-/*.global kstring_area_begin_ptr
+.global kstring_area_begin_ptr
 .global kstring_area_end_ptr
 kstring_area_end_ptr:
   .long 0
 kstring_area_begin_ptr:
   .long 0
-*/
+
 
 .global _start
 .type _start, @function
@@ -73,16 +75,15 @@ _start:
   /* Set up the stack. Remember it grows downwards (i.e. esp is decremented 
   when things are popped) */
   mov $stack_top, %esp
+  mov %esp, stack_ptr
 
   /* Set the location of the multiboot info header */
   movl %ebx, multiboot_header_ptr
 
-/*
   movl $kstring_area_end, %ebx
   movl %ebx, kstring_area_end_ptr
   movl $kstring_area_begin, %ebx
   movl %ebx, kstring_area_begin_ptr
-*/
 
   /* TODO: Initialize the processor more, e.g. floats, load GDT, enable
            paging, etc. */

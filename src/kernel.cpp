@@ -51,6 +51,7 @@ void kernel_main(void)
 extern "C" {
   int increment(int i);
 }
+extern "C" void* stack_ptr;
 
 void kprint_greeting()
 {
@@ -62,23 +63,30 @@ void kprint_greeting()
   screen->print(msg1);
 
   screen->print("Kstring memory area begin: ");
-  screen->printlHex((uint64_t)kstring_area_begin);
+  screen->printlHex((uint64_t)kstring_area_begin_ptr);
   screen->print("\nKstring memory area end: ");
-  screen->printlHex((uint64_t)kstring_area_end);
+  screen->printlHex((uint64_t)kstring_area_end_ptr);
 
   screen->print("\nMultiboot header: ");
   screen->printlHex((uint64_t)multiboot_header_ptr);
-  return;
+  screen->print("\nStack begin: ");
+  screen->printlHex((uint64_t)stack_ptr);
   screen->printHex((uint32_t)0xFEEDC0DE);
 
-  kstring kmsg("\nAnd kstrings!\nAddress of this kstring: ");
-  //screen->printlHex((uint64_t)kmsg.m_data);
-  kstring kmsg2("\nHere's a second kstring\n");
-  screen->print(kmsg);
+  screen->print("Soon you will see the address of m_data of a kstring.\n");
+  kstring kmsg("\nI can print kstrings!\nAddress of this kstring: ");
+  screen->printlHex((uint64_t)kmsg.m_data);
+  screen->print("Soon you will see the address of m_data of another kstring.\n");
+  kstring kmsg3("Five");
+  screen->printlHex((uint64_t)kmsg3.m_data);
+  kstring kmsg2("\nHlp pls");
+  kstring kmsg4("\nOk thx bye\n");
   screen->print(kmsg2);
-  screen->printlHex((uint64_t)kmsg2.m_data);
+  screen->print(kmsg4);
+  screen->print("\nDebug Val: ");
+  screen->print(kstring::debugVal);
+  return;
   
-
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);
   screen->print("\nMultiboot header: ");

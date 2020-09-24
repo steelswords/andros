@@ -17,8 +17,8 @@
 
 // Pointers to kernel-space string storage.
 // Set up in boot.s
-extern "C" char* kstring_area_begin;
-extern "C" char* kstring_area_end;
+extern "C" char* kstring_area_begin_ptr;
+extern "C" char* kstring_area_end_ptr;
 
 /* A string class only to be used in the kernel.
  * Thus, most members are public.
@@ -70,6 +70,8 @@ public:
   static char* kernelStringAllocationError;
   static char* kernelStringMemoryIndex;
   static bool kernelStringMemoryInitialized;
+  static int debugVal;
+  static char* debugLastStringAddr;
 protected:
   
   size_t m_len;
