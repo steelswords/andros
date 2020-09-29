@@ -1,6 +1,7 @@
 #include "utils/utils.hpp"
 #include "stdint.h"
 #include "ConsoleScreen.hpp"
+#include "kstring.hpp"
 
 void memdump(ConsoleScreen* screen, void* addr, int length)
 {
@@ -12,12 +13,21 @@ void memdump(ConsoleScreen* screen, void* addr, int length)
   {
     screen->printHex((long)addr + index);
     screen->print(": ");
-    for (int c = 0; c < numCols; ++r)
+    int lastConsoleCol = screen->getColumn();
+    for (int c = 0; c < numCols; ++c)
     {
-      while (index < length)
+      if (index < length)
       {
         screen->printHex(data[index]);
-        screen->print(" ");
+        
+        //If the difference between last column and this column is less than five,
+        //print out spaces until it is.
+        while ((screen->getColumn() - lastConsoleCol) < 5)
+        {
+          screen->putChar(' ');
+        }
+        lastConsoleCol = screen->getColumn();
+
         index++;
       }
     }

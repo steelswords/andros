@@ -10,6 +10,7 @@
 #include "video/ConsoleScreen.hpp"
 //#include "libc/include/stdlib.h"
 #include "utils/kstring.hpp"
+#include "utils/utils.hpp"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
@@ -62,6 +63,7 @@ void kprint_greeting()
   char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
   screen->print(msg1);
 
+#if 0
   uint32_t num32bit = 0x13579B;
   kstring msg32(num32bit, 16);
   screen->print(msg32);
@@ -73,6 +75,7 @@ void kprint_greeting()
 
   screen->print("\nPrinted using printlHex(): ");
   screen->printlHex(num64bit);
+#endif
 
 #if 0
 
@@ -100,13 +103,19 @@ void kprint_greeting()
   screen->print("\nDebug Val: ");
   screen->print(kstring::debugVal);
 #endif
-  return;
   
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);
-  screen->print("\nMultiboot header: ");
-  uint64_t flags = *(uint64_t*)multiboot_header_ptr;
-  screen->printlHex(flags);
+  screen->print("\nMultiboot header flags: ");
+  uint32_t flags = *(uint32_t*)multiboot_header_ptr;
+  screen->printHex(flags);
+  screen->putChar('\n');
+  screen->print("Upper memory available: ");
+  screen->print(mbh.m_upperMemoryAvailable);
+  screen->print(" KB\n");
+
+  screen->print("Hexdump of Multiboot header:\n");
+  memdump(screen, multiboot_header_ptr, 115); 
 
   //mbh.printMemoryTable(screen);
 

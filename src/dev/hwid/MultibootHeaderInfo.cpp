@@ -9,7 +9,7 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
   uint32_t flags = *header;
   
   //If the 0th bit of flags is set, then the memory fields are valid
-  if ( (flags & 0x1) == 1)
+  if ( (flags & 0x1))
   {
     header++;
     m_lowerMemoryAvailable = *header;
@@ -23,7 +23,7 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
 
   // If the 1st bit of flags is set, then we can get information about
   // the boot device. I don't think we care about this right now.
-  if ( (flags & 0x4) == 1)
+  if ( (flags & 0x4))
   { 
     header++;
   }
@@ -32,7 +32,7 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
   }
 
   //If bit 2 of flags is set, then command line is valid
-  if ( (flags & 0x4) == 1)
+  if ( (flags & 0x4))
   {
     m_bootCommand = (char*)*header;
     header++;
@@ -40,7 +40,7 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
 
 
   // If bit 3 of flags is set, then the mods field indicates 
-  if ( (flags & 0x8) == 1)
+  if ( (flags & 0x8))
   {
     header += 2;
   }
@@ -53,7 +53,7 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
   }
 
   //Bit 6: BIOS memory maps
-  if ( (flags & 0x40) == 1)
+  if ( (flags & 0x20))
   {
     m_mbhiMemoryMapLength = *header;
     header++;
@@ -69,8 +69,15 @@ MultibootHeaderInfo::MultibootHeaderInfo(void* multibootHeaderLocation)
 void MultibootHeaderInfo::printMemoryTable(ConsoleScreen* screen)
 {
   MBHIMemoryMapEntry* entry = m_mbhiMemoryMap;
+  screen->print("MBHI @ ");
+  screen->printlHex((uint64_t)this);
+  screen->print("\nMemory Map @ ");
+  screen->printlHex((uint64_t)m_mbhiMemoryMap);
+  screen->print("   Length: ");
+  screen->print(m_mbhiMemoryMapLength);
+
   //Iterate through the entire buffer
-  while(entry < m_mbhiMemoryMap + m_mbhiMemoryMapLength)
+  while((uint64_t)entry < ((uint64_t)m_mbhiMemoryMap + (uint64_t)m_mbhiMemoryMapLength))
   {
     // Computations
     uint64_t baseAddress = ((uint64_t)entry->baseAddressHigh << 32) + (uint64_t)entry->baseAddressLow;
@@ -108,7 +115,7 @@ void MultibootHeaderInfo::printMemoryTable(ConsoleScreen* screen)
     screen->print("\n");
     
     
-    entry += entry->size;
+    entry += 1;
   }
 
 }
