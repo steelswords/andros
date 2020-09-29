@@ -30,6 +30,7 @@ char kstring_index_no_update_error[] = "This index isn't updating!";
 
 // Forward declarations
 static void itoa(int value, char* str, int base);
+static void itoaHex64(uint64_t value, char* str);
 
 kstring::kstring()
 {
@@ -52,6 +53,12 @@ kstring::kstring(uint32_t value, int base)
 {
   init(12); // It's ok to use extra bytes
   itoa(value, m_data, base);
+}
+
+kstring::kstring(uint64_t hexValue)
+{
+  init(2 + 16 + 1);
+  itoaHex64(hexValue, m_data);
 }
 
 kstring::kstring(const char str[])
@@ -151,6 +158,7 @@ int kstring::toInt()
   return (int)value;
 } /* toInt() */
 
+
 static void itoa(int value, char* str, int base)
 {
   char itoaHexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
@@ -239,6 +247,94 @@ static void itoa(int value, char* str, int base)
     }
     str[i] = '\0';
   }
+}
+
+static void itoaHex64(uint64_t value, char* str)
+{
+  const int lengthOf32bitHexString = 2 + 8 + 1;
+  char buf[ lengthOf32bitHexString * 2] = {0};
+  char* highString = &buf[0];
+  char* lowString  = &buf[lengthOf32bitHexString]; 
+
+  uint32_t lowPart = (uint32_t)(value & 0xFFFFFFFF);
+  uint32_t highPart = (uint32_t)((value >> 32) & 0xFFFFFFFF);
+
+  bool oldTrimSetting = kstring::trimHexValues;
+  kstring::trimHexValues = false;
+  itoa(highPart, highString, 16);
+  itoa(lowPart,  lowString , 16);
+  kstring::trimHexValues = oldTrimSetting;
+
+  //Get rid of 0x in front of the strings
+  highString += 2;
+  lowString  += 2;
+
+  int highStringLength = kstring::strLength(highString);
+  int lowStringLength  = kstring::strLength(lowString);
+
+  // Now, loop through the values and assemble the output string.
+  int index = 0;
+  int dstIndex = 0 + 2; // For "0x" to go in front.
+  
+  str[0] = '0';
+  str[1] = 'x';
+
+  //Copy the higher string
+  for(int index = 0; index < highStringLength; ++index)
+  {
+    char curChar = highString[index];
+    if (curChar == '\0') break;
+    str[dstIndex] = curChar;
+    dstIndex++;
+  }
+
+  //Copy the lower string
+  for(int index = 0; index < lowStringLength; ++index)
+  {
+    char curChar = lowString[index];
+    if (curChar == '\0') break;
+    str[dstIndex] = curChar;
+    dstIndex++;
+  }
+
+  //Add terminating null char.
+  str[dstIndex] = '\0';
+  
+#if 0
+  //Now, Loop through the high and low strings until the initial digit is found.
+  //Thenceforth, copy all the high and low strings into str.
+  int index = 0;
+  int destIndex = 0;
+  bool encounteredLeadingDigit = false;
+  while(! encounteredLeadingDigit && index < highStringLength)
+  {
+    encounteredLeadingDigit = (str[index] != '0' );
+    index++;
+  }
+  while (encounteredLeadingDigit && index < highStringLength)
+  {
+    //Copy the high part over
+    str[destIndex] = str[index];
+    destIndex++;
+    index++;
+  }
+  //If we have gotten here and we have not encountered the leading digit, might
+  //as well just return the results of itoa. :shrug:
+  if (!encounteredLeadingDigit)
+  {
+    itoa((uint32_t)(value & 0xFFFFFFFF), str, 16);
+  }
+  else // Otherwise, some of the high string has been copied over
+  {
+    index = 0;
+    for(; index < lowStringLength; ++index)
+    {
+      str[destIndex] = lowString[index];
+      destIndex++;
+    }
+  }
+  str[destIndex] = 0;
+#endif
 }
 
 size_t kstring::strLength(const char* str)

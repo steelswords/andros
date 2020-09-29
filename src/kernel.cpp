@@ -62,6 +62,20 @@ void kprint_greeting()
   char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
   screen->print(msg1);
 
+  uint32_t num32bit = 0x13579B;
+  kstring msg32(num32bit, 16);
+  screen->print(msg32);
+  screen->putChar('\n');
+
+  uint64_t num64bit = 0x1234567890abcdef;
+  kstring msg64(num64bit);
+  screen->print(msg64);
+
+  screen->print("\nPrinted using printlHex(): ");
+  screen->printlHex(num64bit);
+
+#if 0
+
   screen->print("Kstring memory area begin: ");
   screen->printlHex((uint64_t)kstring_area_begin_ptr);
   screen->print("\nKstring memory area end: ");
@@ -85,6 +99,7 @@ void kprint_greeting()
   screen->print(kmsg4);
   screen->print("\nDebug Val: ");
   screen->print(kstring::debugVal);
+#endif
   return;
   
   // Print location of multiboot header

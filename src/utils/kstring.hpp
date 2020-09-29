@@ -39,6 +39,9 @@ public:
   /* Construct a string representation of an integer in a given base. */
   kstring(uint32_t value, int base);
 
+  /* Construct a hex string from a 64 bit value. */
+  kstring(uint64_t hexValue);
+
   /* Construct a string from an exisiting string. */
   /* len is including the terminating null character */
   kstring(const char str[], const int len);

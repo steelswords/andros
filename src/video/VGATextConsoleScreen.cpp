@@ -115,6 +115,51 @@ void VGATextConsoleScreen::printHex(uint32_t value)
 // It's been rearranged so many times.
 void VGATextConsoleScreen::printlHex(uint64_t value)
 {
+  kstring msg(value);
+  print(msg);
+#if 0
+  uint32_t highPart, lowPart;
+  bool oldTrimSetting = kstring::trimHexValues;
+
+  //Split the value
+  highPart = (uint32_t)(value >> 32) & 0xFFFFFFFF;
+  lowPart  = (uint32_t)(value & 0xFFFFFFFF);
+  kstring::trimHexValues = false;
+
+  //Construct the strings
+  kstring highPartString(highPart, 16);
+  kstring lowPartString (lowPart , 16);
+
+  this->print(highPartString);
+  this->print(lowPartString.m_data + 2);
+  
+  kstring::trimHexValues = oldTrimSetting;
+#endif
+
+
+#if 0
+  uint32_t highPart, lowPart;
+  bool oldTrimSetting;
+  oldTrimSetting = kstring::trimHexValues;
+  kstring::trimHexValues = false;
+  highPart = (uint32_t)((value >> 32) & 0xFFFFFFFF);
+  lowPart  = (uint32_t)(value & 0xFFFFFFFF);
+
+  //Kludge together the high and low words.
+  //Remember we need to turn off hex value trimming temporarily.
+  //kstring highPartMsg(highPart, 16);
+  kstring highPartMsg(highPart, 16);
+  kstring lowPartMsg (lowPart,  16);
+  print(highPartMsg.m_data);
+  print(lowPartMsg);
+  //print((lowPartMsg.m_data + 2)); // Skip '0' and 'x'
+
+  //Set trimHexValues to what it was before.
+  //TODO: Needs to be thread safe
+  kstring::trimHexValues = oldTrimSetting;
+  return;
+  
+#if 0
   uint32_t highPart, lowPart;
   bool oldTrimSetting;
   oldTrimSetting = kstring::trimHexValues;
@@ -142,6 +187,8 @@ void VGATextConsoleScreen::printlHex(uint64_t value)
   print(highPartMsg.m_data);
   return;
   print((lowPartMsg.m_data + 2)); // Skip '0' and 'x'
+#endif
+#endif
 }
 
 VGATextConsoleScreen::~VGATextConsoleScreen()
