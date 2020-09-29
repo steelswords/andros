@@ -299,42 +299,6 @@ static void itoaHex64(uint64_t value, char* str)
 
   //Add terminating null char.
   str[dstIndex] = '\0';
-  
-#if 0
-  //Now, Loop through the high and low strings until the initial digit is found.
-  //Thenceforth, copy all the high and low strings into str.
-  int index = 0;
-  int destIndex = 0;
-  bool encounteredLeadingDigit = false;
-  while(! encounteredLeadingDigit && index < highStringLength)
-  {
-    encounteredLeadingDigit = (str[index] != '0' );
-    index++;
-  }
-  while (encounteredLeadingDigit && index < highStringLength)
-  {
-    //Copy the high part over
-    str[destIndex] = str[index];
-    destIndex++;
-    index++;
-  }
-  //If we have gotten here and we have not encountered the leading digit, might
-  //as well just return the results of itoa. :shrug:
-  if (!encounteredLeadingDigit)
-  {
-    itoa((uint32_t)(value & 0xFFFFFFFF), str, 16);
-  }
-  else // Otherwise, some of the high string has been copied over
-  {
-    index = 0;
-    for(; index < lowStringLength; ++index)
-    {
-      str[destIndex] = lowString[index];
-      destIndex++;
-    }
-  }
-  str[destIndex] = 0;
-#endif
 }
 
 size_t kstring::strLength(const char* str)
