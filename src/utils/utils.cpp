@@ -11,7 +11,7 @@ void memdump(ConsoleScreen* screen, void* addr, int length)
   int rows = length / numCols;
   for (int r = 0; r < rows; ++r)
   {
-    screen->printHex((long)addr + index);
+    screen->printHex((uint64_t)addr + index);
     screen->print(": ");
     int lastConsoleCol = screen->getColumn();
     for (int c = 0; c < numCols; ++c)
@@ -32,6 +32,10 @@ void memdump(ConsoleScreen* screen, void* addr, int length)
       }
     }
     screen->putChar('\n');
+  }
+  if (length % numCols) // If there is leftover, print the beginning address part again
+  {
+    screen->printHex((uint64_t)addr + index);
   }
   for (int leftover = 0; leftover < length % numCols; ++leftover)
   {

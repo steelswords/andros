@@ -115,9 +115,9 @@ void kprint_greeting()
   screen->print(" KB\n");
 
   screen->print("Hexdump of Multiboot header:\n");
-  memdump(screen, multiboot_header_ptr, 115); 
+  //memdump(screen, multiboot_header_ptr, 115); 
 
-  //mbh.printMemoryTable(screen);
+  mbh.printMemoryTable(screen);
 
   return;
 }
