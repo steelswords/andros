@@ -49,6 +49,11 @@ public:
   /* Or if the length is not given, deduce it by looking for a null character */
   kstring(const char str[]);
 
+  /* Operators for ease of use */
+  kstring operator+(const kstring& k);
+  bool operator==(const kstring& other);
+  bool operator!=(const kstring& other);
+
   /* Static string helper functions */
   static bool isCharDigit(char c);
   static size_t strLength(const char* str);
@@ -63,7 +68,7 @@ public:
   /* Returns the number of non-null characters from the start
    * of m_data. Does not necessarily return the amount of 
    * memory allocated for this kstring. */
-  size_t length();
+  size_t length() const;
 
   char* m_data;
 

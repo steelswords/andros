@@ -60,7 +60,7 @@ void kprint_greeting()
   screen = &textConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  char msg1[] = "Welcome to AndrOS 0.0.1a\n\0";
+  char msg1[] = "Welcome to AndrOS 0.0.1b\n\0";
   screen->print(msg1);
 
 #if 0

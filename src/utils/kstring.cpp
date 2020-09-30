@@ -321,7 +321,7 @@ void kstring::copyString(char* destination, const char* source)
   }
 }
 
-size_t kstring::length() 
+size_t kstring::length() const
 {
   return kstring::strLength(m_data);
 }
@@ -374,4 +374,36 @@ void kstring::init(size_t sizeToAllocate)
     m_data[m_len - 1] = '\0'; //Set terminating null char.
 
   }
+}
+
+/* Operators */
+bool kstring::operator==(const kstring& other)
+{
+  bool retVal = true;
+  if (other.length() == this->length())
+  {
+    // Loop through each character, checking for correctness.
+    for (int i = 0; i < this->length(); ++i)
+    {
+      if (this->m_data[i] != other.m_data[i]) retVal = false;
+    }
+  }
+  else
+  {
+    retVal = false;
+  }
+  return retVal;
+}
+
+bool kstring::operator!=(const kstring& other)
+{
+  return ! (this->operator==(other));
+}
+
+kstring kstring::operator+(const kstring& other)
+{
+  int totalLength = this->length() + other.length() + 1; //1 for terminating null
+  kstring returnString(this->m_data, totalLength);
+  char* endOfFirstHalf = this->m_data + this->length();
+  kstring::copyString(endOfFirstHalf, other.m_data);
 }
