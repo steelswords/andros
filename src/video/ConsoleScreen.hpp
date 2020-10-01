@@ -79,6 +79,9 @@ public:
   
   /* Writes a 64-bit long hex value at the current position. */
   virtual void printlHex(uint64_t value) = 0;
+
+  /* Writes a newline. This function is for convenience */
+  virtual void nl() = 0;
   
 
 

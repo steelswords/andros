@@ -120,3 +120,8 @@ void VGATextConsoleScreen::printlHex(uint64_t value)
 VGATextConsoleScreen::~VGATextConsoleScreen()
 {
 }
+
+void VGATextConsoleScreen::nl()
+{
+  putChar('\n');
+}
