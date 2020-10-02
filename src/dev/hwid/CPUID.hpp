@@ -3,7 +3,7 @@
 
 struct CPUIDInformation
 {
-  char vendorString[12 + 1];
+  char vendorString[12 + 4] {0};
   
 } __attribute__((packed));
 

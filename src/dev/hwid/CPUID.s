@@ -48,8 +48,8 @@ load_vendor_id:
   movl %eax, (%edi)
   movl %edx, 4(%edi)
   movl %ecx, 8(%edi)
-  movl $0, %ebx
-  movl %ebx, 9(%edi) # Null terminating character
+  movl $0, %eax
+  #movl %eax, 9(%edi) # Null terminating character
   jmp cpuid_quit_ok
 
 cpuid_quit_error:
@@ -65,5 +65,4 @@ cpuid_quit:
   pop %edi
   ret
   
-   
 

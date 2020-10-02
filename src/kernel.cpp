@@ -129,10 +129,12 @@ void kprint_greeting()
   screen->printHex((uint32_t) &cpuidinfo );
 
   int r = identify_cpu(&cpuidinfo);
-  screen->print("CPU Vendor: ");
+  screen->print("CPU Vendor @");
+  screen->printHex((uint32_t)vendorStringPtr);
+  screen->print(":");
   screen->print(cpuidinfo.vendorString);
   screen->nl();
-  return;
+  screen->print((char*)vendorStringPtr);
 
   screen->nl();
   screen->print("Returned ");
