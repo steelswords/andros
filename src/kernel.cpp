@@ -12,6 +12,7 @@
 #include "utils/kstring.hpp"
 #include "utils/utils.hpp"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
+#include "dev/hwid/CPUID.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -106,18 +107,35 @@ void kprint_greeting()
   
   // Print location of multiboot header
   MultibootHeaderInfo mbh(multiboot_header_ptr);
+#if 0
   screen->print("\nMultiboot header flags: ");
   uint32_t flags = *(uint32_t*)multiboot_header_ptr;
   screen->printHex(flags);
   screen->putChar('\n');
+#endif
   screen->print("Upper memory available: ");
   screen->print(mbh.m_upperMemoryAvailable);
   screen->print(" KB\n");
 
-  screen->print("Hexdump of Multiboot header:\n");
+  //screen->print("Hexdump of Multiboot header:\n");
   //memdump(screen, multiboot_header_ptr, 115); 
 
   mbh.printMemoryTable(screen);
+
+  screen->print("CPU Vendor: ");
+
+  CPUIDInformation* cpuid = cpuidinfo;
+  int r = identify_cpu();
+  screen->print(cpuid->vendorString);
+  screen->nl();
+
+  screen->print("cpuinfo:");
+  screen->printHex((uint32_t)cpuid);
+  screen->print("VendorString:");
+  screen->print(*vendorString1);
+  screen->nl();
+  memdump(screen,vendorString1, 32);
+
 
   return;
 }
