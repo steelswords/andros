@@ -7,11 +7,12 @@ struct CPUIDInformation
   
 } __attribute__((packed));
 
-extern "C" CPUIDInformation* cpuidinfo;
+extern "C" 
+{
+  int identify_cpu(CPUIDInformation* cpuidinfo);
+}
 
-extern "C" int identify_cpu();
-
-extern "C" int* vendorString1;
+//extern "C" char* vendorString;
 
 
 #endif

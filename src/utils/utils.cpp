@@ -5,6 +5,10 @@
 
 void memdump(ConsoleScreen* screen, void* addr, int length)
 {
+  screen->print("DUMPING ");
+  screen->printHex((uint32_t)addr);
+  screen->nl();
+
   uint8_t* data = (uint8_t*)addr;
   int index = 0;
   const int numCols = 8;

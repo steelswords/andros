@@ -55,6 +55,8 @@ extern "C" {
 }
 extern "C" void* stack_ptr;
 
+extern "C" char* vendorStringPtr;
+
 void kprint_greeting()
 {
   VGATextConsoleScreen textConsole;
@@ -122,19 +124,21 @@ void kprint_greeting()
 
   mbh.printMemoryTable(screen);
 
-  screen->print("CPU Vendor: ");
-
-  CPUIDInformation* cpuid = cpuidinfo;
-  int r = identify_cpu();
-  screen->print(cpuid->vendorString);
-  screen->nl();
-
+  CPUIDInformation  cpuidinfo;
   screen->print("cpuinfo:");
-  screen->printHex((uint32_t)cpuid);
-  screen->print("VendorString:");
-  screen->print(*vendorString1);
+  screen->printHex((uint32_t) &cpuidinfo );
+
+  int r = identify_cpu(&cpuidinfo);
+  screen->print("CPU Vendor: ");
+  screen->print(cpuidinfo.vendorString);
   screen->nl();
-  memdump(screen,vendorString1, 32);
+  return;
+
+  screen->nl();
+  screen->print("Returned ");
+  screen->printHex(r);
+  screen->nl();
+  memdump(screen, &cpuidinfo, 32);
 
 
   return;

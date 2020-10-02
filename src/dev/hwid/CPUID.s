@@ -1,25 +1,23 @@
 
+.section .bss
+.global vendorStringPtr
+vendorStringPtr: .long 0
+vendorStringData: .asciz "Not Yet Run."
+
 .section .text
-.global vendorString1
-.global cpuidinfo
-cpuidinfo:
-  .long 0xb00;
-vendorString1:
-  .long 12
-vendorString2:
-  .long 34
-vendorString3:
-  .long 56
-vendorStringNullTermination:
-  .byte 0
+
 
 
 .global identify_cpu
 identify_cpu:
-  /* Load the address of the cpuid structure into cpuidinfo */
-  mov $vendorString1, %eax
-  mov %eax, cpuidinfo
+
+  /* Load the address of the CPUIDInformation structure we're loading into. */
+  push %edi
+  movl $vendorStringData, %edi
+  movl %edi, vendorStringPtr
+  movl 8(%esp), %edi # edi = &cpuidinfo
   jmp cpuid_not_supported
+
   /* First we want to check if cpuid is supported. */
   pushfl /* Save EFlags */
   pop %eax
@@ -37,23 +35,35 @@ identify_cpu:
   jnz load_vendor_id 
 
 cpuid_not_supported:
-  movl $0x4e6f4350, %ebx
+  movl $0x4e6f4350, %eax
   movl $0x55494420, %edx
   movl $0x3a272820, %ecx
+/*
+  movl $0x54545454, %eax
+  movl $0x54545454, %edx
+  movl $0x54545454, %ecx
+  */
 
 load_vendor_id:
-  movl %ebx, vendorString1
-  movl %ecx, vendorString3
-  movl %edx, vendorString2
+  movl %eax, (%edi)
+  movl %edx, 4(%edi)
+  movl %ecx, 8(%edi)
+  movl $0, %ebx
+  movl %ebx, 9(%edi) # Null terminating character
   jmp cpuid_quit_ok
 
 cpuid_quit_error:
-  mov $1, %eax
-  ret
+  mov $-1, %eax
+  jmp cpuid_quit
 
 cpuid_quit_ok:
-  #mov $5, %eax
-  ret
+  mov $0, %eax
+  mov %edi, %eax
+  jmp cpuid_quit
 
+cpuid_quit:
+  pop %edi
+  ret
+  
    
 
