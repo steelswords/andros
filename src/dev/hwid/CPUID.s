@@ -6,7 +6,7 @@ vendorStringData: .asciz "Not Yet Run."
 
 .section .text
 
-
+#.include "src/utils/byteswap.inc"
 
 .global identify_cpu
 identify_cpu:
@@ -45,6 +45,8 @@ cpuid_not_supported:
   */
 
 load_vendor_id:
+  #push %edx
+  #call byteswap32
   movl %eax, (%edi)
   movl %edx, 4(%edi)
   movl %ecx, 8(%edi)

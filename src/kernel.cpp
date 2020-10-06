@@ -57,6 +57,10 @@ extern "C" void* stack_ptr;
 
 extern "C" char* vendorStringPtr;
 
+extern "C" {
+  int byteswap32(uint32_t value);
+}
+
 void kprint_greeting()
 {
   VGATextConsoleScreen textConsole;
@@ -140,8 +144,11 @@ void kprint_greeting()
   screen->print("Returned ");
   screen->printHex(r);
   screen->nl();
-  memdump(screen, &cpuidinfo, 32);
-
+#if 0
+  screen->print("0x12345678 swapped is ");
+  uint32_t swapped = byteswap32(0x12345678);
+  screen->printHex(swapped);
+#endif
 
   return;
 }
