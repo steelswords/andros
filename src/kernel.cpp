@@ -57,10 +57,6 @@ extern "C" void* stack_ptr;
 
 extern "C" char* vendorStringPtr;
 
-extern "C" {
-  int byteswap32(uint32_t value);
-}
-
 void kprint_greeting()
 {
   VGATextConsoleScreen textConsole;
@@ -132,7 +128,7 @@ void kprint_greeting()
   screen->print("cpuinfo:");
   screen->printHex((uint32_t) &cpuidinfo );
 
-  int r = identify_cpu(&cpuidinfo);
+  int r = identifyCPU(&cpuidinfo);
   screen->print("CPU Vendor @");
   screen->printHex((uint32_t)vendorStringPtr);
   screen->print(":");

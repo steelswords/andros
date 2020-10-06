@@ -68,6 +68,3 @@ byteswap32:
   orl  %ecx, %eax
 
   ret
-    
-
-#TODO
