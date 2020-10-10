@@ -15,9 +15,9 @@ class MemoryManager
 {
 public:
   MemoryManager();
-  void initGDT(void* location, uint16_t size);
-  const int m_maximumGDTEntries {NUM_GDT_ENTRIES};
-  GDTEntry GDTEntries[m_maximumGDTEntries] {0};
+  void initGDT();
+  int m_numberGDTEntries {NUM_GDT_ENTRIES};
+  GDTEntry GDTEntries[NUM_GDT_ENTRIES];
   uint8_t GDTBuffer[GDT_MEMORY_SIZE_BYTES] {0};
   
   /* Loads the GDTEntries from GDTEntries to gdtBuffer */

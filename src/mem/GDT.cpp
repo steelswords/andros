@@ -35,7 +35,6 @@ void GDTEntry::encodeInMemory(uint8_t* destination)
 
   //Encode access
   destination[5] = access;
-
 }
 
 void GDTEntry::decodeFromMemory(uint8_t* source)
@@ -51,5 +50,4 @@ void GDTEntry::decodeFromMemory(uint8_t* source)
 
   // Get access
   access = source[5];
-  
 }

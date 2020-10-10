@@ -11,10 +11,19 @@ _loadGDT:
   movl 4(%esp), %eax
   movl $gdtr, %edx
   movl %eax, 2(%edx)
-  movw 6(%esp), %ax
+  movl 8(%esp), %eax
   movw %ax, (%edx)
-  lgdt (%edx)
+  lgdt gdtr
+  ljmp $0x08, $loadSegmentRegisters
+
+loadSegmentRegisters:
+  mov $0x10, %eax
+  mov %ax, %ds
+  mov %ax, %es
+  mov %ax, %fs
+  mov %ax, %gs
+  mov %ax, %ss
   sti
   ret
 
-  
+

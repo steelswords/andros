@@ -13,6 +13,7 @@
 #include "utils/utils.hpp"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
 #include "dev/hwid/CPUID.hpp"
+#include "mem/MemoryManager.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -145,6 +146,12 @@ void kprint_greeting()
   uint32_t swapped = byteswap32(0x12345678);
   screen->printHex(swapped);
 #endif
+
+  screen->print("Initializing GDT...");
+  MemoryManager mman;
+  mman.initGDT();
+
+  screen->print("Done.");
 
   return;
 }
