@@ -2,6 +2,7 @@
 #define _ANDROS_MEMORY_MANAGER_HPP
 
 #include "stdint.h"
+#include "stddef.h"
 #include "mem/GDT.hpp"
 
 //TODO: Make a vector/linked list class
@@ -13,6 +14,13 @@
 
 class MemoryManager
 {
+protected:
+  static MemoryManager* m_singleton;
+  void* m_heapStart;
+  void* m_heapEnd;
+  void* m_heapCur;
+
+
 public:
   MemoryManager();
   void initGDT();
@@ -22,7 +30,11 @@ public:
   
   /* Loads the GDTEntries from GDTEntries to gdtBuffer */
   void loadGDTEntries(); 
-protected:
+
+  static MemoryManager* getSingleton() { return m_singleton; }
+
+  /* Allocates a chunk of memory */
+  void* allocate(size_t size);
 };
 
 struct GDTPointer
@@ -31,6 +43,8 @@ struct GDTPointer
   uint32_t address;
 } __attribute__((packed));
 
-//extern "C" void _loadGDT(void* GDTLocation, uint16_t size);
 extern "C" void _loadGDT(GDTPointer* gdtpointer);
+
+void* malloc(size_t size);
+
 #endif

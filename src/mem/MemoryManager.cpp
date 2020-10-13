@@ -2,9 +2,18 @@
 #include "mem/GDT.hpp"
 #include "stdint.h"
 
+MemoryManager* MemoryManager::m_singleton = nullptr;
 
 MemoryManager::MemoryManager()
 {
+  if (m_singleton != nullptr)
+  {
+    MemoryManager::m_singleton = this;
+  }
+  else
+  {
+    //TODO: Throw an error.
+  }
 }
 
 void MemoryManager::initGDT()
@@ -58,4 +67,12 @@ void MemoryManager::loadGDTEntries()
     offset = i * GDT_ENTRY_SIZE_IN_MEMORY; // 8 bytes/GDTEntry in memory
     GDTEntries[i].encodeInMemory(&GDTBuffer[offset]);
   }
+}
+
+void* MemoryManager::allocate(size_t size)
+{
+  //This is currently a watermark allocater. No deallocation here.
+  void* returnAddress = m_heapCur;
+  m_heapCur = (void*)((uint32_t)m_heapCur + size);
+  return returnAddress;
 }
