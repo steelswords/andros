@@ -25,7 +25,12 @@ public:
 protected:
 };
 
+struct GDTPointer
+{
+  uint16_t size;
+  uint32_t address;
+} __attribute__((packed));
 
-extern "C" void _loadGDT(void* GDTLocation, uint16_t size);
-
+//extern "C" void _loadGDT(void* GDTLocation, uint16_t size);
+extern "C" void _loadGDT(GDTPointer* gdtpointer);
 #endif

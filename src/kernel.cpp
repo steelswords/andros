@@ -151,6 +151,13 @@ void kprint_greeting()
   MemoryManager mman;
   mman.initGDT();
 
+  memdump(screen, &mman.GDTBuffer[0], mman.m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
+
+  screen->nl();
+  screen->printHex((uint32_t)mman.GDTBuffer);
+  screen->print("\nSize:");
+  screen->print(mman.m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
+
   screen->print("Done.");
 
   return;

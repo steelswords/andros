@@ -5,18 +5,26 @@
 // This code is modified from OSDev's Wiki: https://wiki.osdev.org/GDT_Tutorial
 void GDTEntry::encodeInMemory(uint8_t* destination)
 {
+
   if ((limit > 65536) && ((limit & 0xFFFF) != 0xFFFF))
   {
     //TODO: Raise error.
   }
-  if (limit > 65536)
+
+  //Check if we're encoding the null descriptor first.
+  if (limit > 65536 && access != 0)
   {
     limit = limit >> 12;
     destination[6] = 0xC0; //TODO: Why?
   }
-  else
+  else if (access != 0) // Not a null descriptor
   {
     destination[6] = 0x40; //TODO: Why?
+  }
+  else // Null descriptor
+  {
+    // Flags part of byte 6 gets 0.
+    destination[6] = 0;
   }
 
   // Encode the limit

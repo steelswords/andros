@@ -40,14 +40,20 @@ void MemoryManager::initGDT()
   loadGDTEntries();
 
   // call assembly routine to load GDT again.
-  _loadGDT(&GDTBuffer[0], m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
+#if 0
+  //_loadGDT(&GDTBuffer[0], m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
+  GDTPointer gdt;
+  gdt.size = m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY;
+  gdt.address = (uint32_t)GDTBuffer;
+  _loadGDT(&gdt);
+#endif
   
 }
 
 void MemoryManager::loadGDTEntries()
 {
   int offset = 0;
-  for(int i = 0; i < m_numberGDTEntries; ++i)
+  for(int i = 1; i < m_numberGDTEntries; ++i)
   {
     offset = i * GDT_ENTRY_SIZE_IN_MEMORY; // 8 bytes/GDTEntry in memory
     GDTEntries[i].encodeInMemory(&GDTBuffer[offset]);

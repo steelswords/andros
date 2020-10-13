@@ -9,11 +9,7 @@ gdtr:
 _loadGDT:
   cli
   movl 4(%esp), %eax
-  movl $gdtr, %edx
-  movl %eax, 2(%edx)
-  movl 8(%esp), %eax
-  movw %ax, (%edx)
-  lgdt gdtr
+  lgdt (%eax)
   ljmp $0x08, $loadSegmentRegisters
 
 loadSegmentRegisters:
@@ -25,5 +21,3 @@ loadSegmentRegisters:
   mov %ax, %ss
   sti
   ret
-
-
