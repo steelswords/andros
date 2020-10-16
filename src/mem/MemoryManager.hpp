@@ -19,6 +19,7 @@ protected:
   void* m_heapStart;
   void* m_heapEnd;
   void* m_heapCur;
+  friend class System;
 
 
 public:
