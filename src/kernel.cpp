@@ -16,23 +16,17 @@
 #include "mem/MemoryManager.hpp"
 #include "System.hpp"
 #include "boot.hpp"
+#include "mem/memory.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
  
-/* This tutorial will only work for the 32-bit ix86 targets. */
+/* This kernel will only work for the 32-bit ix86 targets. */
 #if !defined(__i386__)
-#error "This tutorial needs to be compiled with a ix86-elf compiler"
+#error "This kernel needs to be compiled with a ix86-elf compiler"
 #endif
-
-// Dummy delete operator so I can have objects.
-// G++ generates a call to this operator when compiling the destructors.
-// Eventually this will be implemented fully.
-void operator delete(void * target)
-{
-}
 
 /* This loop is never used, but is needed to compile without
  * optimizations. */
@@ -43,6 +37,12 @@ ConsoleScreen* screen;
 System* system;
 
 void kprint_greeting();
+
+struct testStruct
+{
+  uint32_t a;
+  uint32_t b;
+};
  
 extern "C" 
 {
@@ -53,7 +53,9 @@ void kernel_main(void)
   sys.init();
   screen = sys.screen;
 
+
   //kprint_greeting();
+  
   while (1) ;
 }
 }

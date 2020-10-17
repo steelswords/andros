@@ -47,6 +47,4 @@ struct GDTPointer
 
 extern "C" void _loadGDT(GDTPointer* gdtpointer);
 
-void* malloc(size_t size);
-
 #endif

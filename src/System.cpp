@@ -2,6 +2,7 @@
 #include "dev/hwid/MultibootHeaderInfo.hpp"
 #include <stdint.h>
 #include "boot.hpp"
+#include "memory.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -20,7 +21,7 @@ void System::initConsole()
   screen = &vgaTextConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  screen->print("Welcome to AndrOS 0.0.1b\n\0");
+  screen->print("Welcome to AndrOS 0.0.1c\n\0");
 }
 
 void System::findBiggestChunkOfMemory(void*& begin, void*& end)
@@ -57,12 +58,14 @@ void System::findBiggestChunkOfMemory(void*& begin, void*& end)
   end   = (void*)contenderEnd;
 }
 
+#define DEBUG_PRINTOUTS
 void System::initMemoryManager()
 {
   kernelStackEnd = stack_ptr;
   kernelStackBegin = (void*)((uint32_t)(stack_ptr) - 16384);
 
   findBiggestChunkOfMemory(kernelHeapBegin, kernelHeapEnd);
+#ifdef DEBUG_PRINTOUTS
   screen->print("Printing MBH info:\n");
   mbhi.printMemoryTable(screen);
   screen->nl();
@@ -71,6 +74,7 @@ void System::initMemoryManager()
   screen->print(" to ");
   screen->printlHex((uint64_t)kernelHeapEnd);
   screen->nl();
+#endif
 
   
   memoryManager.initGDT();
@@ -79,6 +83,7 @@ void System::initMemoryManager()
   memoryManager.m_heapEnd   = kernelHeapEnd;
   memoryManager.m_heapCur   = kernelHeapBegin;
 
+#ifdef DEBUG_PRINTOUTS
   screen->print("Size of a size_t:");
   screen->print(sizeof(size_t));
   screen->nl();
@@ -86,11 +91,14 @@ void System::initMemoryManager()
   screen->print("[DEBUG] Allocator currently points to: ");
   screen->printlHex((uint64_t)memoryManager.m_heapCur);
   screen->nl();
+#endif
   uint32_t* pInt1 = (uint32_t*)malloc(sizeof(uint32_t));
-  screen->print("[DEBUG] Allocated a pointer to a 4 byte structure.");
+#ifdef DEBUG_PRINTOUTS
+  screen->print("[DEBUG] Allocated a pointer to a 4 byte structure.\n");
   screen->print("[DEBUG] Allocator currently points to: ");
   screen->printHex((uint32_t)memoryManager.m_heapCur);
   screen->nl();
+#endif
 
   uint32_t* pInt2 = (uint32_t*)malloc(sizeof(uint32_t));
 
@@ -101,13 +109,38 @@ void System::initMemoryManager()
     screen->print("ERROR! Allocator overlapping memory!");
     screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   }
+
+#ifdef DEBUG_PRINTOUTS
+  screen->print("[DEBUG] Allocated a pointer to a 4 byte structure.\n");
   screen->print("[DEBUG] Allocator currently points to: ");
   screen->printHex((uint32_t)memoryManager.m_heapCur);
-#if 1
+  screen->nl();
   screen->print("Allocated two 32-bit pointers: ");
   screen->printHex((uint32_t)pInt1);
   screen->print(" and ");
   screen->printHex((uint32_t)pInt2);
+  screen->nl();
+#endif
+
+  //Test new operator
+  GDTEntry* testEntry = new GDTEntry();
+#ifdef DEBUG_PRINTOUTS
+  screen->print("[DEBUG] Allocated a pointer to a ");
+  screen->printHex(sizeof(GDTEntry));
+  screen->print(" byte structure with new operator.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)memoryManager.m_heapCur);
+  screen->nl();
+#endif
+
+  GDTEntry* testEntry2 = new GDTEntry();
+#ifdef DEBUG_PRINTOUTS
+  screen->print("[DEBUG] Allocated a pointer to a ");
+  screen->printHex(sizeof(GDTEntry));
+  screen->print(" byte structure with new operator.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)memoryManager.m_heapCur);
+  screen->nl();
 #endif
   
 }
