@@ -23,6 +23,7 @@ private: // Only called during construction.
   void initMemoryManager();
   void initConsole();
   void initInterrupts();
+  void findBiggestChunkOfMemory(void*& begin, void*& end);
 
 protected:
   void* kernelHeapBegin;

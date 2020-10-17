@@ -19,6 +19,7 @@ protected:
   void* m_heapStart;
   void* m_heapEnd;
   void* m_heapCur;
+  uint32_t m_dummy;
   friend class System;
 
 

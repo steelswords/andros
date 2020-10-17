@@ -5,8 +5,11 @@
 MemoryManager* MemoryManager::m_singleton = nullptr;
 
 MemoryManager::MemoryManager()
+  : m_heapStart(&m_dummy),
+    m_heapEnd(&m_dummy),
+    m_heapCur(&m_dummy)
 {
-  if (m_singleton != nullptr)
+  if (m_singleton == nullptr)
   {
     MemoryManager::m_singleton = this;
   }
@@ -73,6 +76,6 @@ void* MemoryManager::allocate(size_t size)
 {
   //This is currently a watermark allocater. No deallocation here.
   void* returnAddress = m_heapCur;
-  m_heapCur = (void*)((uint32_t)m_heapCur + size);
+  m_heapCur = (void*)(((uint64_t)m_heapCur) + size);
   return returnAddress;
 }
