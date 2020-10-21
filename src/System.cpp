@@ -145,7 +145,14 @@ void System::initMemoryManager()
   
 }
 
+#if 0
+__attribute__((interrupt))
+void handler(InterruptFrame* frame)
+#endif
+
 void System::initInterrupts()
 {
   //TODO
+  
+    
 }

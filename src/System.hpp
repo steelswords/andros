@@ -4,6 +4,7 @@
 #include "dev/hwid/MultibootHeaderInfo.hpp"
 #include "video/VGATextConsoleScreen.hpp"
 #include "mem/MemoryManager.hpp"
+#include "dev/interrupts.hpp"
 
 class System
 {
@@ -11,6 +12,7 @@ public:
   MemoryManager memoryManager;
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
+  //IDT idt;
 
   /* Constructors */
   System();
