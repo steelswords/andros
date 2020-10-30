@@ -1,6 +1,7 @@
 #ifndef _ANDROS_SYSTEM_HPP_
 #define _ANDROS_SYSTEM_HPP_
 
+#include "dev/hwid/CPUID.hpp"
 #include "dev/hwid/MultibootHeaderInfo.hpp"
 #include "video/VGATextConsoleScreen.hpp"
 #include "mem/MemoryManager.hpp"
@@ -13,6 +14,9 @@ public:
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
   //IDT idt;
+
+
+  CPUInformation* cpuInfo;
 
   /* Constructors */
   System();

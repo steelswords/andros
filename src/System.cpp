@@ -13,6 +13,7 @@ void System::init()
 {
   initConsole();
   initMemoryManager();
+  cpuInfo = new CPUInformation();
   initInterrupts();
 }
 
@@ -58,7 +59,7 @@ void System::findBiggestChunkOfMemory(void*& begin, void*& end)
   end   = (void*)contenderEnd;
 }
 
-#define DEBUG_PRINTOUTS
+//#define DEBUG_PRINTOUTS
 void System::initMemoryManager()
 {
   kernelStackEnd = stack_ptr;

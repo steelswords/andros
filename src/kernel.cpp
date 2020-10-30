@@ -54,6 +54,8 @@ void kernel_main(void)
   screen = sys.screen;
 
 
+  system->cpuInfo->print(screen);
+
   //kprint_greeting();
   
   while (1) ;
