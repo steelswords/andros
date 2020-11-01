@@ -63,3 +63,25 @@ what space has been already allocated. At this point, there will be no
 deallocation.
 
 This is the first memory management-related thing I will have done.
+
+##1 Nov 2020
+Well, it's been a while since I've updated this log. Since September I have
+gotten a rudimentary kernel heap going and started to work on interrupts.
+
+Man, this is a mess.
+
+The modern way to do interrupts is to go through an advanced programmable interrupt
+controller. This APIC replaces the old Intel 8259 programmable interrupt controller (PIC)
+but it comes with a bunch of documenation. I eventually decided I couldn't wade through 
+all that documentation and still make any sort of project deadlines, so just like choosing
+32 bit over 64 bit architecture at this point, we're stuck with the legacy hardware
+implementation until I get more time to work on this (if that will ever happen).
+
+But just now another setback has occurred. Remember how I was using an older version of 
+the GCC cross compiler I need because it was already compiled and ready for me to use?
+Well, it turns out that the __attribute__((interrupt)) function attribute isn't available
+until three whole major versions later. Smh. Rather than trying to reinvent my whole toolchain,
+I'm just going to proceed with the older version and use assembly wrappers around my interrupts,
+I think.
+
+

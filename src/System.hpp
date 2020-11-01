@@ -13,7 +13,7 @@ public:
   MemoryManager memoryManager;
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
-  //IDT idt;
+  IDT idt;
 
 
   CPUInformation* cpuInfo;

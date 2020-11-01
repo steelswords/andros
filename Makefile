@@ -17,7 +17,7 @@ INC        = $(patsubst src/%.hpp, %.hpp, $(SDIRS)) $(patsubst src/%.h, %.h, $(S
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
 FLAGS= -fno-exceptions -ffreestanding -O2 -Wall -Wextra -nostdlib
-CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11
+CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11 -mno-red-zone -mgeneral-regs-only
 
 CROSS_COMPILER_DIR = "/opt/cross/bin"
 

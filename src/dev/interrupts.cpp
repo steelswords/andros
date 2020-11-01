@@ -1,10 +1,13 @@
 #include "stdint.h"
 #include "interrupts.hpp"
 
+int IDT::interruptReturnCode = 2;
+
 __attribute__((interrupt))
 void defaultInterruptHandler(InterruptFrame* frame)
 {
   //TODO: Maybe conditionally print something to the screen?
+  IDT::interruptReturnCode = 26; // Just something so we know it is called.
 }
 
 
@@ -20,14 +23,15 @@ IDT::IDT()
     m_gates[i].segmentSelector = interruptSegmentSelector;
     m_gates[i].attributes = IA32_UNUSED_INTERRUPT_GATE;
   }
+  IDT::interruptReturnCode = 32;
 }
 
-void IDT::load()
+void IDT::writeToMemory()
 {
   IDTPointer pointer;
   pointer.size = 256 * sizeof(IDTGate);
   pointer.offset = (uint32_t) &m_gates[0];
-  //_loadIDT(&pointer);
+  _loadIDT(&pointer);
 }
 
 void IDT::registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame))
@@ -40,6 +44,6 @@ void IDT::registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame*
   m_gates[interrupt].segmentSelector = interruptSegmentSelector;
   m_gates[interrupt].attributes = IA32_UNUSED_INTERRUPT_GATE;
 
-  load();
+  writeToMemory();
   
 }

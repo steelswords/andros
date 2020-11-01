@@ -153,7 +153,19 @@ void handler(InterruptFrame* frame)
 
 void System::initInterrupts()
 {
-  //TODO
-  
+  //Initialize IDT (Already done in the constructor for IDT)
+  idt.writeToMemory();
+
+  screen->print("\ninterruptReturnCode: ");
+  screen->print(IDT::interruptReturnCode);
+  screen->print(". Now testing ISR...\n");
+
+  //Check that interruptReturnCode is 32 to begin with. 
+  testInterrupts();
+
+  screen->print("interruptReturnCode: ");
+  screen->print(IDT::interruptReturnCode);
+
+  screen->print("Done.");
     
 }

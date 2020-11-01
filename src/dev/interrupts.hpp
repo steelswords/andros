@@ -50,11 +50,12 @@ class IDT
 public:
   IDT();
   IDTGate* m_gates;
-  void load();
+  void writeToMemory();
   void registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame));
-  
+  static int interruptReturnCode;
 };
 
 extern "C" void _loadIDT(IDTPointer* pointer);
+extern "C" void testInterrupts(void);
 
 #endif
