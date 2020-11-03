@@ -3,7 +3,7 @@
 
 int IDT::interruptReturnCode = 2;
 
-__attribute__((interrupt))
+//__attribute__((interrupt))
 void defaultInterruptHandler(InterruptFrame* frame)
 {
   //TODO: Maybe conditionally print something to the screen?
