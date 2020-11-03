@@ -1,5 +1,5 @@
 
-.section .bss
+.section .data
 .global vendorStringPtr
 vendorStringPtr: .long 0
 vendorStringData: .asciz "Not Yet Run."

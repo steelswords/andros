@@ -52,10 +52,12 @@ public:
   IDTGate* m_gates;
   void writeToMemory();
   void registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame));
-  static int interruptReturnCode;
 };
 
 extern "C" void _loadIDT(IDTPointer* pointer);
 extern "C" void testInterrupts(void);
+
+extern "C" void isr_wrapper(void);
+extern "C" int isrReturnValue;
 
 #endif
