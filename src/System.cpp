@@ -14,7 +14,7 @@ void System::init()
   initConsole();
   initMemoryManager();
   cpuInfo = new CPUInformation();
-  initInterrupts();
+  //initInterrupts();
 }
 
 void System::initConsole()
