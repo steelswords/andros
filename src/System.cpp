@@ -12,8 +12,8 @@ System::System()
 void System::init()
 {
   initConsole();
-  initMemoryManager();
-  cpuInfo = new CPUInformation();
+  //initMemoryManager();
+  //cpuInfo = new CPUInformation();
   //initInterrupts();
 }
 
@@ -23,6 +23,13 @@ void System::initConsole()
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
   screen->print("Welcome to AndrOS 0.0.1c\n\0");
+  screen->print("Welcome to AndrOS 0.0.1c\n\0");
+  screen->print("Is there a problem here?\n");
+  screen->print("No, seriously. Is there?\n");
+  screen->print("Cause I kinda need to know.\n");
+  screen->print("Can I at least print a number? ");
+  screen->print(33);
+  screen->print(" Maybe...");
 }
 
 void System::findBiggestChunkOfMemory(void*& begin, void*& end)

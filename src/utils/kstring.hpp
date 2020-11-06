@@ -10,6 +10,8 @@
 #define KSTRING_DEFAULT_SIZE 24
 #define KSTRING_MAX_SIZE 
 
+#define KSTRING_ALLOCATION_ERROR 0x100
+
 //TODO: + operator
 //TODO: Copy constructor
 //TODO: equality checking

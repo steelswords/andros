@@ -46,6 +46,9 @@ kstring::kstring(int value)
 kstring::kstring(int value, int base)
 {
   init(12); // It's ok to use extra bytes
+  m_data[0] = 'i';
+  m_data[1] = 'f';
+  m_data[2] = '\0';
   itoa(value, m_data, base);
 }
 
@@ -358,7 +361,8 @@ void kstring::init(size_t sizeToAllocate)
   {
     //TODO: Throw an exception
     m_data = kstring::kernelStringAllocationError;
-    debugVal += 0x00000100;
+    debugVal += KSTRING_ALLOCATION_ERROR;
+    return;
   }
   else
   {
