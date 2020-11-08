@@ -13,7 +13,7 @@ IDT::IDT()
   m_gates = new IDTGate[256];
   for (int i = 0; i < 256; ++i)
   {
-    uint32_t offset = (uint32_t) &defaultInterruptHandler;
+    uint32_t offset = (uint32_t) &defaultISR;
     m_gates[i].offsetLow = (uint16_t)(offset & 0xFFFF);
     m_gates[i].offsetHigh = (uint16_t)((offset >> 16) & 0xFFFF);
     const int interruptSegmentSelector = 0x8;
@@ -24,10 +24,13 @@ IDT::IDT()
 
 void IDT::load()
 {
+	//lidt(&m_gates[0], 256 * sizeof(IDTGate));
+#if 0
   IDTPointer pointer;
   pointer.size = 256 * sizeof(IDTGate);
   pointer.offset = (uint32_t) &m_gates[0];
   //_loadIDT(&pointer);
+#endif
 }
 
 void IDT::registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame))

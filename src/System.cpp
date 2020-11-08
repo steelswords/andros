@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "boot.hpp"
 #include "memory.hpp"
+#include "interrupts.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -59,14 +60,15 @@ void System::findBiggestChunkOfMemory(void*& begin, void*& end)
   end   = (void*)contenderEnd;
 }
 
-#define DEBUG_PRINTOUTS
+//#define DEBUG_PRINTOUTS
+#define DEBUG_MEMORY_MAP
 void System::initMemoryManager()
 {
   kernelStackEnd = stack_ptr;
   kernelStackBegin = (void*)((uint32_t)(stack_ptr) - 16384);
 
   findBiggestChunkOfMemory(kernelHeapBegin, kernelHeapEnd);
-#ifdef DEBUG_PRINTOUTS
+#ifdef DEBUG_MEMORY_MAP
   screen->print("Printing MBH info:\n");
   mbhi.printMemoryTable(screen);
   screen->nl();
@@ -154,7 +156,15 @@ void handler(InterruptFrame* frame)
 void System::initInterrupts()
 {
   //TODO
-  
+  screen->print("Interrupt Return Value: "); 
+  screen->print(interruptReturnValue);
+  screen->nl();
+
+  screen->print("Now changing Interrupt Return Value: "); 
+  //changeIRV();
+  interruptReturnValue = 46;
+  screen->print(interruptReturnValue);
+  screen->nl();
   
     
 }
