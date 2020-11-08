@@ -23,3 +23,4 @@ echo "Taking screenshot; Say cheese!"
 import -window QEMU "$screenshotFile"
 
 cd "$currentDir"
+killall qemu-system-x86_64
