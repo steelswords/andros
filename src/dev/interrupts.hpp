@@ -70,5 +70,6 @@ extern "C" void _loadIDT(IDTPointer* pointer);
 
 extern "C" int interruptReturnValue;
 extern "C" void defaultISR();
+extern "C" void testInterrupts();
 
 #endif

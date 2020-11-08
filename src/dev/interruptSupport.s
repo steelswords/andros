@@ -16,3 +16,8 @@ defaultISR:
   iret
   
   
+.global testInterrupts
+testInterrupts:
+  int $0x35
+  ret
+

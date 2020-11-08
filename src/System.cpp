@@ -153,9 +153,8 @@ __attribute__((interrupt))
 void handler(InterruptFrame* frame)
 #endif
 
-void System::initInterrupts()
+void testInterruptSystem(ConsoleScreen* screen)
 {
-  //TODO
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);
   screen->nl();
@@ -165,6 +164,19 @@ void System::initInterrupts()
   interruptReturnValue = 46;
   screen->print(interruptReturnValue);
   screen->nl();
-  
+
+  screen->print("Attempting to load IDT...");
+
+  //Not yet.
+  //screen->print("Calling test interrupt... ");
+  //testInterrupts();
+ 
+}
+
+void System::initInterrupts()
+{
+  //TODO
+  testInterruptSystem(screen);
+ 
     
 }
