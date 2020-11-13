@@ -15,6 +15,7 @@ screenshotFile="${projectRoot}/screenshots/automatic/${currentRevision}.png"
 echo "$screenshotFile"
 echo "Compiling code...."
 
+make clean
 make
 make test &
 sleep 4

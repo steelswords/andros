@@ -2,7 +2,6 @@
 #define _ANDROS_INTERRUPTS_HPP_
 
 #include "stdint.h"
-#include "memory.hpp"
 
 /* From the OSDev Wiki:
  *     7                           0
@@ -20,6 +19,7 @@
 #define IA32_INTERRUPT_GATE 0x8E
 #define IA32_UNUSED_INTERRUPT_GATE 0x0E
 
+#define NUM_IDT_GATES 256
 
 struct IDTGate
 {
@@ -49,8 +49,10 @@ class IDT
 {
 public:
   IDT();
+  //IDTGate m_gates[NUM_IDT_GATES];
   IDTGate* m_gates;
-  void load();
+  void init(); // Loads default ISR into all the gates
+  void load(); // loads the IDT into memory and calls lidt
   void registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame));
   
 };

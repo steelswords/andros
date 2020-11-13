@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "boot.hpp"
 #include "memory.hpp"
-#include "interrupts.hpp"
+#include "dev/interrupts.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -165,17 +165,34 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print(interruptReturnValue);
   screen->nl();
 
-  screen->print("Attempting to load IDT...");
-
   //Not yet.
-  //screen->print("Calling test interrupt... ");
+  screen->print("Interrupt Return Value: "); 
+  screen->print(interruptReturnValue);
+  screen->nl();
+  screen->print("Calling test interrupt... ");
   //testInterrupts();
+  screen->print("Interrupt Return Value: "); 
+  screen->print(interruptReturnValue);
+  screen->nl();
  
 }
 
 void System::initInterrupts()
 {
+  //this->idt = malloc(sizeof(IDT));
+  screen->print("Constructing IDT");
+
+  //IDT* dummyIdt =(IDT*) malloc( sizeof(IDT));
+  //IDT dummy3;
+  //TODO: Debug why the following line doesn't work.
+  //IDT* dummyIdt2 = new IDT();
+  idt = (IDT*) malloc(sizeof(IDT));
+  idt->init();
+  screen->print("Initialized IDT.\n");
   //TODO
+  screen->print("Loading IDT...");
+  idt->load();
+  screen->print(" done.\n");
   testInterruptSystem(screen);
  
     

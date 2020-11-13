@@ -1,5 +1,6 @@
 #include "stdint.h"
 #include "interrupts.hpp"
+#include "memory.hpp"
 
 __attribute__((interrupt))
 void defaultInterruptHandler(InterruptFrame* frame)
@@ -10,16 +11,24 @@ void defaultInterruptHandler(InterruptFrame* frame)
 
 IDT::IDT()
 {
-  m_gates = new IDTGate[256];
-  for (int i = 0; i < 256; ++i)
+}
+
+void IDT::init()
+{
+#if 1
+  //TODO: Do I need to allocate this memory?
+  //m_gates =(IDTGate*) malloc(sizeof(IDTGate) * NUM_IDT_GATES);
+  //m_gates = new IDTGate[256];
+  for (int i = 0; i < NUM_IDT_GATES; ++i)
   {
-    uint32_t offset = (uint32_t) &defaultISR;
+    uint32_t offset = (uint32_t) (&defaultISR);
     m_gates[i].offsetLow = (uint16_t)(offset & 0xFFFF);
     m_gates[i].offsetHigh = (uint16_t)((offset >> 16) & 0xFFFF);
     const int interruptSegmentSelector = 0x8; //TODO: Check this boi
     m_gates[i].segmentSelector = interruptSegmentSelector;
-    m_gates[i].attributes = IA32_UNUSED_INTERRUPT_GATE;
+    m_gates[i].attributes = IA32_INTERRUPT_GATE;
   }
+#endif
 }
 
 void IDT::load()
