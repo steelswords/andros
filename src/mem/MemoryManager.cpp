@@ -52,7 +52,7 @@ void MemoryManager::initGDT()
   loadGDTEntries();
 
   // call assembly routine to load GDT again.
-#if 0
+#if 1
   //_loadGDT(&GDTBuffer[0], m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
   GDTPointer gdt;
   gdt.size = m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY;

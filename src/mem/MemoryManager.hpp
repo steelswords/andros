@@ -9,7 +9,7 @@
 //TODO: Put GDTs in there
 
 #define GDT_ENTRY_SIZE_IN_MEMORY 8
-#define NUM_GDT_ENTRIES 16
+#define NUM_GDT_ENTRIES 3
 #define GDT_MEMORY_SIZE_BYTES (GDT_ENTRY_SIZE_IN_MEMORY * NUM_GDT_ENTRIES)
 
 class MemoryManager

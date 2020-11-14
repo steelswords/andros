@@ -7,14 +7,6 @@ interruptReturnValue:
 .section .text
 .global defaultISR
 defaultISR:
-/*
-  push %eax
-  mov $interruptReturnValue, %eax
-  add $1, %eax
-  mov %eax, interruptReturnValue
-  pop %eax
-  iret
-*/
   push %eax
   mov $222, %eax
   mov %eax, interruptReturnValue

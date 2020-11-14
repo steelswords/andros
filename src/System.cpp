@@ -11,12 +11,18 @@ System::System()
 {
 }
 
+void debugSystemStuff(System* sys)
+{
+  ConsoleScreen* screen = sys->screen;
+}
+
 void System::init()
 {
   initConsole();
   initMemoryManager();
   cpuInfo = new CPUInformation();
   initInterrupts();
+  //debugSystemStuff();
 }
 
 void System::initConsole()
@@ -173,18 +179,18 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);
   screen->nl();
-  //screen->print("Calling test interrupt... ");
   screen->print("EFLAGS = ");
   screen->printHex(getEFlags());
   screen->print("Enabling interrupt mask...");
 
-  //enableInterruptFlag();
+  enableInterruptFlag();
   screen->print("...done\n");
   screen->print("EFLAGS = ");
   screen->printHex(getEFlags());
 
 
-  //testInterrupts();
+  screen->print("Calling test interrupt... ");
+  testInterrupts();
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);
   screen->nl();
