@@ -63,3 +63,22 @@ what space has been already allocated. At this point, there will be no
 deallocation.
 
 This is the first memory management-related thing I will have done.
+
+## 13 November 2020
+I have been struggling with interrupts for a while now, and tonight I got some really
+encouraging results!
+
+I got an interrupt handler to be called from software! Sure, it generated a double
+fault, but I got it! Feels good, man.
+
+Some of the previous problems I was having were the GDT was not actually getting loaded,
+so when an ISR was called, it would generate a general protection fault, which would go
+to the Exception #0xd handler, which would triple fault. Right now my int 0x35 is double
+faulting, but I think that shouldn't be too hard to fix.
+
+I also found some great features of QEMU that dump out the CPU state when an interrupt is
+being called. Good stuff! And aparently I just need to implement three hook functions (that
+output over serial, sure) and I can have a remote GDB session. What the heck? That's too
+good to be true, methinks. (Although I know firsthand that serial comms are nontrivial to do.
+Not terribly difficult, but it will take some time. And at this point, I'm going to need all
+the time I can get.
