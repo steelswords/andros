@@ -4,6 +4,7 @@
 #include "boot.hpp"
 #include "memory.hpp"
 #include "dev/interrupts.hpp"
+#include "dev/x86cpu.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -155,6 +156,9 @@ void handler(InterruptFrame* frame)
 
 void testInterruptSystem(ConsoleScreen* screen)
 {
+  screen->print("sizeof(IDTGate)=");
+  screen->print(sizeof(IDTGate));
+
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);
   screen->nl();
@@ -169,7 +173,17 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);
   screen->nl();
-  screen->print("Calling test interrupt... ");
+  //screen->print("Calling test interrupt... ");
+  screen->print("EFLAGS = ");
+  screen->printHex(getEFlags());
+  screen->print("Enabling interrupt mask...");
+
+  //enableInterruptFlag();
+  screen->print("...done\n");
+  screen->print("EFLAGS = ");
+  screen->printHex(getEFlags());
+
+
   //testInterrupts();
   screen->print("Interrupt Return Value: "); 
   screen->print(interruptReturnValue);

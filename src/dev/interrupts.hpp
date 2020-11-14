@@ -58,6 +58,7 @@ public:
 };
 
 /* The following code courtesy of wiki.osdev.org */
+/*
 static inline void lidt(void* base, uint16_t size)
 {   // This function works in 32 and 64bit mode
     struct {
@@ -67,11 +68,13 @@ static inline void lidt(void* base, uint16_t size)
  
     asm ( "lidt %0" : : "m"(IDTR) );  // let the compiler choose an addressing mode
 }
+*/
 
 extern "C" void _loadIDT(IDTPointer* pointer);
 
 extern "C" int interruptReturnValue;
 extern "C" void defaultISR();
 extern "C" void testInterrupts();
+extern "C" void enableInterruptFlag();
 
 #endif

@@ -33,12 +33,14 @@ void IDT::init()
 
 void IDT::load()
 {
-	lidt(&m_gates[0], 256 * sizeof(IDTGate));
 #if 0
+	lidt(&m_gates[0], 256 * sizeof(IDTGate));
+#endif
+#if 1
   IDTPointer pointer;
   pointer.size = 256 * sizeof(IDTGate);
   pointer.offset = (uint32_t) &m_gates[0];
-  //_loadIDT(&pointer);
+  _loadIDT(&pointer);
 #endif
 }
 

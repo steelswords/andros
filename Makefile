@@ -127,6 +127,9 @@ $(ISO): kmain
 test: $(ISO)
 	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso
 
+.PHONY: debug
+debug: $(ISO)
+	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso -d int -no-reboot
 
 #Dependency management: prevent .d files from being deleted.
 $(DDIR)/%.d: ;
