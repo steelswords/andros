@@ -22,6 +22,9 @@
 
 #define NUM_IDT_GATES 256
 
+#define IRQ_VECTOR_OFFSET 0x50
+#define IRQ_VECTOR_OFFSET_PIC2 (IRQ_VECTOR_OFFSET + 8)
+
 struct IDTGate
 {
   uint16_t offsetLow;

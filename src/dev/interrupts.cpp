@@ -1,6 +1,7 @@
 #include "stdint.h"
 #include "interrupts.hpp"
 #include "memory.hpp"
+#include "pic/pic.hpp"
 
 __attribute__((interrupt))
 void defaultInterruptHandler(InterruptFrame* frame)
@@ -32,6 +33,7 @@ void IDT::init()
       m_gates[i].attributes = IA32_TRAP_GATE;
   }
 #endif
+	remapPIC(IRQ_VECTOR_OFFSET, IRQ_VECTOR_OFFSET_PIC2);
 }
 
 void IDT::load()
