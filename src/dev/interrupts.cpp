@@ -36,6 +36,12 @@ void IDT::init()
 	remapPIC(IRQ_VECTOR_OFFSET, IRQ_VECTOR_OFFSET_PIC2);
 }
 
+void IDT::initISRs()
+{
+  // Initialize all the ISRs in general use, i.e. keyboard handler.
+  this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &keyboardISR);
+}
+
 void IDT::load()
 {
 #if 0
@@ -49,16 +55,17 @@ void IDT::load()
 #endif
 }
 
-void IDT::registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame))
+// TODO: Overload for C++ functions with a stack input once we can write ISRs in C++
+void IDT::registerInterruptHandler(int interrupt, void(*handler)(void))
 {
-  //TODO: This.
   uint32_t offset = (uint32_t) &handler;
   m_gates[interrupt].offsetLow = (uint16_t)(offset & 0xFFFF);
   m_gates[interrupt].offsetHigh = (uint16_t)((offset >> 16) & 0xFFFF);
   const int interruptSegmentSelector = 0x8;
   m_gates[interrupt].segmentSelector = interruptSegmentSelector;
-  m_gates[interrupt].attributes = IA32_UNUSED_INTERRUPT_GATE;
+  m_gates[interrupt].attributes = IA32_INTERRUPT_GATE;
 
+  //TODO: Is this necessary?
   load();
   
 }

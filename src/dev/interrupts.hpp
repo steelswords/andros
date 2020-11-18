@@ -57,7 +57,8 @@ public:
   IDTGate* m_gates;
   void init(); // Loads default ISR into all the gates
   void load(); // loads the IDT into memory and calls lidt
-  void registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame));
+  void registerInterruptHandler(int interrupt, void(*handler)());
+  void initISRs(); // Loads the various ISRs we need to make things work.
   
 };
 
@@ -77,8 +78,13 @@ static inline void lidt(void* base, uint16_t size)
 extern "C" void _loadIDT(IDTPointer* pointer);
 
 extern "C" int interruptReturnValue;
-extern "C" void defaultISR();
 extern "C" void testInterrupts();
 extern "C" void enableInterruptFlag();
+
+// Interrupt Handlers
+extern "C" void defaultISR();
+extern "C" void keyboardISR();
+
+extern "C" int keyboardScancode;
 
 #endif

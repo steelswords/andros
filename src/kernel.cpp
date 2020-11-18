@@ -58,7 +58,20 @@ void kernel_main(void)
 
   //kprint_greeting();
   
-  while (1) ;
+  uint32_t oldScancode = keyboardScancode;
+  while (1)
+  {
+    // Until we get an I/O subsystem in place, poll the keyboardScancode
+    // variable for change and display any events we get.
+    if (oldScancode != keyboardScancode)
+    {
+      // Print the new scancode
+      screen->print(" <");
+      screen->print(keyboardScancode);
+      screen->print("> ");
+      oldScancode = keyboardScancode;
+    }
+  } // End while
 }
 }
 
