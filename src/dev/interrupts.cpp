@@ -39,6 +39,9 @@ void IDT::init()
 void IDT::initISRs()
 {
   // Initialize all the ISRs in general use, i.e. keyboard handler.
+  
+  //Keyboard handler
+  enableIRQ(0);
   this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &keyboardISR);
 }
 

@@ -56,9 +56,12 @@ void kernel_main(void)
 
   system->cpuInfo->print(screen);
 
+  screen->print("\nAndrOS Initialized\n");
+
   //kprint_greeting();
   
-  uint32_t oldScancode = keyboardScancode;
+  //int oldScancode = keyboardScancode;
+  int oldScancode = 0;
   while (1)
   {
     // Until we get an I/O subsystem in place, poll the keyboardScancode
