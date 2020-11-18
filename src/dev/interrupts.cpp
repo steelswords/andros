@@ -26,7 +26,10 @@ void IDT::init()
     m_gates[i].offsetHigh = (uint16_t)((offset >> 16) & 0xFFFF);
     const int interruptSegmentSelector = 0x8; //TODO: Check this boi
     m_gates[i].segmentSelector = interruptSegmentSelector;
-    m_gates[i].attributes = IA32_INTERRUPT_GATE;
+    if (i > 31)
+      m_gates[i].attributes = IA32_INTERRUPT_GATE;
+    else
+      m_gates[i].attributes = IA32_TRAP_GATE;
   }
 #endif
 }
