@@ -5,6 +5,7 @@
 #include "memory.hpp"
 #include "dev/interrupts.hpp"
 #include "dev/x86cpu.hpp"
+#include "dev/ps2/ps2.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -164,6 +165,7 @@ extern "C" void modifyScancode();
 
 void testInterruptSystem(ConsoleScreen* screen)
 {
+#if 0
   screen->print("sizeof(IDTGate)=");
   screen->print(sizeof(IDTGate));
 
@@ -197,6 +199,7 @@ void testInterruptSystem(ConsoleScreen* screen)
 
   screen->print(interruptReturnValue);
   screen->nl();
+#endif
 
   keyboardScancode = 0;
   modifyScancode();
@@ -206,6 +209,18 @@ void testInterruptSystem(ConsoleScreen* screen)
   modifyScancode();
   screen->print("Modified Scancode: ");
   screen->print(keyboardScancode);
+  screen->nl();
+
+  screen->print("PS/2 test: ");
+  screen->printHex(PS2Keyboard::testPS2Controller());
+
+  screen->print(". PS/2 status: ");
+  screen->printHex(PS2Keyboard::readStatusRegister());
+
+  screen->print(" Char: ");
+  screen->print(PS2Keyboard::readByte());
+
+  screen->nl();
  
 }
 
