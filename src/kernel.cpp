@@ -17,6 +17,7 @@
 #include "System.hpp"
 #include "boot.hpp"
 #include "mem/memory.hpp"
+#include "dev/cpuIO.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -60,6 +61,20 @@ void kernel_main(void)
 
   //kprint_greeting();
   
+  uint32_t oldKey = 0;
+  while (1)
+  {
+    uint32_t key = inb(0x60);
+    if (key != oldKey)
+    {
+      screen->print(" <");
+      screen->print(key);
+      screen->print(">");
+      oldKey = key;
+    }
+  }
+
+#if 0 
   //int oldScancode = keyboardScancode;
   int oldScancode = 0;
   while (1)
@@ -75,6 +90,7 @@ void kernel_main(void)
       oldScancode = keyboardScancode;
     }
   } // End while
+#endif
 }
 }
 
