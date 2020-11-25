@@ -160,6 +160,8 @@ __attribute__((interrupt))
 void handler(InterruptFrame* frame)
 #endif
 
+extern "C" void modifyScancode();
+
 void testInterruptSystem(ConsoleScreen* screen)
 {
   screen->print("sizeof(IDTGate)=");
@@ -192,8 +194,18 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print("Calling test interrupt... ");
   testInterrupts();
   screen->print("Interrupt Return Value: "); 
+
   screen->print(interruptReturnValue);
   screen->nl();
+
+  keyboardScancode = 0;
+  modifyScancode();
+  screen->print("Scancode: ");
+  screen->print(keyboardScancode);
+ 
+  modifyScancode();
+  screen->print("Modified Scancode: ");
+  screen->print(keyboardScancode);
  
 }
 

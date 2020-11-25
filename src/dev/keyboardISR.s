@@ -10,15 +10,30 @@ keyboardBufferIndex:
 
 .section .text
 
+/* If irq (argument 0) >= 8, then 
+   commandPort = PIC2_COMMAND
+   else
+    commandPort = 
+sendEOIToPIC:
+  movl 4(%exp), %eax
+  test %eax, $8
+  jg 
+*/
+  
+.global modifyScancode
+modifyScancode:
+  mov keyboardScancode, %eax
+  add $1, %eax
+  mov %eax, keyboardScancode
+  ret
+
 .global keyboardISR
 keyboardISR:
   push %eax
+  xor %eax, %eax
   in $0x60, %al # Read info from the keyboard
-  mov $0x1, %al
   mov %al, keyboardScancode
-  mov $keyboardBufferIndex, %eax
-  add $1, %eax
-  mov %eax, keyboardBufferIndex
+  # call modifyScancode
   
 
 /*TODO: Make this reference the function already written */

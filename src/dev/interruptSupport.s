@@ -17,7 +17,7 @@ defaultISR:
   
 .global testInterrupts
 testInterrupts:
-  int $0x35
+  int $0x50
   ret
 
 .set RFLAGS_IF_BIT, 0x200
