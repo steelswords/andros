@@ -23,12 +23,12 @@ inline void sendEndOfInterrupt(uint8_t irq)
   sendEndOfInterrupt8259(irq);
 }
 
-void enableIRQ(uint8_t irqToEnable)
+inline void enableIRQ(uint8_t irqToEnable)
 {
   enableIRQ8259(irqToEnable);
 }
 
-void disableIRQ(uint8_t irqToDisable)
+inline void disableIRQ(uint8_t irqToDisable)
 {
   disableIRQ8259(irqToDisable);
 }

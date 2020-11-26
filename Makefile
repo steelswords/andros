@@ -3,12 +3,13 @@ BUILDDIR=build
 SPECIFICATION_SOURCES = $(wildcard $(SPECSDIR)/*.tex)
 
 SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include \
-				src/dev/hwid src/utils src/dev/pic src/dev/ps2
+				src/dev/hwid src/utils src/dev/pic src/dev/ps2 src/dev/isrs
 SDIR = src
 ODIR = obj
 BDIR = $(BUILDDIR)
 DDIR = dep
 LDIR = lib
+ISRDIR = src/dev/isrs
 ISO = $(BDIR)/AndrOS.iso
 KNAME = andros.bin
 
@@ -38,15 +39,16 @@ all: | toolchain kmain
 
 # List all sources to be included in the project (except main file)
 _SRCS    = $(foreach f, $(SDIRS), $(wildcard $(f)/*.cpp))
-ISR_SRCS = $(foreach f, src/dev/isrs, $(wildcard $(f)/*.c))
-ISR_OBJ  = $(patsubst src/%.c, $(ODIR)/%.isro, $(ISR_SRCS))
-ASM_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.s))
+## ISR_SRCS = $(foreach f, $(ISRDIR), $(wildcard $(f)/*.cpp))
+## ISR_OBJ  = $(patsubst src/%.cpp, $(ODIR)/%.isro, $(ISR_SRCS))
+ASM_SRCS = $(foreach f, $(SDIRS) $(ISRDIR), $(wildcard $(f)/*.s))
 ASM_OBJ  = $(patsubst src/%.s, $(ODIR)/%._o, $(ASM_SRCS))
 C_SRCS   = $(foreach f, $(SDIRS), $(wildcard $(f)/*.c))
 C_OBJ    = $(patsubst src/%.c, $(ODIR)/%.co, $(C_SRCS))
 
 # Derived variable SRCS used by dependency management
-SRCS = $(_SRCS) $(C_SRCS) $(ISR_SRCS)
+SRCS = $(_SRCS) $(C_SRCS) 
+# $(ISR_SRCS)
 
 # Derived variables KOBJ lists dependencies for the output binaries
 #KOBJ =  $(foreach dir, $(SDIRS), $(patsubst $(dir)/%.cpp, $(ODIR)/%.o, $(_SRCS)))
@@ -80,12 +82,13 @@ $(ODIR)/%.co: $(SDIR)/%.c $(DDIR)/%.d
 	$(CC) -c -o $@ $<
 	#$(POSTCPPC)
 
-# All the ISR (Interrupt Service Routines) units in the project
-$(ODIR)/%.isro: $(SDIR)/%.c $(DDIR)/%.d
-	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
-	$(CC) $(FLAGS_ISR) -c -o $@ $<
-	#$(POSTCPPC)
-	
+## # All the ISR (Interrupt Service Routines) units in the project
+## $(ODIR)/%.isro: $(ISR_SRCS)/%.cpp $(DDIR)/%.d
+## 	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
+## 	# Redo the interrupt_wrapper module
+## 	$(AS) -c -o $(SDIR)/$(ISRDIR)/interrupt_wrapper._o
+## 	$(CPP) $(FLAGS_ISR) -c -o $@ $< $(SDIR)/$(ISRDIR)/interrupt_wrapper._o
+## 	#$(POSTCPPC)
 	
 
 $(ODIR)/video/%.o: $(SDIR)/video/%.cpp $(DDIR)/video/%.d
@@ -108,9 +111,9 @@ kmain: toolchain $(BDIR)/$(KNAME)
 
 # List of subdirectories we have to make
 
-OBJ_SUBDIRS = $(patsubst src/%, $(ODIR)/%, $(SDIRS) src/dev/isrs)
-BLD_SUBDIRS = $(patsubst src/%, $(BDIR)/%, $(SDIRS) src/dev/isrs)
-DEP_SUBDIRS = $(patsubst src/%, $(DDIR)/%, $(SDIRS) src/dev/isrs)
+OBJ_SUBDIRS = $(patsubst src/%, $(ODIR)/%, $(SDIRS) $(ISRDIR))
+BLD_SUBDIRS = $(patsubst src/%, $(BDIR)/%, $(SDIRS) $(ISRDIR))
+DEP_SUBDIRS = $(patsubst src/%, $(DDIR)/%, $(SDIRS) $(ISRDIR))
 
 $(DDIR):
 	@mkdir $(DDIR)

@@ -6,6 +6,7 @@
 #include "dev/interrupts.hpp"
 #include "dev/x86cpu.hpp"
 #include "dev/ps2/ps2.hpp"
+#include "dev/isrs/interruptHandlers.hpp"
 
 System::System()
   : mbhi(multiboot_header_ptr)
@@ -200,6 +201,12 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print(interruptReturnValue);
   screen->nl();
 #endif
+
+  uint32_t value = 26;
+  screen->print(value);
+  screen->print(" + 2 = ");
+  screen->print(addTwo(value));
+  screen->nl();
 
   keyboardScancode = 0;
   modifyScancode();
