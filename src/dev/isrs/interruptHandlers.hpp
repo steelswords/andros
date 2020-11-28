@@ -4,9 +4,8 @@
 
 #include "stdint.h"
 
-#if 0
-//extern "C" void keyboardHandler(struct interrupt_frame* frame);
-void keyboardHandler();
+#if 1
+extern "C" void keyboardHandler(struct interrupt_frame* frame);
 
 uint32_t keyboardReadValue;
 

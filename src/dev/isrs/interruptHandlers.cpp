@@ -1,11 +1,11 @@
-//#include "isrs/interruptHandlers.h"
-//#include "pic/pic.hpp"
-//#include "cpuIO.hpp"
+#include "isrs/interruptHandlers.h"
+#include "pic/pic.hpp"
+#include "cpuIO.hpp"
 #include "stdint.h"
 
 
-#if 0
-void keyboardHandler()
+#if 1
+extern "C" void keyboardHandler()
 {
   //keyboardReadValue = inb(0x60);
   //sendEndOfInterrupt(1);
