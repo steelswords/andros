@@ -8,9 +8,19 @@
 #include "dev/ps2/ps2.hpp"
 #include "dev/isrs/interruptHandlers.hpp"
 
+System* System::instance = 0;
+
 System::System()
   : mbhi(multiboot_header_ptr)
 {
+  System::instance = this;
+}
+
+System* System::getInstance()
+{
+  if (System::instance == 0)
+    instance = new System();
+  return instance;
 }
 
 void debugSystemStuff(System* sys)

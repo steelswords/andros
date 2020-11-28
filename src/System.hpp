@@ -15,6 +15,7 @@ public:
   ConsoleScreen* screen;
   IDT* idt;
 
+  static System* getInstance();
 
   CPUInformation* cpuInfo;
 
@@ -39,6 +40,7 @@ protected:
 
   /* Data */
   VGATextConsoleScreen vgaTextConsole;
+  static System* instance;
 };
 
 #endif

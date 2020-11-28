@@ -10,11 +10,11 @@ extern "C" void keyboardHandler()
   //TODO: Put a circular buffer here.
   keyboardReadValue = inb(0x60);
   sendEndOfInterrupt(1);
-#if 0
-  System* sys = System::getInstance();
-  sys->screen->print("[");
-  sys->screen->print(keyboardReadValue);
-  sys->screen->print("] ");
+#if 1
+  ConsoleScreen* screen = System::getInstance()->screen;
+  screen->print("[");
+  screen->print(keyboardReadValue);
+  screen->print("] ");
 #endif
 }
 
