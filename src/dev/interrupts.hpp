@@ -2,6 +2,7 @@
 #define _ANDROS_INTERRUPTS_HPP_
 
 #include "stdint.h"
+#include "isrs/interruptHandlers.hpp"
 
 /* From the OSDev Wiki:
  *     7                           0

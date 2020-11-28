@@ -4,15 +4,18 @@
 
 #include "stdint.h"
 
-#if 1
-extern "C" void keyboardHandler(struct interrupt_frame* frame);
+// Convention: The assembly wrappers will be called *ISR_wrapper,
+// and the actual interrupt handler in C shall be known by the
+// more reader-friendly *Handler.
+extern "C" void keyboardHandler();
 
-uint32_t keyboardReadValue;
+extern uint32_t keyboardReadValue;
 
-#endif
 
 
 extern "C" uint32_t addOne(uint32_t value);
 extern "C" uint32_t addTwo(uint32_t value);
+
+extern "C" void keyboardISR_wrapper(void);
 
 #endif

@@ -9,3 +9,12 @@ addTwo:
   pop %edx
   ret
   
+
+.global keyboardISR_wrapper
+keyboardISR_wrapper:
+  pusha
+  /* SysV ABI requires DF to be clear on function entry */
+  cld
+  call keyboardHandler
+  popa
+  iret

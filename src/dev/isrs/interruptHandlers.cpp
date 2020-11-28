@@ -1,16 +1,22 @@
-#include "isrs/interruptHandlers.h"
+#include "isrs/interruptHandlers.hpp"
 #include "pic/pic.hpp"
 #include "cpuIO.hpp"
 #include "stdint.h"
+#include "System.hpp"
 
 
-#if 1
 extern "C" void keyboardHandler()
 {
-  //keyboardReadValue = inb(0x60);
-  //sendEndOfInterrupt(1);
-}
+  //TODO: Put a circular buffer here.
+  keyboardReadValue = inb(0x60);
+  sendEndOfInterrupt(1);
+#if 0
+  System* sys = System::getInstance();
+  sys->screen->print("[");
+  sys->screen->print(keyboardReadValue);
+  sys->screen->print("] ");
 #endif
+}
 
 extern "C" uint32_t addOne(uint32_t value)
 {

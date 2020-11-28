@@ -3,6 +3,7 @@
 #include "memory.hpp"
 #include "pic/pic.hpp"
 
+
 __attribute__((interrupt))
 void defaultInterruptHandler(InterruptFrame* frame)
 {
@@ -42,7 +43,7 @@ void IDT::initISRs()
   
   //Keyboard handler
   enableIRQ(0);
-  this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &keyboardISR);
+  this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &keyboardISR_wrapper);
 }
 
 void IDT::load()

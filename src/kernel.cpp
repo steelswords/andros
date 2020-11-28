@@ -61,6 +61,8 @@ void kernel_main(void)
 
   //kprint_greeting();
   
+// The following does work.
+#if 1 
   uint32_t oldKey = 0;
   while (1)
   {
@@ -73,6 +75,7 @@ void kernel_main(void)
       oldKey = key;
     }
   }
+#endif
 
 #if 0 
   //int oldScancode = keyboardScancode;
