@@ -18,3 +18,12 @@ keyboardISR_wrapper:
   call keyboardHandler
   popa
   iret
+
+.global timerISR_wrapper
+timerISR_wrapper:
+  pusha
+  /* SysV ABI requires DF to be clear on function entry */
+  cld
+  call timerHandler
+  popa
+  iret

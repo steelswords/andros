@@ -13,7 +13,7 @@ void sendEndOfInterrupt8259(uint8_t irq)
   {
     // Then send to PIC1 and PIC2
     outb(PIC1_COMMAND_PORT, PIC_EOI_COMMAND);
-    outb(PIC2_COMMAND_PORT, PIC_EOI_COMMAND);
+    //outb(PIC2_COMMAND_PORT, PIC_EOI_COMMAND);
   }
 }
 

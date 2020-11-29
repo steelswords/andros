@@ -62,10 +62,12 @@ void kernel_main(void)
   //kprint_greeting();
   
 // The following does work.
-#if 1 
+#if 0 
+  inb(0x60);
   uint32_t oldKey = 0;
   while (1)
   {
+    //uint32_t key = 0;
     uint32_t key = inb(0x60);
     if (key != oldKey)
     {
@@ -75,6 +77,8 @@ void kernel_main(void)
       oldKey = key;
     }
   }
+#else
+  while (1) ;
 #endif
 
 #if 0 

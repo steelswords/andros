@@ -4,6 +4,7 @@
 #include "stdint.h"
 #include "System.hpp"
 
+uint32_t keyboardReadValue = 0;
 
 extern "C" void keyboardHandler()
 {
@@ -12,10 +13,16 @@ extern "C" void keyboardHandler()
   sendEndOfInterrupt(1);
 #if 1
   ConsoleScreen* screen = System::getInstance()->screen;
+  screen->print("asdf");
   screen->print("[");
   screen->print(keyboardReadValue);
   screen->print("] ");
 #endif
+}
+
+extern "C" void timerHandler()
+{
+  sendEndOfInterrupt(1);
 }
 
 extern "C" uint32_t addOne(uint32_t value)

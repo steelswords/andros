@@ -43,7 +43,9 @@ void IDT::initISRs()
   
   //Keyboard handler
   enableIRQ(0);
-  this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &keyboardISR_wrapper);
+  enableIRQ(1);
+  this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &timerISR_wrapper);
+  this->registerInterruptHandler(IRQ_VECTOR_OFFSET+1, &keyboardISR_wrapper);
 }
 
 void IDT::load()

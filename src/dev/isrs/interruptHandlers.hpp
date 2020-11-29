@@ -8,6 +8,7 @@
 // and the actual interrupt handler in C shall be known by the
 // more reader-friendly *Handler.
 extern "C" void keyboardHandler();
+extern "C" void timerHandler();
 
 extern uint32_t keyboardReadValue;
 
@@ -17,5 +18,7 @@ extern "C" uint32_t addOne(uint32_t value);
 extern "C" uint32_t addTwo(uint32_t value);
 
 extern "C" void keyboardISR_wrapper(void);
+extern "C" void timerISR_wrapper(void);
+
 
 #endif
