@@ -18,3 +18,14 @@ char PS2Keyboard::readByte()
 {
   return inb(PS2_DATA_PORT);
 }
+
+void PS2Keyboard::flushBuffer()
+{
+  char oldValue = 0;
+  while (1)
+  {
+    char value = inb(PS2_DATA_PORT);
+    if (value == oldValue)
+    break;
+  }
+}

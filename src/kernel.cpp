@@ -62,13 +62,14 @@ void kernel_main(void)
   //kprint_greeting();
   
 // The following does work.
-#if 0 
+#if 1 
   inb(0x60);
   uint32_t oldKey = 0;
   while (1)
   {
     //uint32_t key = 0;
-    uint32_t key = inb(0x60);
+    //uint32_t key = inb(0x60);
+    uint32_t key = keyboardReadValue;
     if (key != oldKey)
     {
       screen->print(" <");
@@ -81,23 +82,6 @@ void kernel_main(void)
   while (1) ;
 #endif
 
-#if 0 
-  //int oldScancode = keyboardScancode;
-  int oldScancode = 0;
-  while (1)
-  {
-    // Until we get an I/O subsystem in place, poll the keyboardScancode
-    // variable for change and display any events we get.
-    if (oldScancode != keyboardScancode)
-    {
-      // Print the new scancode
-      screen->print(" <");
-      screen->print(keyboardScancode);
-      screen->print("> ");
-      oldScancode = keyboardScancode;
-    }
-  } // End while
-#endif
 }
 }
 

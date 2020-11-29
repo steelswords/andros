@@ -35,17 +35,19 @@ void IDT::init()
   }
 #endif
 	remapPIC(IRQ_VECTOR_OFFSET, IRQ_VECTOR_OFFSET_PIC2);
+  initISRs();
 }
 
 void IDT::initISRs()
 {
   // Initialize all the ISRs in general use, i.e. keyboard handler.
-  
   //Keyboard handler
-  enableIRQ(0);
+  //enableIRQ(0);
+  disableIRQ(0);
   enableIRQ(1);
   this->registerInterruptHandler(IRQ_VECTOR_OFFSET, &timerISR_wrapper);
   this->registerInterruptHandler(IRQ_VECTOR_OFFSET+1, &keyboardISR_wrapper);
+  enableInterruptFlag();
 }
 
 void IDT::load()

@@ -19,9 +19,9 @@
 #define PS2_CMD_DISBLE_PS2_PORT_1 0xAD
 
 // Status Register
-#define PS2_STATUS_OUTPUT_BUFFER_STATUS_BIT 0 // 0 = empty, 1 = full
-#define PS2_STATUS_INPUT_BUFFER_STATUS_BIT  1 // 0 = empty, 1 = full
-#define PS2_STATUS_SYSTEM_FLAG              2
+#define PS2_STATUS_OUTPUT_BUFFER_STATUS_BIT 1 // 0 = empty, 1 = full
+#define PS2_STATUS_INPUT_BUFFER_STATUS_BIT  2 // 0 = empty, 1 = full
+#define PS2_STATUS_SYSTEM_FLAG              4
 
 class PS2Keyboard
 {
@@ -29,6 +29,7 @@ public:
   static uint8_t testPS2Controller();
   static uint8_t readStatusRegister();
   static char readByte();
+  static void flushBuffer();
 };
 
 

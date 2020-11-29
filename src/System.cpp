@@ -212,12 +212,17 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->nl();
 #endif
 
+// Test ability to call C++ from assembly
+#if 0
   uint32_t value = 26;
   screen->print(value);
   screen->print(" + 2 = ");
   screen->print(addTwo(value));
   screen->nl();
+#endif
 
+// Test ability to get data out of assembly module
+#if 0
   keyboardScancode = 0;
   modifyScancode();
   screen->print("Scancode: ");
@@ -227,15 +232,16 @@ void testInterruptSystem(ConsoleScreen* screen)
   screen->print("Modified Scancode: ");
   screen->print(keyboardScancode);
   screen->nl();
+#endif
 
-  screen->print("PS/2 test: ");
-  screen->printHex(PS2Keyboard::testPS2Controller());
+  //screen->print("PS/2 test: ");
+  //screen->printHex(PS2Keyboard::testPS2Controller());
 
   screen->print(". PS/2 status: ");
   screen->printHex(PS2Keyboard::readStatusRegister());
 
-  screen->print(" Char: ");
-  screen->print(PS2Keyboard::readByte());
+  //screen->print(" Char: ");
+  //screen->print(PS2Keyboard::readByte());
 
   screen->nl();
  
@@ -246,8 +252,6 @@ void System::initInterrupts()
   //this->idt = malloc(sizeof(IDT));
   screen->print("Constructing IDT");
 
-  //IDT* dummyIdt =(IDT*) malloc( sizeof(IDT));
-  //IDT dummy3;
   //TODO: Debug why the following line doesn't work.
   //IDT* dummyIdt2 = new IDT();
   idt = (IDT*) malloc(sizeof(IDT));
