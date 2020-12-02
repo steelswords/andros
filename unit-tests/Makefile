@@ -7,7 +7,7 @@ BDIR = bin
 DDIR = dep
 
 #Compiler flag variables
-INC        = $(SDIR) ../src
+INC        = $(SDIR) ../src ../src/utils
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
 CPPFLAGS   = -std=c++11 -g
