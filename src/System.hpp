@@ -13,8 +13,9 @@ public:
   MemoryManager memoryManager;
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
-  IDT idt;
+  IDT* idt;
 
+  static System* getInstance();
 
   CPUInformation* cpuInfo;
 
@@ -39,6 +40,7 @@ protected:
 
   /* Data */
   VGATextConsoleScreen vgaTextConsole;
+  static System* instance;
 };
 
 #endif

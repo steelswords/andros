@@ -3,10 +3,29 @@
 #include <stdint.h>
 #include "boot.hpp"
 #include "memory.hpp"
+#include "dev/interrupts.hpp"
+#include "dev/x86cpu.hpp"
+#include "dev/ps2/ps2.hpp"
+#include "dev/isrs/interruptHandlers.hpp"
+
+System* System::instance = 0;
 
 System::System()
   : mbhi(multiboot_header_ptr)
 {
+  System::instance = this;
+}
+
+System* System::getInstance()
+{
+  if (System::instance == 0)
+    instance = new System();
+  return instance;
+}
+
+void debugSystemStuff(System* sys)
+{
+  ConsoleScreen* screen = sys->screen;
 }
 
 void System::init()
@@ -15,6 +34,7 @@ void System::init()
   initMemoryManager();
   cpuInfo = new CPUInformation();
   initInterrupts();
+  //debugSystemStuff();
 }
 
 void System::initConsole()
@@ -60,13 +80,14 @@ void System::findBiggestChunkOfMemory(void*& begin, void*& end)
 }
 
 //#define DEBUG_PRINTOUTS
+#define DEBUG_MEMORY_MAP
 void System::initMemoryManager()
 {
   kernelStackEnd = stack_ptr;
   kernelStackBegin = (void*)((uint32_t)(stack_ptr) - 16384);
 
   findBiggestChunkOfMemory(kernelHeapBegin, kernelHeapEnd);
-#ifdef DEBUG_PRINTOUTS
+#ifdef DEBUG_MEMORY_MAP
   screen->print("Printing MBH info:\n");
   mbhi.printMemoryTable(screen);
   screen->nl();
@@ -151,21 +172,94 @@ __attribute__((interrupt))
 void handler(InterruptFrame* frame)
 #endif
 
+extern "C" void modifyScancode();
+
+void testInterruptSystem(ConsoleScreen* screen)
+{
+#if 0
+  screen->print("sizeof(IDTGate)=");
+  screen->print(sizeof(IDTGate));
+
+  screen->print("Interrupt Return Value: "); 
+  screen->print(interruptReturnValue);
+  screen->nl();
+
+  screen->print("Now changing Interrupt Return Value: "); 
+  //changeIRV();
+  interruptReturnValue = 46;
+  screen->print(interruptReturnValue);
+  screen->nl();
+
+  //Not yet.
+  screen->print("Interrupt Return Value: "); 
+  screen->print(interruptReturnValue);
+  screen->nl();
+  screen->print("EFLAGS = ");
+  screen->printHex(getEFlags());
+  screen->print("Enabling interrupt mask...");
+
+  enableInterruptFlag();
+  screen->print("...done\n");
+  screen->print("EFLAGS = ");
+  screen->printHex(getEFlags());
+
+
+  screen->print("Calling test interrupt... ");
+  testInterrupts();
+  screen->print("Interrupt Return Value: "); 
+
+  screen->print(interruptReturnValue);
+  screen->nl();
+#endif
+
+// Test ability to call C++ from assembly
+#if 0
+  uint32_t value = 26;
+  screen->print(value);
+  screen->print(" + 2 = ");
+  screen->print(addTwo(value));
+  screen->nl();
+#endif
+
+// Test ability to get data out of assembly module
+#if 0
+  keyboardScancode = 0;
+  modifyScancode();
+  screen->print("Scancode: ");
+  screen->print(keyboardScancode);
+ 
+  modifyScancode();
+  screen->print("Modified Scancode: ");
+  screen->print(keyboardScancode);
+  screen->nl();
+#endif
+
+  //screen->print("PS/2 test: ");
+  //screen->printHex(PS2Keyboard::testPS2Controller());
+
+  screen->print(". PS/2 status: ");
+  screen->printHex(PS2Keyboard::readStatusRegister());
+
+  //screen->print(" Char: ");
+  //screen->print(PS2Keyboard::readByte());
+
+  screen->nl();
+ 
+}
+
 void System::initInterrupts()
 {
-  //Initialize IDT (Already done in the constructor for IDT)
-  idt.writeToMemory();
+  //this->idt = malloc(sizeof(IDT));
+  screen->print("Constructing IDT");
 
-  screen->print("\ninterruptReturnCode: ");
-  screen->print(isrReturnValue);
-  screen->print(". Now testing ISR...\n");
-
-  //Check that interruptReturnCode is 32 to begin with. 
-  //testInterrupts();
-
-  screen->print("interruptReturnCode: ");
-  screen->print(isrReturnValue);
-
-  screen->print("Done.");
-    
+  //TODO: Debug why the following line doesn't work.
+  //IDT* dummyIdt2 = new IDT();
+  idt = (IDT*) malloc(sizeof(IDT));
+  idt->init();
+  screen->print("Initialized IDT.\n");
+  //TODO
+  screen->print("Loading IDT...");
+  idt->load();
+  screen->print(" done.\n");
+  testInterruptSystem(screen);
 }

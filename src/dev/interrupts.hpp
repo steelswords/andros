@@ -2,7 +2,7 @@
 #define _ANDROS_INTERRUPTS_HPP_
 
 #include "stdint.h"
-#include "memory.hpp"
+#include "isrs/interruptHandlers.hpp"
 
 /* From the OSDev Wiki:
  *     7                           0
@@ -19,7 +19,12 @@
 
 #define IA32_INTERRUPT_GATE 0x8E
 #define IA32_UNUSED_INTERRUPT_GATE 0x0E
+#define IA32_TRAP_GATE 0x8F
 
+#define NUM_IDT_GATES 256
+
+#define IRQ_VECTOR_OFFSET 0x70
+#define IRQ_VECTOR_OFFSET_PIC2 (IRQ_VECTOR_OFFSET + 8)
 
 struct IDTGate
 {
@@ -49,15 +54,42 @@ class IDT
 {
 public:
   IDT();
+  //IDTGate m_gates[NUM_IDT_GATES];
   IDTGate* m_gates;
-  void writeToMemory();
   void registerInterruptHandler(int interrupt, void(*handler)(InterruptFrame* frame));
+  void init(); // Loads default ISR into all the gates
+  void load(); // loads the IDT into memory and calls lidt
+  void registerInterruptHandler(int interrupt, void(*handler)());
+  void initISRs(); // Loads the various ISRs we need to make things work.
 };
+
+/* The following code courtesy of wiki.osdev.org */
+/*
+static inline void lidt(void* base, uint16_t size)
+{   // This function works in 32 and 64bit mode
+    struct {
+        uint16_t length;
+        void*    base;
+    } __attribute__((packed)) IDTR = { size, base };
+ 
+    asm ( "lidt %0" : : "m"(IDTR) );  // let the compiler choose an addressing mode
+}
+*/
 
 extern "C" void _loadIDT(IDTPointer* pointer);
 extern "C" void testInterrupts(void);
 
 extern "C" void isr_wrapper(void);
 extern "C" int isrReturnValue;
+
+extern "C" int interruptReturnValue;
+extern "C" void testInterrupts();
+extern "C" void enableInterruptFlag();
+
+// Interrupt Handlers
+extern "C" void defaultISR();
+extern "C" void keyboardISR();
+
+extern "C" int keyboardScancode;
 
 #endif

@@ -3,12 +3,13 @@ BUILDDIR=build
 SPECIFICATION_SOURCES = $(wildcard $(SPECSDIR)/*.tex)
 
 SDIRS = src/ src/video src/dev src/mem src/libc src/libc/include \
-				src/dev/hwid src/utils
+				src/dev/hwid src/utils src/dev/pic src/dev/ps2 src/dev/isrs
 SDIR = src
 ODIR = obj
 BDIR = $(BUILDDIR)
 DDIR = dep
 LDIR = lib
+ISRDIR = src/dev/isrs
 ISO = $(BDIR)/AndrOS.iso
 KNAME = andros.bin
 
@@ -16,9 +17,11 @@ KNAME = andros.bin
 INC        = $(patsubst src/%.hpp, %.hpp, $(SDIRS)) $(patsubst src/%.h, %.h, $(SDIRS))
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
-FLAGS= -fno-exceptions -ffreestanding -O2 -Wall -Wextra -nostdlib
-#CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11 -mno-red-zone -mgeneral-regs-only
-CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11 -mno-red-zone
+FLAGS= -fno-exceptions -ffreestanding -O2 -Wall -Wextra -nostdlib -mno-red-zone
+CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11
+#TODO: Investigate why this is throwing an error
+#FLAGS_ISR= -mgeneral-regs-only
+FLAGS_ISR = -Wall
 
 CROSS_COMPILER_DIR = "/opt/cross/bin"
 
@@ -36,13 +39,16 @@ all: | toolchain kmain
 
 # List all sources to be included in the project (except main file)
 _SRCS    = $(foreach f, $(SDIRS), $(wildcard $(f)/*.cpp))
-ASM_SRCS = $(foreach f, $(SDIRS), $(wildcard $(f)/*.s))
+## ISR_SRCS = $(foreach f, $(ISRDIR), $(wildcard $(f)/*.cpp))
+## ISR_OBJ  = $(patsubst src/%.cpp, $(ODIR)/%.isro, $(ISR_SRCS))
+ASM_SRCS = $(foreach f, $(SDIRS) $(ISRDIR), $(wildcard $(f)/*.s))
 ASM_OBJ  = $(patsubst src/%.s, $(ODIR)/%._o, $(ASM_SRCS))
 C_SRCS   = $(foreach f, $(SDIRS), $(wildcard $(f)/*.c))
 C_OBJ    = $(patsubst src/%.c, $(ODIR)/%.co, $(C_SRCS))
 
 # Derived variable SRCS used by dependency management
-SRCS = $(_SRCS) $(C_SRCS)
+SRCS = $(_SRCS) $(C_SRCS) 
+# $(ISR_SRCS)
 
 # Derived variables KOBJ lists dependencies for the output binaries
 #KOBJ =  $(foreach dir, $(SDIRS), $(patsubst $(dir)/%.cpp, $(ODIR)/%.o, $(_SRCS)))
@@ -51,7 +57,7 @@ KOBJ =  $(patsubst src/%.cpp, $(ODIR)/%.o, $(SRCS))
 #####################
 # Kernel link step
 #####################
-$(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ) $(C_OBJ)
+$(BDIR)/$(KNAME): $(KOBJ) $(ASM_OBJ) $(C_OBJ) $(ISR_OBJ)
 	echo -e "--> Compiling Kernel"
 # $(AS) src/boot.s -o $(ODIR)/boot.o
 # $(CPP) -T linker.ld -o $@ $^ $(ODIR)/boot.o
@@ -73,8 +79,17 @@ $(ODIR)/%._o: $(SDIR)/%.s $(DDIR)/%.d
 # All C compilation units in the project
 $(ODIR)/%.co: $(SDIR)/%.c $(DDIR)/%.d
 	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
-	$(CPP) -c -o $@ $<
+	$(CC) -c -o $@ $<
 	#$(POSTCPPC)
+
+## # All the ISR (Interrupt Service Routines) units in the project
+## $(ODIR)/%.isro: $(ISR_SRCS)/%.cpp $(DDIR)/%.d
+## 	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
+## 	# Redo the interrupt_wrapper module
+## 	$(AS) -c -o $(SDIR)/$(ISRDIR)/interrupt_wrapper._o
+## 	$(CPP) $(FLAGS_ISR) -c -o $@ $< $(SDIR)/$(ISRDIR)/interrupt_wrapper._o
+## 	#$(POSTCPPC)
+	
 
 $(ODIR)/video/%.o: $(SDIR)/video/%.cpp $(DDIR)/video/%.d
 	@echo -e "\033[0;32m [OK] \033[0m       \033[0;33m Compiling:\033[0m" $<
@@ -95,9 +110,10 @@ kmain: toolchain $(BDIR)/$(KNAME)
 
 
 # List of subdirectories we have to make
-OBJ_SUBDIRS = $(patsubst src/%, $(ODIR)/%, $(SDIRS))
-BLD_SUBDIRS = $(patsubst src/%, $(BDIR)/%, $(SDIRS))
-DEP_SUBDIRS = $(patsubst src/%, $(DDIR)/%, $(SDIRS))
+
+OBJ_SUBDIRS = $(patsubst src/%, $(ODIR)/%, $(SDIRS) $(ISRDIR))
+BLD_SUBDIRS = $(patsubst src/%, $(BDIR)/%, $(SDIRS) $(ISRDIR))
+DEP_SUBDIRS = $(patsubst src/%, $(DDIR)/%, $(SDIRS) $(ISRDIR))
 
 $(DDIR):
 	@mkdir $(DDIR)
@@ -128,6 +144,9 @@ $(ISO): kmain
 test: $(ISO)
 	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso
 
+.PHONY: debug
+debug: $(ISO)
+	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso -d int -no-reboot
 
 #Dependency management: prevent .d files from being deleted.
 $(DDIR)/%.d: ;
