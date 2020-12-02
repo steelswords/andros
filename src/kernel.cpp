@@ -67,9 +67,7 @@ void kernel_main(void)
   uint32_t oldKey = 0;
   while (1)
   {
-    //uint32_t key = 0;
-    //uint32_t key = inb(0x60);
-    uint32_t key = keyboardReadValue;
+    uint32_t key = inb(0x60);
     if (key != oldKey)
     {
       screen->print(" <");
