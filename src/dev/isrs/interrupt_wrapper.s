@@ -12,6 +12,7 @@ addTwo:
 
 .global keyboardISR_wrapper
 keyboardISR_wrapper:
+  iret
   pusha
   /* SysV ABI requires DF to be clear on function entry */
   cld
