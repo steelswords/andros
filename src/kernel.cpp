@@ -52,8 +52,8 @@ void kernel_main(void)
   System sys;
   system = &sys;
   sys.init();
-  screen->print("\nAndrOS Initialized\n");
   screen = sys.screen;
+  screen->print("\nAndrOS Initialized\n");
 
 
   //system->cpuInfo->print(screen);

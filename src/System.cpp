@@ -291,14 +291,14 @@ void System::pollKeyboardAndHandle()
   char oldKey = 0;
   while (1)
   {
-    screen->putChar('.');
-    //char key = inb(0x60);
-    char key = 'a';
+    //screen->putChar('.');
+    char key = inb(0x60);
+    //char key = 'a';
     if (key != oldKey)
     {
       screen->putChar('_');
-      keystrokes->add(key);
-      processKeyboardInput(keystrokes, terminal->m_stdin);
+      //keystrokes->add(key);
+      //processKeyboardInput(keystrokes, terminal->m_stdin);
 
       //terminal->handleInput();
       oldKey = key;
