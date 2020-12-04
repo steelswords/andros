@@ -58,8 +58,6 @@ void kernel_main(void)
 
   //system->cpuInfo->print(screen);
 
-   screen->print("blah");
-
   //kprint_greeting();
   
   //inb(0x60);

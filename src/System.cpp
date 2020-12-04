@@ -296,11 +296,11 @@ void System::pollKeyboardAndHandle()
     //char key = 'a';
     if (key != oldKey)
     {
-      screen->putChar('_');
-      //keystrokes->add(key);
-      //processKeyboardInput(keystrokes, terminal->m_stdin);
+      //screen->putChar('_');
+      keystrokes->add(key);
+      processKeyboardInput(keystrokes, terminal->m_stdin);
 
-      //terminal->handleInput();
+      terminal->handleInput();
       oldKey = key;
     }
   }
