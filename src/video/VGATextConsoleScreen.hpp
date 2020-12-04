@@ -9,8 +9,7 @@ static const int VGA_HEIGHT = 25;
 
 #include "video/ConsoleScreen.hpp"
 #include "utils/kstring.hpp"
-
-void operator delete(void* target);
+#include "mem/memory.hpp"
 
 class VGATextConsoleScreen : public ConsoleScreen
 {

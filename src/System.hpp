@@ -18,6 +18,7 @@ public:
   IDT* idt;
   CircularBuffer<uint8_t>* keystrokes;
   KernelTerminal* terminal;
+  KernelTerminal m_terminal;
 
 
   static System* getInstance();

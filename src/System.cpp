@@ -43,9 +43,16 @@ void System::init()
 
 void System::initTerminal()
 {
-  terminal = (KernelTerminal*)malloc(sizeof(KernelTerminal));
+  //terminal = (KernelTerminal*)malloc(sizeof(KernelTerminal));
+  terminal = &m_terminal;
   terminal->m_stdout = screen;
   terminal->m_stdout->print("Initialized Terminal\n");
+  terminal->m_stdout->print("\nm_stdin begins: ");
+  terminal->m_stdout->printHex((uint32_t)terminal->m_stdin->m_beginning);
+  terminal->m_stdout->print(" and ends: ");
+  terminal->m_stdout->printHex((uint32_t)terminal->m_stdin->m_end);
+  terminal->m_stdout->nl();
+
 }
 
 void System::initConsole()
@@ -277,16 +284,21 @@ void System::initInterrupts()
 
 void System::pollKeyboardAndHandle()
 {
+  //screen->putChar('7');
+  //return;
   inb(0x60);
-  uint32_t oldKey = 0;
+  char oldKey = 0;
   while (1)
   {
-    uint32_t key = inb(0x60);
+    screen->putChar('.');
+    char key = inb(0x60);
     if (key != oldKey)
     {
+      screen->putChar('_');
       keystrokes->add(key);
       processKeyboardInput(keystrokes, terminal->m_stdin);
-      terminal->handleInput();
+
+      //terminal->handleInput();
       oldKey = key;
     }
   }

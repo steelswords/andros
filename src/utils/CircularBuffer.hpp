@@ -17,11 +17,11 @@ public:
   bool isEmpty(); // Returns true if there are no elements in the buffer
   CircularBuffer<T>(size_t bufferSize);
   T m_defaultValue;
-private:
+//private:
   T* m_head;
   T* m_tail;
-  T* m_beginning;
-  T* m_end;
+  T* m_beginning {0};
+  T* m_end {0};
   size_t m_sizeUsed;
   size_t m_bufferSize;
   

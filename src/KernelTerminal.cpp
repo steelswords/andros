@@ -1,9 +1,9 @@
 #include "KernelTerminal.hpp"
-#include "mem/memory.hpp"
 
 KernelTerminal::KernelTerminal()
+  : m_inputBuffer(CircularBuffer<char>(KERNEL_TERMINAL_BUFFER_SIZE))
 {
-  m_stdin = new CircularBuffer<char>(KERNEL_TERMINAL_BUFFER_SIZE);
+  m_stdin = & m_inputBuffer;
 }
 
 static bool isControlChar(char c)

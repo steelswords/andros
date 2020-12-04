@@ -3,6 +3,7 @@
 
 #include "utils/CircularBuffer.hpp"
 #include "video/ConsoleScreen.hpp"
+#include "mem/memory.hpp"
 
 #define KERNEL_TERMINAL_BUFFER_SIZE 1024
 
@@ -18,6 +19,7 @@ public:
   void handleInput();
   
 private:
+  CircularBuffer<char> m_inputBuffer;
 
   /**************************************
    * SHELL FUNCTIONS

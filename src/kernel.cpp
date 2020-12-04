@@ -52,20 +52,22 @@ void kernel_main(void)
   System sys;
   system = &sys;
   sys.init();
+  screen->print("\nAndrOS Initialized\n");
   screen = sys.screen;
 
 
-  system->cpuInfo->print(screen);
+  //system->cpuInfo->print(screen);
 
-  screen->print("\nAndrOS Initialized\n");
+   screen->print("blah");
 
   //kprint_greeting();
   
-// The following does work.
+  inb(0x60);
  while(1)
  {
    system->pollKeyboardAndHandle();
  }
+// The following does work.
 #if 0 
   inb(0x60);
   uint32_t oldKey = 0;
