@@ -16,6 +16,7 @@ char ScancodeSet1_printableKeys [] =
   '3', '0', '.', NON_PRINTABLE_CHAR, NON_PRINTABLE_CHAR // 0x58 
 };
 
+char shiftedNumbers [] = { ')', '!', '@', '#', '$', '%', '^', '&', '*', '(' };
 bool ScancodeSet1_isPrintable(uint8_t scancode)
 {
   // Returns true if scancode is a printable char, i.e. 
@@ -46,7 +47,54 @@ void processKeyboardInput(CircularBuffer<uint8_t>* keypresses, CircularBuffer<ch
         char printableChar = ScancodeSet1_printableKeys[adjKeypress];
         if (shiftOn)
         {
-          printableChar -= 32;
+          switch(printableChar)
+          {
+            case '[':
+              printableChar = '{';
+              break;
+            case ']':
+              printableChar = '}';
+              break;
+            case ';':
+              printableChar = ':';
+              break;
+            case '\'':
+              printableChar = '\"';
+              break;
+            case '\\':
+              printableChar = '|';
+              break;
+            case '=':
+              printableChar = '+';
+              break;
+            case '`':
+              printableChar = '~';
+              break;
+            case '-':
+              printableChar = '_';
+              break;
+            case ',':
+              printableChar = '<';
+              break;
+            case '.':
+              printableChar = '>';
+              break;
+            case '/':
+              printableChar = '?';
+              break;
+            default:
+              // If it's a number
+              if ('0' <= printableChar && printableChar <= '9')
+              {
+                printableChar = shiftedNumbers[printableChar - '0'];
+              }
+              else
+              {
+                // It's just the shifted letters
+                printableChar -= 32;
+              }
+          }
+          
         }
         outputBuffer->add(printableChar);
       }
