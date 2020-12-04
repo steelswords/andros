@@ -62,7 +62,7 @@ void kernel_main(void)
 
   //kprint_greeting();
   
-  inb(0x60);
+  //inb(0x60);
  while(1)
  {
    system->pollKeyboardAndHandle();

@@ -16,6 +16,7 @@ public:
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
   IDT* idt;
+  CircularBuffer<uint8_t> m_keystrokeBuffer;
   CircularBuffer<uint8_t>* keystrokes;
   KernelTerminal* terminal;
   KernelTerminal m_terminal;

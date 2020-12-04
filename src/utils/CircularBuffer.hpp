@@ -16,6 +16,7 @@ public:
   bool isFull(); // Returns true if there is no more room in the buffer
   bool isEmpty(); // Returns true if there are no elements in the buffer
   CircularBuffer<T>(size_t bufferSize);
+  CircularBuffer<T>();
   T m_defaultValue;
 //private:
   T* m_head;
@@ -38,6 +39,20 @@ CircularBuffer<T>::CircularBuffer(size_t bufferSize)
   m_beginning = m_head;
   m_end  = m_head + bufferSize;
 }
+
+template <class T>
+CircularBuffer<T>::CircularBuffer()
+  : m_bufferSize(CIRCULAR_BUFFER_DEFAULT_SIZE),
+    m_sizeUsed(0),
+    m_defaultValue((T)0)
+{
+  size_t bufferSize = CIRCULAR_BUFFER_DEFAULT_SIZE;
+  m_head = (T*) malloc(bufferSize * sizeof(T));
+  m_tail = nullptr;
+  m_beginning = m_head;
+  m_end  = m_head + bufferSize;
+}
+
 
 template <class T>
 bool CircularBuffer<T>::add(T element)

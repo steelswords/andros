@@ -16,6 +16,7 @@ System::System()
   : mbhi(multiboot_header_ptr)
 {
   System::instance = this;
+  keystrokes = &m_keystrokeBuffer;
 }
 
 System* System::getInstance()
@@ -286,12 +287,13 @@ void System::pollKeyboardAndHandle()
 {
   //screen->putChar('7');
   //return;
-  inb(0x60);
+  //inb(0x60);
   char oldKey = 0;
   while (1)
   {
     screen->putChar('.');
-    char key = inb(0x60);
+    //char key = inb(0x60);
+    char key = 'a';
     if (key != oldKey)
     {
       screen->putChar('_');

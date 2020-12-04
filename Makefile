@@ -146,7 +146,7 @@ test: $(ISO)
 
 .PHONY: debug
 debug: $(ISO)
-	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso -d int -no-reboot
+	qemu-system-x86_64 -cdrom $(BDIR)/AndrOS.iso -d int,in_asm -no-reboot -D debug.log
 
 #Dependency management: prevent .d files from being deleted.
 $(DDIR)/%.d: ;
