@@ -6,6 +6,8 @@
 #include "video/VGATextConsoleScreen.hpp"
 #include "mem/MemoryManager.hpp"
 #include "dev/interrupts.hpp"
+#include "utils/CircularBuffer.hpp"
+#include "KernelTerminal.hpp"
 
 class System
 {
@@ -14,6 +16,9 @@ public:
   MultibootHeaderInfo mbhi;
   ConsoleScreen* screen;
   IDT* idt;
+  CircularBuffer<uint8_t>* keystrokes;
+  KernelTerminal* terminal;
+
 
   static System* getInstance();
 
@@ -23,6 +28,9 @@ public:
   System();
   void init();
 
+  /* Polls the keyboard controller for input and handles it. */
+  void pollKeyboardAndHandle();
+
 private: // Only called during construction.
 
   /* Fills the heap/stack begin/end pointers and
@@ -30,6 +38,7 @@ private: // Only called during construction.
   void initMemoryManager();
   void initConsole();
   void initInterrupts();
+  void initTerminal();
   void findBiggestChunkOfMemory(void*& begin, void*& end);
 
 protected:

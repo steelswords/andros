@@ -62,7 +62,11 @@ void kernel_main(void)
   //kprint_greeting();
   
 // The following does work.
-#if 1 
+ while(1)
+ {
+   system->pollKeyboardAndHandle();
+ }
+#if 0 
   inb(0x60);
   uint32_t oldKey = 0;
   while (1)

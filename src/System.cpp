@@ -7,6 +7,8 @@
 #include "dev/x86cpu.hpp"
 #include "dev/ps2/ps2.hpp"
 #include "dev/isrs/interruptHandlers.hpp"
+#include "dev/keyboardScancodes.hpp"
+#include "dev/cpuIO.hpp"
 
 System* System::instance = 0;
 
@@ -34,7 +36,16 @@ void System::init()
   initMemoryManager();
   cpuInfo = new CPUInformation();
   initInterrupts();
+  initTerminal();
   //debugSystemStuff();
+  screen->print("Done with initialization.");
+}
+
+void System::initTerminal()
+{
+  terminal = (KernelTerminal*)malloc(sizeof(KernelTerminal));
+  terminal->m_stdout = screen;
+  terminal->m_stdout->print("Initialized Terminal\n");
 }
 
 void System::initConsole()
@@ -262,4 +273,21 @@ void System::initInterrupts()
   idt->load();
   screen->print(" done.\n");
   testInterruptSystem(screen);
+}
+
+void System::pollKeyboardAndHandle()
+{
+  inb(0x60);
+  uint32_t oldKey = 0;
+  while (1)
+  {
+    uint32_t key = inb(0x60);
+    if (key != oldKey)
+    {
+      keystrokes->add(key);
+      processKeyboardInput(keystrokes, terminal->m_stdin);
+      terminal->handleInput();
+      oldKey = key;
+    }
+  }
 }
