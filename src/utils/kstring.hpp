@@ -7,7 +7,7 @@
 #include <stdint.h>
 #endif
 
-#define KSTRING_DEFAULT_SIZE 24
+#define KSTRING_DEFAULT_SIZE 0
 #define KSTRING_MAX_SIZE 
 
 //TODO: + operator
@@ -57,6 +57,9 @@ public:
   /* Static string helper functions */
   static bool isCharDigit(char c);
   static size_t strLength(const char* str);
+  /* Compares two strings to see if they have the same contents */
+  static bool isEqual(kstring& a, kstring& b);
+  static bool isEqual(char* a, char* b);
 
   /* Caveat: destination shall be large enough to accomodate. */
   static void copyString(char* destination, const char* source);

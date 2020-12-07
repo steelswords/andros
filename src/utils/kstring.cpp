@@ -80,6 +80,51 @@ bool kstring::isCharDigit(char c)
   else return false;
 }
 
+static bool isEqual(kstring& a, kstring& b)
+{
+
+  bool retVal = true;
+  if (a.length() == b.length())
+  {
+    // Loop through each character, checking for correctness.
+    for (int i = 0; i < a.length(); ++i)
+    {
+      if (a.m_data[i] != b.m_data[i])
+      {
+        retVal = false;
+        break;
+      }
+    }
+  }
+  else
+  {
+    retVal = false;
+  }
+  return retVal;
+}
+
+bool kstring::isEqual(char* a, char* b)
+{
+  bool retVal = true;
+  if (strLength(a) == strLength(b))
+  {
+    // Loop through each character, checking for correctness.
+    for (int i = 0; i < strLength(a); ++i)
+    {
+      if (a[i] != b[i])
+      {
+        retVal = false;
+        break;
+      }
+    }
+  }
+  else
+  {
+    retVal = false;
+  }
+  return retVal;
+}
+
 int kstring::numDigitsInInt(int value)
 {
   if (value < -999999999 || value > 999999999) return 10;
@@ -379,6 +424,7 @@ void kstring::init(size_t sizeToAllocate)
 /* Operators */
 bool kstring::operator==(const kstring& other)
 {
+  //TODO: Consolidate with isEqual()
   bool retVal = true;
   if (other.length() == this->length())
   {

@@ -1,10 +1,21 @@
 #include "KernelTerminal.hpp"
+#include "utils/kstring.hpp"
 
 KernelTerminal::KernelTerminal()
   : m_inputBuffer(CircularBuffer<char>(KERNEL_TERMINAL_BUFFER_SIZE)),
     m_commandBufferIndex(0)
 {
   m_stdin = & m_inputBuffer;
+}
+
+void KernelTerminal::parseCommand()
+{
+  char* greetingCommand = "greet";
+  if (kstring::isEqual(m_commandBuffer, greetingCommand))
+  {
+    m_stdout->print("Hello");
+  }
+
 }
 
 void KernelTerminal::handleInput()
@@ -18,18 +29,17 @@ void KernelTerminal::handleInput()
         //TODO: Parse & execute command
         m_stdout->nl();
         m_stdout->print("Command entered: ");
-#if 0
-        m_commandBuffer[0] = 'q';
-        m_commandBuffer[1] = 'u';
-        m_commandBuffer[2] = 'a';
-        m_commandBuffer[3] = 'b';
-        m_commandBuffer[4] = 'i';
-        m_commandBuffer[5] = 't';
-        m_commandBuffer[6] = 'y';
-        m_commandBuffer[7] = '\0';
-#endif
-        
         m_stdout->print((char*)m_commandBuffer);
+        m_stdout->nl();
+
+        parseCommand();
+
+        // Clear command buffer
+        // TODO: Add to shell history
+        for (; m_commandBufferIndex >0; --m_commandBufferIndex)
+        {
+          m_commandBuffer[m_commandBufferIndex] = 0;
+        }
         break;
       case '\b':
         // Remove last character from commandBuffer, if there is one

@@ -35,6 +35,7 @@ private:
 
   uint16_t m_column;
   uint16_t m_row;
+  void parseCommand();
   void backspace();
 
 
