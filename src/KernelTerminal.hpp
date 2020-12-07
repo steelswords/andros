@@ -9,6 +9,8 @@
 #define KERNEL_TERMINAL_WIDTH 80
 #define KERNEL_TERMINAL_HEIGHT 25
 
+#define KERNEL_TERMINAL_COMMAND_BUFFER_SIZE 512
+
 class KernelTerminal
 {
 public:
@@ -23,8 +25,14 @@ public:
 private:
   CircularBuffer<char> m_inputBuffer;
   //TODO: History for scrolling
-
+  
+  /* A buffer for potential commands to go in.
+   * Will be replaced by a dynamic character array once I've made one */
+  char m_commandBuffer[KERNEL_TERMINAL_COMMAND_BUFFER_SIZE] {0};
+  int32_t m_commandBufferIndex {0};
+  
   char m_screenContents[KERNEL_TERMINAL_HEIGHT][KERNEL_TERMINAL_WIDTH];
+
   uint16_t m_column;
   uint16_t m_row;
   void backspace();

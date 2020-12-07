@@ -116,6 +116,9 @@ void processKeyboardInput(CircularBuffer<uint8_t>* keypresses, CircularBuffer<ch
           case Backspace:
             outputBuffer->add('\b');
             break;
+          case Enter:
+            outputBuffer->add('\n');
+            break;
         }
       }
         
