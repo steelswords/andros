@@ -42,6 +42,7 @@ public:
   virtual void printlHex(uint64_t value);
   
   virtual void nl();
+  virtual void backspace();
 
 private:
   uint16_t* vga_memory; // C-style for C-style programming tricks.

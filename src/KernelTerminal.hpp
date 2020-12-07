@@ -6,6 +6,8 @@
 #include "mem/memory.hpp"
 
 #define KERNEL_TERMINAL_BUFFER_SIZE 1024
+#define KERNEL_TERMINAL_WIDTH 80
+#define KERNEL_TERMINAL_HEIGHT 25
 
 class KernelTerminal
 {
@@ -20,6 +22,14 @@ public:
   
 private:
   CircularBuffer<char> m_inputBuffer;
+  //TODO: History for scrolling
+
+  char m_screenContents[KERNEL_TERMINAL_HEIGHT][KERNEL_TERMINAL_WIDTH];
+  uint16_t m_column;
+  uint16_t m_row;
+  void backspace();
+
+
 
   /**************************************
    * SHELL FUNCTIONS

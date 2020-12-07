@@ -6,22 +6,19 @@ KernelTerminal::KernelTerminal()
   m_stdin = & m_inputBuffer;
 }
 
-static bool isControlChar(char c)
-{
-  if (c != '\b')
-  {
-    return false;
-  }
-}
-
 void KernelTerminal::handleInput()
 {
   while(!m_stdin->isEmpty())
   {
     char inputChar = m_stdin->get();
-    if (!isControlChar(inputChar))
+    switch(inputChar)
     {
-      m_stdout->putChar(inputChar);
+      case '\n':
+        break;
+      case '\b':
+      default:
+        m_stdout->putChar(inputChar);
+        break;
     }
   }
 }

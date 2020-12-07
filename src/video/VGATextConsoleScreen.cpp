@@ -69,6 +69,11 @@ void VGATextConsoleScreen::putChar(char c, int16_t col, int16_t row)
     m_column = 0;
     return;
   }
+  if (c == '\b')
+  {
+    backspace();
+    return;
+  }
   int index = row * VGA_WIDTH + col;
   uint16_t vgaData = c | m_consoleColor << 8;
   vga_memory[index] = vgaData;
@@ -124,4 +129,18 @@ VGATextConsoleScreen::~VGATextConsoleScreen()
 void VGATextConsoleScreen::nl()
 {
   putChar('\n');
+}
+
+void VGATextConsoleScreen::backspace()
+{
+  //Decrement row and column and then put a space there
+  //TODO: When I implement scrolling and history and such, I'll need a more robust way 
+  //to do this
+  if (m_column != 0)
+  {
+    putChar(' ', --m_column, m_row);
+    // putChar increments m_column at the end.
+    m_column--;
+  }
+
 }
