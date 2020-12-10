@@ -21,6 +21,7 @@ public:
   /* When called, parses input found in m_stdin and runs appropriate
    * actions on the input, runs shell functions, calls programs, etc. */
   void handleInput();
+  void printTerminalPrompt();
   
 private:
   CircularBuffer<char> m_inputBuffer;
@@ -45,7 +46,6 @@ private:
    **************************************/
 
   /* Prints "AndrOS v <version number>" */
-  void printTerminalPrompt();
   void printOSName();
   void printMemoryMap();
 };

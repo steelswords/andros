@@ -40,21 +40,12 @@ extern "C" void __cxa_pure_virtual() { while (1); }
 ConsoleScreen* screen;
 System* system;
 KernelTerminal* kterm = nullptr;
-
-//TODO: Get rid of this
-void kprint_greeting();
-
-//TODO: Get rid of this
-struct testStruct
-{
-  uint32_t a;
-  uint32_t b;
-};
  
 extern "C" 
 {
 void kernel_main(void) 
 {
+  // Initialize System
   System sys;
   system = &sys;
   sys.init();
@@ -67,6 +58,7 @@ void kernel_main(void)
   screen->print("Kernel Terminal Initialized\n");
 
   screen->print("\nAndrOS Initialized\n");
+  kterm->printTerminalPrompt();
 
 #if 1 
   inb(0x60);
@@ -97,40 +89,4 @@ void kernel_main(void)
 
 extern "C" {
   int increment(int i);
-}
-
-void kprint_greeting()
-{
-#if 0
-  VGATextConsoleScreen textConsole;
-  screen = &textConsole;
-  screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
-  screen->clear();
-  char msg1[] = "Welcome to AndrOS 0.0.1b\n\0";
-  screen->print(msg1);
-#endif
-
-  // Print location of multiboot header
-  MultibootHeaderInfo mbh(multiboot_header_ptr);
-
-  screen->print("Upper memory available: ");
-  screen->print(mbh.m_upperMemoryAvailable);
-  screen->print(" KB\n");
-
-  mbh.printMemoryTable(screen);
-
-  screen->print("Initializing GDT...");
-  MemoryManager mman;
-  mman.initGDT();
-
-  memdump(screen, &mman.GDTBuffer[0], mman.m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
-
-  screen->nl();
-  screen->printHex((uint32_t)mman.GDTBuffer);
-  screen->print("\nSize:");
-  screen->print(mman.m_numberGDTEntries * GDT_ENTRY_SIZE_IN_MEMORY);
-
-  screen->print("Done.");
-
-  return;
 }
