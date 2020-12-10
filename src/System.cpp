@@ -99,7 +99,7 @@ void System::findBiggestChunkOfMemory(void*& begin, void*& end)
 }
 
 //#define DEBUG_PRINTOUTS
-#define DEBUG_MEMORY_MAP
+//#define DEBUG_MEMORY_MAP
 void System::initMemoryManager()
 {
   kernelStackEnd = stack_ptr;

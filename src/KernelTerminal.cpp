@@ -11,11 +11,16 @@ KernelTerminal::KernelTerminal()
 void KernelTerminal::parseCommand()
 {
   char* greetingCommand = "greet";
+  char* printMemMapCommand  = "memmap";
   if (kstring::isEqual(m_commandBuffer, greetingCommand))
   {
     m_stdout->print("Hello");
   }
+  if (kstring::isEqual(m_commandBuffer, printMemMapCommand))
+  {
+  }
 
+  printTerminalPrompt();
 }
 
 void KernelTerminal::handleInput()
@@ -65,4 +70,14 @@ void KernelTerminal::handleInput()
         break;
     }
   }
+}
+
+void KernelTerminal::printMemoryMap()
+{
+  //System::getInstance()->mbhi.printMemoryTable(m_stdout);
+}
+
+void KernelTerminal::printTerminalPrompt()
+{
+  m_stdout->print("andros > ");
 }
