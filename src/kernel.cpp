@@ -18,6 +18,9 @@
 #include "boot.hpp"
 #include "mem/memory.hpp"
 #include "dev/cpuIO.hpp"
+#include "KernelTerminal.hpp"
+#include "dev/keyboardScancodes.hpp"
+#include "utils/CircularBuffer.hpp"
  
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -36,9 +39,12 @@ extern "C" void __cxa_pure_virtual() { while (1); }
 /* Global objects */
 ConsoleScreen* screen;
 System* system;
+KernelTerminal* kterm = nullptr;
 
+//TODO: Get rid of this
 void kprint_greeting();
 
+//TODO: Get rid of this
 struct testStruct
 {
   uint32_t a;
@@ -53,20 +59,16 @@ void kernel_main(void)
   system = &sys;
   sys.init();
   screen = sys.screen;
+
+  // Initialize kterm
+  KernelTerminal _kernelTerminal;
+  kterm = &_kernelTerminal;
+  kterm->m_stdout = screen;
+  screen->print("Kernel Terminal Initialized\n");
+
   screen->print("\nAndrOS Initialized\n");
 
-
-  //system->cpuInfo->print(screen);
-
-  //kprint_greeting();
-  
-  //inb(0x60);
- while(1)
- {
-   system->pollKeyboardAndHandle();
- }
-// The following does work.
-#if 0 
+#if 1 
   inb(0x60);
   uint32_t oldKey = 0;
   while (1)
@@ -74,9 +76,15 @@ void kernel_main(void)
     uint32_t key = inb(0x60);
     if (key != oldKey)
     {
+#if 0
+      //Prints scancode
       screen->print(" <");
       screen->print(key);
       screen->print(">");
+#endif
+      system->keystrokes->add((char)key);
+      processKeyboardInput(system->keystrokes, kterm->m_stdin);
+      kterm->handleInput();
       oldKey = key;
     }
   }
@@ -90,8 +98,6 @@ void kernel_main(void)
 extern "C" {
   int increment(int i);
 }
-
-
 
 void kprint_greeting()
 {

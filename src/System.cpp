@@ -37,23 +37,8 @@ void System::init()
   initMemoryManager();
   cpuInfo = new CPUInformation();
   initInterrupts();
-  initTerminal();
   //debugSystemStuff();
   screen->print("Done with initialization.");
-}
-
-void System::initTerminal()
-{
-  //terminal = (KernelTerminal*)malloc(sizeof(KernelTerminal));
-  terminal = &m_terminal;
-  terminal->m_stdout = screen;
-  terminal->m_stdout->print("Initialized Terminal\n");
-  terminal->m_stdout->print("\nm_stdin begins: ");
-  terminal->m_stdout->printHex((uint32_t)terminal->m_stdin->m_beginning);
-  terminal->m_stdout->print(" and ends: ");
-  terminal->m_stdout->printHex((uint32_t)terminal->m_stdin->m_end);
-  terminal->m_stdout->nl();
-
 }
 
 void System::initConsole()
@@ -281,27 +266,4 @@ void System::initInterrupts()
   idt->load();
   screen->print(" done.\n");
   testInterruptSystem(screen);
-}
-
-void System::pollKeyboardAndHandle()
-{
-  //screen->putChar('7');
-  //return;
-  //inb(0x60);
-  char oldKey = 0;
-  while (1)
-  {
-    //screen->putChar('.');
-    char key = inb(0x60);
-    //char key = 'a';
-    if (key != oldKey)
-    {
-      //screen->putChar('_');
-      keystrokes->add(key);
-      processKeyboardInput(keystrokes, terminal->m_stdin);
-
-      terminal->handleInput();
-      oldKey = key;
-    }
-  }
 }
