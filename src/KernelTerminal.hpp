@@ -47,7 +47,7 @@ private:
 
   /* Prints "AndrOS v <version number>" */
   void printOSName();
-  void printMemoryMap();
+  void peek();
 };
 
 #endif

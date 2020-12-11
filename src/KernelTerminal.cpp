@@ -1,6 +1,7 @@
 #include "KernelTerminal.hpp"
 #include "utils/kstring.hpp"
 #include "System.hpp"
+#include "stddef.h"
 
 KernelTerminal::KernelTerminal()
   : m_inputBuffer(CircularBuffer<char>(KERNEL_TERMINAL_BUFFER_SIZE)),
@@ -13,6 +14,7 @@ void KernelTerminal::parseCommand()
 {
   char* greetingCommand = "greet";
   char* printMemMapCommand  = "memmap";
+  char* peekCommand         = "peek";
 
   if (kstring::isEqual(m_commandBuffer, greetingCommand))
   {
@@ -21,6 +23,10 @@ void KernelTerminal::parseCommand()
   if (kstring::isEqual(m_commandBuffer, printMemMapCommand))
   {
     System::getInstance()->mbhi.printMemoryTable(m_stdout);
+  }
+  if (kstring::isEqual(m_commandBuffer, peekCommand))
+  {
+    peek(); 
   }
 
   printTerminalPrompt();
@@ -75,9 +81,12 @@ void KernelTerminal::handleInput()
   }
 }
 
-void KernelTerminal::printMemoryMap()
+void KernelTerminal::peek()
 {
-  //System::getInstance()->mbhi.printMemoryTable(m_stdout);
+  // Get integer for first argument
+  // Get integer for second argument
+  // Read value and
+  // Display
 }
 
 void KernelTerminal::printTerminalPrompt()

@@ -1,8 +1,10 @@
 #ifndef _ANDROS_CIRCULAR_BUFFER_HPP
 #define _ANDROS_CIRCULAR_BUFFER_HPP
 
+#ifndef __UNIT_TEST__
 #include "stddef.h" //For size_t
 #include "mem/memory.hpp"
+#endif
 
 #define CIRCULAR_BUFFER_DEFAULT_SIZE 512
 

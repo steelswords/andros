@@ -63,10 +63,21 @@ public:
 
   /* Caveat: destination shall be large enough to accomodate. */
   static void copyString(char* destination, const char* source);
+
+  /* Copies <length> bytes of source into destination
+   * Bad things happen if destination cannot hold source */
+  static void copyString(char* destination, const char* source, size_t length);
   static int numDigitsInInt(int value);
 
   /* Methods */
   int toInt();
+
+  /* Returns an int from a hexadecimal input 
+   * Parameters: str = the source string.
+   * Returns: lengthOfNumber: How many characters of str were consumed in parsing the int
+   *          returns the integer from its character representation as well. 
+   */
+  static int toIntFromHex(const char* str, size_t &lengthOfNumber);
 
   /* Returns the number of non-null characters from the start
    * of m_data. Does not necessarily return the amount of 

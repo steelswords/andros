@@ -71,7 +71,7 @@ kstring::kstring(const char str[])
 kstring::kstring(const char str[], const int len)
 {
   init(len);
-  kstring::copyString(m_data, str);
+  kstring::copyString(m_data, str, len);
 }
 
 bool kstring::isCharDigit(char c)
@@ -161,8 +161,15 @@ int kstring::toInt()
   int multipliers[10] = {1, 10, 100, 1000, 10000, 100000,
                          1000000, 10000000, 100000000, 1000000000};
 
-  //TODO: Skip whitespace
   // *** Skip leading whitespace ***
+  int indexWhereNumberStarts = 0;
+  while (m_data[indexWhereNumberStarts] == ' '
+      || m_data[indexWhereNumberStarts] == '\n'
+      || m_data[indexWhereNumberStarts] == '\t')
+  {
+    indexWhereNumberStarts++;
+  }
+  stringIndex = indexWhereNumberStarts;
   
   // *** Parse +/- ***
   // Really, all we care about is if there is a negative.
@@ -203,6 +210,56 @@ int kstring::toInt()
   return (int)value;
 } /* toInt() */
 
+static bool isHexDigit(int i)
+{
+  if (i <= '9' && i >= '0')
+    return true;
+  else if (i <= 'f' && i >= 'a')
+    return true;
+  else
+    return false;
+}
+
+static uint8_t interpretHexDigit(char a)
+{
+  if (a <= '9' && a >= '0')
+  {
+    return a - 0x30;
+  }
+  else if (a <= 'f' && a >= 'a')
+  {
+    return a - 0x61 + 10;
+  }
+  return 0;
+}
+
+int kstring::toIntFromHex(const char* str, size_t &lengthOfNumber)
+{
+  uint32_t workingValue = 0;
+  lengthOfNumber = 0;
+
+  //Skip through the string until a number is reached
+  while (!isHexDigit(str[lengthOfNumber]))
+  {
+    lengthOfNumber++;
+  }
+
+  // Now, lengthOfNumber indexes the first number in the string.
+  // Peek ahead and see if it's a 0x format, and if so, discard.
+  if (str[lengthOfNumber] == '0' && str[lengthOfNumber + 1] == 'x' && str[lengthOfNumber] != '\0')
+  {
+    lengthOfNumber += 2;
+  }
+
+  while(str[lengthOfNumber] != '\0' && isHexDigit(str[lengthOfNumber]))
+  {
+    workingValue = workingValue << 4;
+    workingValue += interpretHexDigit(str[lengthOfNumber]);
+    lengthOfNumber++;
+  } 
+
+  return workingValue;
+}
 
 static void itoa(int value, char* str, int base)
 {
@@ -360,7 +417,13 @@ size_t kstring::strLength(const char* str)
 void kstring::copyString(char* destination, const char* source)
 {
   size_t sourceEnd = kstring::strLength(source); 
-  for (size_t i = 0; i < sourceEnd; ++i)
+  kstring::copyString(destination, source, sourceEnd);
+  
+}
+
+void kstring::copyString(char* destination, const char* source, size_t length)
+{
+  for (size_t i = 0; i < length; ++i)
   {
     destination[i] = source[i];
   }

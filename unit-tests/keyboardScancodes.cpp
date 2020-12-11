@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdint>
 
+#define __UNIT_TEST__
 #include "../src/dev/keyboardScancodes.cpp"
 
 int main()
@@ -22,7 +23,7 @@ int main()
   std::cout << std::endl;
 
   std::cout << "Processing input....\n";
-  processKeyboardInput(&input, output);
+  processKeyboardInput(&input, &output);
   std::cout  << "Done." << std::endl;
 
   std::cout << "Output: ";
