@@ -38,7 +38,7 @@ void System::init()
   cpuInfo = new CPUInformation();
   initInterrupts();
   //debugSystemStuff();
-  screen->print("Done with initialization.");
+  //screen->print("Done with initialization.");
 }
 
 void System::initConsole()
@@ -46,7 +46,7 @@ void System::initConsole()
   screen = &vgaTextConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  screen->print("Welcome to AndrOS 0.0.1c\n\0");
+  screen->print("Welcome to AndrOS 0.0.1d\n");
 }
 
 void System::findBiggestChunkOfMemory(void*& begin, void*& end)
@@ -241,8 +241,8 @@ void testInterruptSystem(ConsoleScreen* screen)
   //screen->print("PS/2 test: ");
   //screen->printHex(PS2Keyboard::testPS2Controller());
 
-  screen->print(". PS/2 status: ");
-  screen->printHex(PS2Keyboard::readStatusRegister());
+  //screen->print(". PS/2 status: ");
+  //screen->printHex(PS2Keyboard::readStatusRegister());
 
   //screen->print(" Char: ");
   //screen->print(PS2Keyboard::readByte());
@@ -254,16 +254,16 @@ void testInterruptSystem(ConsoleScreen* screen)
 void System::initInterrupts()
 {
   //this->idt = malloc(sizeof(IDT));
-  screen->print("Constructing IDT");
+  //screen->print("Constructing IDT");
 
   //TODO: Debug why the following line doesn't work.
   //IDT* dummyIdt2 = new IDT();
   idt = (IDT*) malloc(sizeof(IDT));
   idt->init();
-  screen->print("Initialized IDT.\n");
+  //screen->print("Initialized IDT.\n");
   //TODO
-  screen->print("Loading IDT...");
+  //screen->print("Loading IDT...");
   idt->load();
-  screen->print(" done.\n");
+  //screen->print(" done.\n");
   testInterruptSystem(screen);
 }

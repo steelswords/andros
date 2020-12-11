@@ -55,7 +55,7 @@ void kernel_main(void)
   KernelTerminal _kernelTerminal;
   kterm = &_kernelTerminal;
   kterm->m_stdout = screen;
-  screen->print("Kernel Terminal Initialized\n");
+  //screen->print("Kernel Terminal Initialized\n");
 
   screen->print("\nAndrOS Initialized\n");
   kterm->printTerminalPrompt();

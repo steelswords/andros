@@ -20,13 +20,22 @@ void KernelTerminal::parseCommand()
   {
     m_stdout->print("Hello, user!\n");
   }
-  if (kstring::isEqual(m_commandBuffer, printMemMapCommand))
+  else if (kstring::isEqual(m_commandBuffer, printMemMapCommand))
   {
     System::getInstance()->mbhi.printMemoryTable(m_stdout);
+    m_stdout->nl();
   }
-  if (kstring::isEqual(m_commandBuffer, peekCommand))
+  else if (kstring::isEqual(m_commandBuffer, peekCommand))
   {
     peek(); 
+  }
+
+  // Unrecognized command
+  else
+  {
+    m_stdout->print("Unrecognized command: ");
+    m_stdout->print(m_commandBuffer);
+    m_stdout->nl();
   }
 
   printTerminalPrompt();
@@ -42,9 +51,9 @@ void KernelTerminal::handleInput()
       case '\n':
         //TODO: Parse & execute command
         m_stdout->nl();
-        m_stdout->print("Command entered: ");
-        m_stdout->print((char*)m_commandBuffer);
-        m_stdout->nl();
+        //m_stdout->print("Command entered: ");
+        //m_stdout->print((char*)m_commandBuffer);
+        //m_stdout->nl();
 
         parseCommand();
 
@@ -84,12 +93,23 @@ void KernelTerminal::handleInput()
 void KernelTerminal::peek()
 {
   // Get integer for first argument
-  // Get integer for second argument
   // Read value and
   // Display
 }
 
 void KernelTerminal::printTerminalPrompt()
 {
-  m_stdout->print("andros > ");
+  m_stdout->print("andros> ");
+}
+
+uint32_t KernelTerminal::getInt()
+{
+  //Sort through until we have a break in the number.
+  const int maxDigitsInInt = 12;
+  char buffer[maxDigitsInInt] = {0};
+
+  // If we can, get an initial char from m_stdin
+  // Loop while the char is not a hexadecimal int
+  
+  
 }

@@ -39,6 +39,8 @@ private:
   void parseCommand();
   void backspace();
 
+  /* Reads stdin until it gets an int, parses that int, and returns it. */
+  uint32_t getInt();
 
 
   /**************************************
