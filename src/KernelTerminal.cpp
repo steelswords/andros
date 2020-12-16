@@ -107,7 +107,10 @@ void KernelTerminal::peek(uint32_t address)
   // Display
   m_stdout->print("Memory location at ");
   m_stdout->printHex(address);
-  //m_stdout->printHex(getInt());
+  m_stdout->print(": ");
+  uint8_t value = *(uint8_t*)address;
+  m_stdout->printHex(value);
+  
 }
 
 void KernelTerminal::printTerminalPrompt()
@@ -122,22 +125,17 @@ uint32_t KernelTerminal::getInt(char* cmd)
   //char* cmd = m_commandBuffer;
   //cmd += 4;
   cmd = kstring::skipWhitespace(cmd);
-  m_stdout->print("cmd = ");
-  m_stdout->print(cmd);
-  m_stdout->print(". m_commandBuffer = ");
-  m_stdout->print(m_commandBuffer);
-
-
+  
   //Sort through until we have a break in the number.
   const int maxDigitsInInt = 12;
   char integerAsStringBuffer[maxDigitsInInt] = {0};
   //char integerAsStringBuffer[maxDigitsInInt] = "1234";
   int integerAsStringBufferIndex = 0;
 
-#if 1
   // If we can, get an initial char from m_stdin
   // Loop while the char is not a hexadecimal int
   bool haveHitNumberCharactersYet = false;
+  bool haveEncountered0xYet = false;
   for (int i = 0; cmd[i] != '\0'; ++i)
   {
     if (isHexDigit(cmd[i]))
@@ -151,29 +149,25 @@ uint32_t KernelTerminal::getInt(char* cmd)
       integerAsStringBuffer[integerAsStringBufferIndex] = cmd[i];
       integerAsStringBufferIndex++;
     }
-    else //Not a hex digit
+    // If the previous character was a 0, reset. Start over with 0x truncated.
+    // This is ugly. I could have done it with a goto, but I just didn't feel like
+    // justifying that to others.
+    else if (cmd[i] == 'x' 
+         && !haveEncountered0xYet
+         && integerAsStringBuffer[integerAsStringBufferIndex - 1] == '0')
     {
-      if (haveHitNumberCharactersYet)
-      {
-        // This means we have passed the integer.
-        // Update the commandBuffer Index and break out of loop.
-        m_commandBufferIndex += i;
-        break; 
-      }
+      haveEncountered0xYet = true;
+      integerAsStringBuffer[integerAsStringBufferIndex] = '\0';
+      integerAsStringBufferIndex = 0;
     }
-  }
-#endif
+    // Not a hex digit
+    else if (haveHitNumberCharactersYet)
+    {
+      // This means we have passed the integer.
+      break; 
+    }
+  } //for
 
   size_t numLength = 0;
-#if 0
-  m_stdout->print("m_commandBuffer = ");
-  m_stdout->print(m_commandBuffer);
-  m_stdout->print(".\n");
-  m_stdout->print("cmd = ");
-  m_stdout->print(cmd);
-#endif
-  m_stdout->print(". Translating ");
-  m_stdout->print((char*)integerAsStringBuffer);
-  m_stdout->print(" to int.\n");
   return (uint32_t)kstring::toIntFromHex((char*)integerAsStringBuffer, numLength);
 }
