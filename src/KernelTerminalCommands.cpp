@@ -13,6 +13,7 @@ void KernelTerminal::peek(uint32_t address)
   m_stdout->print(": ");
   uint8_t value = *(uint8_t*)address;
   m_stdout->printHex(value);
+  m_stdout->nl();
 }
 
 void KernelTerminal::poke(uint8_t* address, uint8_t value)
@@ -21,5 +22,6 @@ void KernelTerminal::poke(uint8_t* address, uint8_t value)
   m_stdout->printHex((uint32_t)address);
   m_stdout->print(" to ");
   m_stdout->printHex(value);
+  m_stdout->nl();
   *address = value;
 }

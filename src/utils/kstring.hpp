@@ -57,6 +57,7 @@ public:
   /* Static string helper functions */
   static bool isCharDigit(char c);
   static size_t strLength(const char* str);
+
   /* Compares two strings to see if they have the same contents */
   static bool isEqual(kstring& a, kstring& b);
   static bool isEqual(char* a, char* b);
@@ -65,7 +66,7 @@ public:
   static bool startsWith(char* stringToBeTested, char* substring);
   
   /* Returns pointer to first non-whitespace character of str*/
-  static char* skipWhitespace(char* str);
+  static char* skipWhitespace(char* str, size_t &charactersSkipped);
 
   /* Caveat: destination shall be large enough to accomodate. */
   static void copyString(char* destination, const char* source);
@@ -73,6 +74,7 @@ public:
   /* Copies <length> bytes of source into destination
    * Bad things happen if destination cannot hold source */
   static void copyString(char* destination, const char* source, size_t length);
+
   static int numDigitsInInt(int value);
 
   /* Methods */

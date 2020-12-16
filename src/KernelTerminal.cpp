@@ -35,6 +35,7 @@ void KernelTerminal::parseCommand()
     uint32_t address = getInt(((char*)m_commandBuffer) + 4, throwaway);
     peek(address); 
   }
+  /* Poke */
   else if (kstring::startsWith(m_commandBuffer, pokeCommand))
   {
     // This is just getting an int from m_commandBuffer + 4
@@ -43,7 +44,8 @@ void KernelTerminal::parseCommand()
     char* argumentBuffer = ((char*)m_commandBuffer) + 4;
 
     uint8_t* address = (uint8_t*) getInt(argumentBuffer, lengthOfAddress);
-    argumentBuffer += lengthOfAddress - 1;
+    argumentBuffer += lengthOfAddress;
+    
     uint8_t value = (uint8_t)getInt(argumentBuffer, lengthOfAddress);
     poke(address, value);
 
@@ -77,9 +79,12 @@ void KernelTerminal::handleInput()
       case '\n':
         //TODO: Parse & execute command
         m_stdout->nl();
-        //m_stdout->print("Command entered: ");
-        //m_stdout->print((char*)m_commandBuffer);
-        //m_stdout->nl();
+#if 0
+        //DEBUG
+        m_stdout->print("Command entered: ");
+        m_stdout->print((char*)m_commandBuffer);
+        m_stdout->nl();
+#endif
 
         parseCommand();
 
@@ -120,54 +125,35 @@ void KernelTerminal::printTerminalPrompt()
   m_stdout->print("andros> ");
 }
 
-uint32_t KernelTerminal::getInt(char* cmd, size_t &lengthOfNumber)
+uint32_t KernelTerminal::getInt(char* input, size_t &charactersConsumed)
 {
-  //First, skip whitespace
-  cmd = kstring::skipWhitespace(cmd);
+  // Set up
+  uint32_t result = 0;
+  size_t index = 0;
+  size_t numDigits = 0;
 
-  m_stdout->print("cmd = ");
-  m_stdout->print(cmd);
-  
-  //Sort through until we have a break in the number.
-  const int maxDigitsInInt = 12;
-  char integerAsStringBuffer[maxDigitsInInt] = {0};
-  int integerAsStringBufferIndex = 0;
-
-  // If we can, get an initial char from m_stdin
-  // Loop while the char is not a hexadecimal int
-  bool haveHitNumberCharactersYet = false;
-  bool haveEncountered0xYet = false;
-  for (int i = 0; cmd[i] != '\0'; ++i)
+  // First, skip until we reach a hex character
+  while (input[index] != '\0' && isHexDigit(input[index]))
   {
-    if (isHexDigit(cmd[i]))
-    {
-      haveHitNumberCharactersYet = true;
-      if (integerAsStringBufferIndex + 1 >= maxDigitsInInt)
-      {
-        // Gotcha! Buffer overflow averted
-        break;
-      }
-      integerAsStringBuffer[integerAsStringBufferIndex] = cmd[i];
-      integerAsStringBufferIndex++;
-    }
-    // If the previous character was a 0, reset. Start over with 0x truncated.
-    // This is ugly. I could have done it with a goto, but I just didn't feel like
-    // justifying that to others.
-    else if (cmd[i] == 'x' 
-         && !haveEncountered0xYet
-         && integerAsStringBuffer[integerAsStringBufferIndex - 1] == '0')
-    {
-      haveEncountered0xYet = true;
-      integerAsStringBuffer[integerAsStringBufferIndex] = '\0';
-      integerAsStringBufferIndex = 0;
-    }
-    // Not a hex digit
-    else if (haveHitNumberCharactersYet)
-    {
-      // This means we have passed the integer.
-      break; 
-    }
-  } //for
+    index++;
+    charactersConsumed++;
+  }
 
-  return (uint32_t)kstring::toIntFromHex((char*)integerAsStringBuffer, lengthOfNumber);
+  //Check if the number starts with '0x'
+  if (input[index] != '\0' && input[index + 1] != '\0')
+  {
+    if (input[index] == '0' && (input[index + 1] == 'x' || input[index + 1] == 'X'))
+    {
+      // Just get rid of those characters
+      index += 2; 
+      charactersConsumed += 2;
+    }
+  }
+
+  // Now we can pass this into toIntFromHex.
+  result = kstring::toIntFromHex(&input[index], numDigits);
+  
+  // Return results
+  charactersConsumed += numDigits;
+  return result;
 }

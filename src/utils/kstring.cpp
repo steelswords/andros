@@ -141,8 +141,9 @@ bool kstring::startsWith(char* stringToBeTested, char* beginning)
   return result;
 }
 
-char* kstring::skipWhitespace(char* str)
+char* kstring::skipWhitespace(char* str, size_t &charactersSkipped)
 {
+  charactersSkipped = 0;
   for (int i = 0; str[i] != '\0'; ++i)
   {
     switch(str[i])
@@ -150,6 +151,7 @@ char* kstring::skipWhitespace(char* str)
       case ' ':
       case '\n':
       case '\t':
+        charactersSkipped++;
         break;
       default:
         return str + i;
@@ -278,7 +280,7 @@ int kstring::toIntFromHex(const char* str, size_t &lengthOfNumber)
 
   // Now, lengthOfNumber indexes the first number in the string.
   // Peek ahead and see if it's a 0x format, and if so, discard.
-  if (str[lengthOfNumber] == '0' && str[lengthOfNumber + 1] == 'x' && str[lengthOfNumber] != '\0')
+  if (str[lengthOfNumber] == '0' && str[lengthOfNumber] != '\0' && str[lengthOfNumber + 1] == 'x')
   {
     lengthOfNumber += 2;
   }

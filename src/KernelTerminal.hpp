@@ -40,7 +40,7 @@ private:
   void backspace();
 
   /* Reads cmd until it gets an int, parses that int, and returns it. */
-  uint32_t getInt(char* cmd, size_t &lengthOfNumber);
+  uint32_t getInt(char* input, size_t &charactersConsumed);
 
 
   /**************************************

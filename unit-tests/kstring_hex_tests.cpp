@@ -41,13 +41,14 @@ int testinterpretHexDigit()
 void testtoIntFromHex()
 {
   using namespace test;
-  std::vector<std::string> testValues = {"0x1", "0x32af", "deadbeef", "b400h",
-  "0x00000007", "12ab32sde"};
+  //std::vector<std::string> testValues = {"0x1", "0x32af", "deadbeef", "b400h", "0x00000007", "12ab32sde", "0xB8000"};
+  std::vector<std::string> testValues = {"0x1", "0x32af", "deadbeef", "b400h", "0x00000007", "12ab32sde", "0xb8000"};
   for (std::string s : testValues)
   {
     size_t length = 0;
     std::cout << s << " should equal " << std::hex 
-      << test::kstring::toIntFromHex(s.c_str(), length) << std::endl;
+      << test::kstring::toIntFromHex(s.c_str(), length)
+      << "; number of digits: " << std::dec << length << std::endl;
   }
   
 }
