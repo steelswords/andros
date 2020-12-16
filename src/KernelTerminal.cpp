@@ -19,6 +19,7 @@ void KernelTerminal::parseCommand()
   char cpuidCommand[]        = "cpuid";
   char osnameCommand[]       = "osname";
   char mallocCommand[]       = "malloc"; 
+  char clearCommand[]        = "clear";
 
   if (kstring::isEqual(m_commandBuffer, greetingCommand))
   {
@@ -63,6 +64,11 @@ void KernelTerminal::parseCommand()
     char* argumentBuffer = ((char*)m_commandBuffer) + 6;
     sizeToAllocate = getInt(argumentBuffer, argLength);
     demoMalloc(sizeToAllocate);
+  }
+  /* Clear Screen */
+  else if (kstring::isEqual(m_commandBuffer, clearCommand))
+  {
+    m_stdout->clear();
   }
 
   // Unrecognized command

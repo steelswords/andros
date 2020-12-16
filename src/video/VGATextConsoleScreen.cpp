@@ -54,7 +54,11 @@ void VGATextConsoleScreen::clear()
       int index = y * VGA_WIDTH + x;
       vga_memory[index] = justColor;
     }
-  }    
+  }
+
+  //Set cursor to 0,0
+  m_column = 0;
+  m_row = 0;
 }
 
 void VGATextConsoleScreen::putChar(char c)
