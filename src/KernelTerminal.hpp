@@ -51,6 +51,10 @@ private:
   void printOSName();
   void peek(uint32_t address);
   void poke(uint8_t* address, uint8_t value);
+  void cpuid();
+  void demoMalloc(uint32_t sizeToAllocate);
+  void printMemoryMap();
+  friend class KernelTerminal;
 };
 
 #endif

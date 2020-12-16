@@ -21,6 +21,7 @@ protected:
   void* m_heapCur;
   uint32_t m_dummy;
   friend class System;
+  friend class KernelTerminal;
 
 
 public:

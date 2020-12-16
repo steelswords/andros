@@ -25,8 +25,8 @@ CPUInformation::CPUInformation()
   __get_cpuid(0, &eax, &ebx, &ecx, &edx);
   uint32_t* buffer = (uint32_t*)m_vendorString;
   buffer[0] = ebx;
-  buffer[1] = ecx;
-  buffer[2] = edx;
+  buffer[1] = edx;
+  buffer[2] = ecx;
   
   //Get processor count
   __get_cpuid(1, &eax, &ebx, &ecx, &edx);
@@ -36,25 +36,22 @@ CPUInformation::CPUInformation()
   m_apicExists = (edx & 0x9);
   m_initialLocalAPICID = (uint8_t)((ebx & 0xFF000000) >> 24);
   
-
-
-
 }
 
 void CPUInformation::print(ConsoleScreen* screen)
 {
-  screen->print("Max CPUID Function: ");
-  screen->printHex(m_maximumSupportedCPUID);
-  screen->print("Vendor: ");
+  screen->print("CPU Vendor: ");
   screen->print(m_vendorString);
-  screen->print(" Cores: ");
+  screen->print(". Cores: ");
   screen->print(m_processorCount);
-  screen->print(" APIC Exists: ");
+  screen->print(". Max CPUID Function: ");
+  screen->printHex(m_maximumSupportedCPUID);
+  screen->print(".  APIC Exists: ");
   screen->print(m_apicExists);
-  screen->print(" Local APIC ID: ");
-  screen->print(m_initialLocalAPICID);
-  screen->print(" debug = ");
-  screen->print(debug);
+  //screen->print(" Local APIC ID: ");
+  //screen->print(m_initialLocalAPICID);
+  //screen->print(" debug = ");
+  //screen->print(debug);
 }
 
 

@@ -25,3 +25,80 @@ void KernelTerminal::poke(uint8_t* address, uint8_t value)
   m_stdout->nl();
   *address = value;
 }
+
+void KernelTerminal::printOSName()
+{
+  m_stdout->print("AndrOS v0.0.1\n");
+}
+
+void KernelTerminal::cpuid()
+{
+  System::getInstance()->cpuInfo->print(m_stdout);
+  m_stdout->nl();
+}
+
+void KernelTerminal::printMemoryMap()
+{
+  System::getInstance()->mbhi.printMemoryTable(m_stdout);
+  m_stdout->nl();
+}
+
+void KernelTerminal::demoMalloc(uint32_t sizeToAllocate)
+{
+  System* sys = System::getInstance();
+  ConsoleScreen* screen = m_stdout;
+
+  screen->print("Size of a size_t:");
+  screen->print(sizeof(size_t));
+  screen->nl();
+
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printlHex((uint64_t)sys->memoryManager.m_heapCur);
+  screen->nl();
+  uint32_t* pInt1 = (uint32_t*)malloc(sizeof(uint32_t));
+  screen->print("[DEBUG] Allocated a pointer to a 4 byte structure.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)sys->memoryManager.m_heapCur);
+  screen->nl();
+
+  uint32_t* pInt2 = (uint32_t*)malloc(sizeof(uint32_t));
+
+  if (pInt1 == pInt2)
+  {
+    //TODO: Throw error.
+    screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_RED);
+    screen->print("ERROR! Allocator overlapping memory!");
+    screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
+  }
+
+  screen->print("[DEBUG] Allocated a pointer to a 4 byte structure.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)sys->memoryManager.m_heapCur);
+  screen->nl();
+  screen->print("Allocated two 32-bit pointers: ");
+  screen->printHex((uint32_t)pInt1);
+  screen->print(" and ");
+  screen->printHex((uint32_t)pInt2);
+  screen->nl();
+
+#if 0
+  //Test new operator
+  GDTEntry* testEntry = new GDTEntry();
+  screen->print("[DEBUG] Allocated a pointer to a ");
+  screen->print(sizeof(GDTEntry));
+  screen->print(" byte structure with new operator.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)sys->memoryManager.m_heapCur);
+  screen->nl();
+
+  GDTEntry* testEntry2 = new GDTEntry();
+  screen->print("[DEBUG] Allocated a pointer to a ");
+  screen->print(sizeof(GDTEntry));
+  screen->print(" byte structure with new operator.\n");
+  screen->print("[DEBUG] Allocator currently points to: ");
+  screen->printHex((uint32_t)sys-x>memoryManager.m_heapCur);
+  screen->nl();
+#endif
+ 
+
+}

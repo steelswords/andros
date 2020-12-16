@@ -12,10 +12,13 @@ KernelTerminal::KernelTerminal()
 
 void KernelTerminal::parseCommand()
 {
-  char* greetingCommand = "greet";
-  char* printMemMapCommand  = "memmap";
-  char* peekCommand         = "peek";
-  char* pokeCommand         = "poke";
+  char greetingCommand[] = {"greet"};
+  char printMemMapCommand[]  = "memmap";
+  char peekCommand[]         = "peek";
+  char pokeCommand[]         = "poke";
+  char cpuidCommand[]        = "cpuid";
+  char osnameCommand[]       = "osname";
+  char mallocCommand[]       = "malloc"; 
 
   if (kstring::isEqual(m_commandBuffer, greetingCommand))
   {
@@ -23,8 +26,7 @@ void KernelTerminal::parseCommand()
   }
   else if (kstring::isEqual(m_commandBuffer, printMemMapCommand))
   {
-    System::getInstance()->mbhi.printMemoryTable(m_stdout);
-    m_stdout->nl();
+    printMemoryMap();
   }
   /* Peek */
   else if (kstring::startsWith(m_commandBuffer, peekCommand))
@@ -48,7 +50,19 @@ void KernelTerminal::parseCommand()
     
     uint8_t value = (uint8_t)getInt(argumentBuffer, lengthOfAddress);
     poke(address, value);
+  }
 
+  else if (kstring::isEqual(m_commandBuffer, cpuidCommand))
+    this->cpuid();
+  else if (kstring::isEqual(m_commandBuffer, osnameCommand))
+    this->printOSName();
+  else if (kstring::isEqual(m_commandBuffer, mallocCommand))
+  {
+    size_t argLength = 0;
+    uint32_t sizeToAllocate = 0;
+    char* argumentBuffer = ((char*)m_commandBuffer) + 6;
+    sizeToAllocate = getInt(argumentBuffer, argLength);
+    demoMalloc(sizeToAllocate);
   }
 
   // Unrecognized command
