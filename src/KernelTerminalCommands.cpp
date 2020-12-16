@@ -99,6 +99,20 @@ void KernelTerminal::demoMalloc(uint32_t sizeToAllocate)
   screen->printHex((uint32_t)sys-x>memoryManager.m_heapCur);
   screen->nl();
 #endif
- 
+}
 
+void KernelTerminal::printHelp()
+{
+  char helpText[] = 
+"Valid built-in commands:\n\
+ greet             Print a friendly message\n\
+ clear             Clear the screen\n\
+ osname            Prints the OS name & version\n\
+ peek <addr>       Prints the value @ <addr>\n\
+ poke <addr> <val> Puts <val> in memory @ <addr>\n\
+ cpuid             Prints information about the CPU\n\
+ malloc            Demonstrates memory allocation\n\
+ memmap            Prints a map of memory locations\n\
+";
+  m_stdout->print(helpText);
 }

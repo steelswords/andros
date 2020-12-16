@@ -20,6 +20,7 @@ void KernelTerminal::parseCommand()
   char osnameCommand[]       = "osname";
   char mallocCommand[]       = "malloc"; 
   char clearCommand[]        = "clear";
+  char helpCommand[]         = "help";
 
   if (kstring::isEqual(m_commandBuffer, greetingCommand))
   {
@@ -67,9 +68,9 @@ void KernelTerminal::parseCommand()
   }
   /* Clear Screen */
   else if (kstring::isEqual(m_commandBuffer, clearCommand))
-  {
     m_stdout->clear();
-  }
+  else if (kstring::isEqual(m_commandBuffer, helpCommand))
+    this->printHelp();
 
   // Unrecognized command
   else

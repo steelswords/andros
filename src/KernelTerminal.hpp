@@ -54,6 +54,8 @@ private:
   void cpuid();
   void demoMalloc(uint32_t sizeToAllocate);
   void printMemoryMap();
+  void printHelp();
+
   friend class KernelTerminal;
 };
 
