@@ -61,6 +61,9 @@ public:
   static bool isEqual(kstring& a, kstring& b);
   static bool isEqual(char* a, char* b);
 
+  /* Checks if stringToBeTested starts with beginning */
+  static bool startsWith(char* stringToBeTested, char* substring);
+
   /* Caveat: destination shall be large enough to accomodate. */
   static void copyString(char* destination, const char* source);
 
@@ -101,5 +104,6 @@ protected:
   /* Takes care of allocating kernel strings in special region */
   void init(size_t sizeToAllocate);
 };
+
 
 #endif

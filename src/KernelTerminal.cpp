@@ -25,7 +25,7 @@ void KernelTerminal::parseCommand()
     System::getInstance()->mbhi.printMemoryTable(m_stdout);
     m_stdout->nl();
   }
-  else if (kstring::isEqual(m_commandBuffer, peekCommand))
+  else if (kstring::startsWith(m_commandBuffer, peekCommand))
   {
     peek(); 
   }
@@ -38,6 +38,7 @@ void KernelTerminal::parseCommand()
     m_stdout->nl();
   }
 
+  m_stdout->nl();
   printTerminalPrompt();
 }
 
@@ -95,6 +96,7 @@ void KernelTerminal::peek()
   // Get integer for first argument
   // Read value and
   // Display
+  m_stdout->print("Memory location at ");
 }
 
 void KernelTerminal::printTerminalPrompt()

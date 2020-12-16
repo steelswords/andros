@@ -125,6 +125,21 @@ bool kstring::isEqual(char* a, char* b)
   return retVal;
 }
 
+bool kstring::startsWith(char* stringToBeTested, char* beginning)
+{
+  int beginningSize = kstring::strLength(beginning);
+  bool result = true;
+  for (int i = 0; i < beginningSize; ++i)
+  {
+    if (stringToBeTested[i] != beginning[i])
+    {
+      result = false;
+      break;
+    }
+  }
+  return result;
+}
+
 int kstring::numDigitsInInt(int value)
 {
   if (value < -999999999 || value > 999999999) return 10;
