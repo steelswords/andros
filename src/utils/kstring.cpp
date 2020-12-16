@@ -129,7 +129,8 @@ bool kstring::startsWith(char* stringToBeTested, char* beginning)
 {
   int beginningSize = kstring::strLength(beginning);
   bool result = true;
-  for (int i = 0; i < beginningSize; ++i)
+  for (int i = 0; i < beginningSize && beginning[i] != '\0'
+      && stringToBeTested[i] != '\0'; ++i)
   {
     if (stringToBeTested[i] != beginning[i])
     {
@@ -138,6 +139,22 @@ bool kstring::startsWith(char* stringToBeTested, char* beginning)
     }
   }
   return result;
+}
+
+char* kstring::skipWhitespace(char* str)
+{
+  for (int i = 0; str[i] != '\0'; ++i)
+  {
+    switch(str[i])
+    {
+      case ' ':
+      case '\n':
+      case '\t':
+        break;
+      default:
+        return str + i;
+    }
+  }
 }
 
 int kstring::numDigitsInInt(int value)
@@ -225,7 +242,7 @@ int kstring::toInt()
   return (int)value;
 } /* toInt() */
 
-static bool isHexDigit(int i)
+bool isHexDigit(int i)
 {
   if (i <= '9' && i >= '0')
     return true;

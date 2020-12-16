@@ -39,8 +39,8 @@ private:
   void parseCommand();
   void backspace();
 
-  /* Reads stdin until it gets an int, parses that int, and returns it. */
-  uint32_t getInt();
+  /* Reads cmd until it gets an int, parses that int, and returns it. */
+  uint32_t getInt(char* cmd);
 
 
   /**************************************
@@ -49,7 +49,7 @@ private:
 
   /* Prints "AndrOS v <version number>" */
   void printOSName();
-  void peek();
+  void peek(uint32_t address);
 };
 
 #endif

@@ -63,6 +63,9 @@ public:
 
   /* Checks if stringToBeTested starts with beginning */
   static bool startsWith(char* stringToBeTested, char* substring);
+  
+  /* Returns pointer to first non-whitespace character of str*/
+  static char* skipWhitespace(char* str);
 
   /* Caveat: destination shall be large enough to accomodate. */
   static void copyString(char* destination, const char* source);
@@ -105,5 +108,6 @@ protected:
   void init(size_t sizeToAllocate);
 };
 
+bool isHexDigit(int i);
 
 #endif
