@@ -3,6 +3,7 @@
 #include <stdint.h>
 //#include "libc/include/stdlib.h"
 #include "utils/kstring.hpp"
+#include "dev/cpuIO.hpp"
 
 VGATextConsoleScreen::VGATextConsoleScreen(ConsoleScreenParameters parameters)
   : ConsoleScreen(parameters),
@@ -26,6 +27,7 @@ void VGATextConsoleScreen::setCursor(int16_t col, int16_t row)
   else
   {
     //TODO: Runtime error implementation.
+    return;
   }
 
   if (0 <= row && row < VGA_HEIGHT)
@@ -35,7 +37,16 @@ void VGATextConsoleScreen::setCursor(int16_t col, int16_t row)
   else
   {
     //TODO: Error implementation.
+    return;
   }
+
+  // Update cursor glyph
+  // Thanks to u/SurelyNotAnOctopus for this code.
+  uint16_t cursorPosition = m_row * VGA_WIDTH + m_column;
+  outb(0x3D4, 0x0F);
+  outb(0x3D5, (uint8_t) (cursorPosition & 0xFF));
+  outb(0x3D4, 0x0E);
+  outb(0x3D5, (uint8_t) ((cursorPosition >> 8) & 0xFF));
 }
 
 void VGATextConsoleScreen::clear()
@@ -92,6 +103,7 @@ void VGATextConsoleScreen::putChar(char c, int16_t col, int16_t row)
   {
     m_column++;
   }
+  setCursor(m_column, m_row);
 }
 
 void VGATextConsoleScreen::print(char* str)
