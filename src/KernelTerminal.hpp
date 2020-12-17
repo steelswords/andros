@@ -21,7 +21,11 @@ public:
   /* When called, parses input found in m_stdin and runs appropriate
    * actions on the input, runs shell functions, calls programs, etc. */
   void handleInput();
+  
   void printTerminalPrompt();
+
+  /* Prints "AndrOS v <version number>" */
+  void printOSName();
   
 private:
   CircularBuffer<char> m_inputBuffer;
@@ -47,8 +51,6 @@ private:
    * SHELL FUNCTIONS
    **************************************/
 
-  /* Prints "AndrOS v <version number>" */
-  void printOSName();
   void peek(uint32_t address);
   void poke(uint8_t* address, uint8_t value);
   void cpuid();

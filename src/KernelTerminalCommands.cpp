@@ -28,7 +28,7 @@ void KernelTerminal::poke(uint8_t* address, uint8_t value)
 
 void KernelTerminal::printOSName()
 {
-  m_stdout->print("AndrOS v0.0.1\n");
+  m_stdout->print("AndrOS v0.0.1e\n");
 }
 
 void KernelTerminal::cpuid()
@@ -105,14 +105,14 @@ void KernelTerminal::printHelp()
 {
   char helpText[] = 
 "Valid built-in commands:\n\
- greet             Print a friendly message\n\
  clear             Clear the screen\n\
+ cpuid             Prints information about the CPU\n\
+ greet             Print a friendly message\n\
+ malloc            Demonstrates memory allocation\n\
+ memmap            Prints a map of memory locations\n\
  osname            Prints the OS name & version\n\
  peek <addr>       Prints the value @ <addr>\n\
  poke <addr> <val> Puts <val> in memory @ <addr>\n\
- cpuid             Prints information about the CPU\n\
- malloc            Demonstrates memory allocation\n\
- memmap            Prints a map of memory locations\n\
 ";
   m_stdout->print(helpText);
 }

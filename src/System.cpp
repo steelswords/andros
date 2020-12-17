@@ -46,7 +46,7 @@ void System::initConsole()
   screen = &vgaTextConsole;
   screen->setConsoleColors(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_WHITE);
   screen->clear();
-  screen->print("Welcome to AndrOS 0.0.1d\n");
+  screen->print("Welcome to AndrOS\n");
 }
 
 void System::findBiggestChunkOfMemory(void*& begin, void*& end)
