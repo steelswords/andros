@@ -23,7 +23,8 @@ CPPFLAGS = $(FLAGS) -fno-rtti -std=c++11
 #FLAGS_ISR= -mgeneral-regs-only
 FLAGS_ISR = -Wall
 
-CROSS_COMPILER_DIR = "/opt/cross/bin"
+#CROSS_COMPILER_DIR = "/opt/cross/bin"
+CROSS_COMPILER_DIR = "/home/tristan/opt/cross/bin"
 
 AS  = $(CROSS_COMPILER_DIR)/i686-elf-as 
 CC  = $(CROSS_COMPILER_DIR)/i686-elf-gcc -std=c99 $(FLAGS) $(INC_PARAMS)
@@ -138,7 +139,7 @@ $(ISO): kmain
 	cp andros.bin iso/boot
 	cp ../grub.cfg iso/boot/grub
 	pwd
-	grub-mkrescue -o AndrOS.iso iso
+	grub-mkrescue -v -o AndrOS.iso iso
 
 .PHONY: test
 test: $(ISO)

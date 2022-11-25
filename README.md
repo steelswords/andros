@@ -7,8 +7,10 @@ AndrOS uses a GCC-based cross compiler. Here is a [pre-built one](http://newos.o
 
 ## Required Packages
 - xorriso
-- mtools (on Arch)
 - qemu
+- qemu-system-x86
+- mtools
+- grub-pc-bin
 
 ## Building
 
