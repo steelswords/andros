@@ -11,6 +11,8 @@ obj/*
 *.o
 dep/*
 
+documentation
+
 unit-tests/bin
 unit-tests/dep
 unit-tests/obj
