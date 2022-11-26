@@ -13,7 +13,7 @@ SECTIONS
    * first 8 KiB of the file on a 4-byte alignment.
    * Then, include the .text section.
    */
-  .text BLOCK(4K) : ALIGN(4K)
+  .text BLOCK(64K) : ALIGN(4K)
   {
     *(.multiboot)
     *(.text)
@@ -32,7 +32,7 @@ SECTIONS
   }
 
   /* Read-write data (uninitialized) and stack */
-  .bss BLOCK(4K) : ALIGN(4K)
+  .bss BLOCK(64K) : ALIGN(4K)
   {
     *(COMMON)
     *(.bss)
